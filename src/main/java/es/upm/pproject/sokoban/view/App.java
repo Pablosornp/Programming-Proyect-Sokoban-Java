@@ -1,4 +1,4 @@
-package es.upm.pproject.sokoban;
+package es.upm.pproject.sokoban.view;
 
 /**
  * Hello world!
