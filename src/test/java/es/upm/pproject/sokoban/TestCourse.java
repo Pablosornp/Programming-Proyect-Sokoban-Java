@@ -16,7 +16,6 @@ import es.upm.pproject.sokoban.model.Course;
 
 @DisplayName("Test for Course related methods")
 public class TestCourse {
-	private Course curso = new Course(0, null, null);
 	private boolean True = true;
 	
 	@Test
