@@ -8,6 +8,9 @@ import java.awt.BorderLayout;
 import javax.swing.JTextField;
 import java.awt.SystemColor;
 import javax.swing.SwingConstants;
+
+import es.upm.pproject.sokoban.controller.SokobanController;
+
 import javax.swing.JTextPane;
 import java.awt.GridBagLayout;
 import javax.swing.JPanel;
@@ -20,44 +23,34 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Window.Type;
 
-public class GameView {
+public class GameView extends JFrame{
 
-	private JFrame frame;
-	private JTextField textField;
-	private JTextField textField_1;
+	private SokobanController controller;
+	
+	private JTextField textFieldGameScore;
+	private JTextField textFieldLevelScore;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					GameView window = new GameView();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the application.
 	 */
-	public GameView() {
+	public GameView(SokobanController controller) {
+		this.controller=controller;
 		initialize();
+		this.pack();
+		this.setVisible(true);
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame();
+		
 		
 		JPanel scorePanel = new JPanel();
-		frame.getContentPane().add(scorePanel, BorderLayout.NORTH);
+		this.getContentPane().add(scorePanel, BorderLayout.NORTH);
 		scorePanel.setLayout(new GridLayout(1, 0, 0, 0));
 		
 		JPanel game_score = new JPanel();
@@ -67,9 +60,10 @@ public class GameView {
 		lblGameScore.setHorizontalAlignment(SwingConstants.LEFT);
 		game_score.add(lblGameScore);
 		
-		textField = new JTextField();
-		game_score.add(textField);
-		textField.setColumns(4);
+		textFieldGameScore = new JTextField();
+		textFieldGameScore.setEditable(false);
+		game_score.add(textFieldGameScore);
+		textFieldGameScore.setColumns(4);
 		
 		JPanel level_score = new JPanel();
 		scorePanel.add(level_score);
@@ -77,19 +71,20 @@ public class GameView {
 		JLabel lblNewLabel = new JLabel("Level score");
 		level_score.add(lblNewLabel);
 		
-		textField_1 = new JTextField();
-		level_score.add(textField_1);
-		textField_1.setColumns(4);
+		textFieldLevelScore = new JTextField();
+		textFieldLevelScore.setEditable(false);
+		level_score.add(textFieldLevelScore);
+		textFieldLevelScore.setColumns(4);
 		
 		JPanel gamePanel = new JPanel();
-		frame.getContentPane().add(gamePanel, BorderLayout.CENTER);
+		this.getContentPane().add(gamePanel, BorderLayout.CENTER);
 		gamePanel.setLayout(new GridLayout(0, 1, 0, 0));
 		
 		JPanel panel = new JPanel();
 		gamePanel.add(panel);
 		
 		JPanel menuPanel = new JPanel();
-		frame.getContentPane().add(menuPanel, BorderLayout.EAST);
+		this.getContentPane().add(menuPanel, BorderLayout.EAST);
 		
 		JButton btnNewGame = new JButton("Start new game");
 		
