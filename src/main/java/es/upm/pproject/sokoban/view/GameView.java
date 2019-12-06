@@ -24,6 +24,7 @@ import javax.swing.GroupLayout.Alignment;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Window.Type;
+import java.awt.Color;
 
 public class GameView extends JFrame{
 
@@ -77,11 +78,9 @@ public class GameView extends JFrame{
 		textFieldLevelScore.setColumns(4);
 		
 		JPanel gamePanel = new JPanel();
+		gamePanel.setBorder(null);
 		this.getContentPane().add(gamePanel, BorderLayout.CENTER);
-		gamePanel.setLayout(new GridLayout(0, 1, 0, 0));
-		
-		JPanel panel = new JPanel();
-		gamePanel.add(panel);
+		gamePanel.setLayout(new GridLayout(4, 4, 0, 0));
 		
 		JPanel menuPanel = new JPanel();
 		this.getContentPane().add(menuPanel, BorderLayout.EAST);
