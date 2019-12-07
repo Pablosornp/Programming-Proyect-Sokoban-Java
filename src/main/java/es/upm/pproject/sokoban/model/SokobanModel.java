@@ -1,9 +1,10 @@
 package es.upm.pproject.sokoban.model;
 
 public class SokobanModel implements GameModel {
+	private Game current;
 
 	public SokobanModel() {
-		
+
 	}
 
 	@Override

@@ -10,26 +10,30 @@ public class Cell{
 		this.content= content;
 	}
 
-	public boolean isEmpty() {
-		return this.content.equals("");
-	}
-	
 	public boolean isGoal() {
-		return this.content.equals("goal");
+		return this.type.equals("goal");
 	}
 	
 	public boolean isWall() {
-		return this.content.equals("wall");
+		return this.type.equals("wall");
 	}
 	
-	public boolean isPlayer() {
+	public boolean isGap() {
+		return this.type.equals("gap");
+	}
+	
+	public boolean containsPlayer() {
 		return this.content.equals("player");
 	}
 	
-	public boolean isBox() {
+	public boolean containsBox() {
 		return this.content.equals("box");
 	}
 
+	public boolean containsNothing() {
+		return this.content.equals("");
+	}
+	
 	public String getType() {
 		return type;
 	}
