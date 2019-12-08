@@ -4,12 +4,11 @@ public class SokobanModel implements GameModel {
 	private Game current;
 
 	public SokobanModel() {
-
+		
 	}
-
 	@Override
-	public int performMovement(SokobanMovements movement) {
+	public Game performMovement(SokobanMovements movement) {
 		// TODO Auto-generated method stub
-		return 0;
+		return current;
 	}
 }
