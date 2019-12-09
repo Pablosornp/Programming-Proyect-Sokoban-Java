@@ -16,6 +16,18 @@ public class Game {
 		this.boxesAtGoal = 0;
 	}
 
+	public Integer getGameScore() {
+		return gameScore;
+	}
+
+	public Integer getLevelScore() {
+		return levelScore;
+	}
+
+	public int getBoxesAtGoal() {
+		return boxesAtGoal;
+	}
+
 	public int getHowManyBoxes() {
 		return howManyBoxes;
 	}
@@ -35,6 +47,10 @@ public class Game {
 			}
 		}
 		return null;
+	}
+	
+	public void incrementLevelScore() {
+		this.levelScore++;
 	}
 
 	public void move(SokobanMovements movement) {
@@ -91,6 +107,7 @@ public class Game {
 				this.playerPos.setPosY(nextPosY);
 			}
 		}
+		incrementLevelScore();
 	}
 
 	public void showWarehouse(){

@@ -20,6 +20,7 @@
 		<sonar.host.url>http://costa.ls.fi.upm.es:9000/sonar</sonar.host.url>
 		<sonar.projectName>sokoban-${sonar.login}</sonar.projectName>
 		<sonar.projectKey>${project.groupId}:${project.artifactId}:${sonar.projectName}</sonar.projectKey>
+		<sonar.coverage.exclusions>**/view/*,**/controller/*</sonar.coverage.exclusions>
 	</properties>
 
 	<dependencies>

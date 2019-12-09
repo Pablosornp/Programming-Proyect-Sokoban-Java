@@ -25,6 +25,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Window.Type;
 import java.awt.Color;
+import javax.swing.JTextArea;
 
 public class GameView extends JFrame{
 
@@ -32,6 +33,7 @@ public class GameView extends JFrame{
 	
 	private JTextField textFieldGameScore;
 	private JTextField textFieldLevelScore;
+	private JTextArea gameTextArea;
 
 
 	/**
@@ -48,7 +50,6 @@ public class GameView extends JFrame{
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		
 		
 		JPanel scorePanel = new JPanel();
 		this.getContentPane().add(scorePanel, BorderLayout.NORTH);
@@ -80,7 +81,12 @@ public class GameView extends JFrame{
 		JPanel gamePanel = new JPanel();
 		gamePanel.setBorder(null);
 		this.getContentPane().add(gamePanel, BorderLayout.CENTER);
-		gamePanel.setLayout(new GridLayout(4, 4, 0, 0));
+		gamePanel.setLayout(null);
+		
+		gameTextArea = new JTextArea();
+		gameTextArea.setBounds(0, 0, 107, 138);
+		gameTextArea.setEditable(false);
+		gamePanel.add(gameTextArea);
 		
 		JPanel menuPanel = new JPanel();
 		this.getContentPane().add(menuPanel, BorderLayout.EAST);
@@ -112,5 +118,12 @@ public class GameView extends JFrame{
 		JButton btnExit = new JButton("Exit");
 		menuPanel.add(btnExit);
 	}
-
+	
+	public void setLevelScoreValue(String levelScore) {
+		textFieldLevelScore.setText(levelScore);
+	}
+	
+	public void drawWarehouse(String board) {
+		gameTextArea.setText(board);
+	}
 }
