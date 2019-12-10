@@ -3,6 +3,9 @@ package es.upm.pproject.sokoban.model;
 public class SokobanModel implements GameModel {
 	private Game current;
 
+	public Game getCurrent() {
+		return current;
+	}
 	public SokobanModel() {
 		this.current = new Game(createBoard());		
 	}
