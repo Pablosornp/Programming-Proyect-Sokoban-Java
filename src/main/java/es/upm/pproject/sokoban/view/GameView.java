@@ -26,6 +26,7 @@ import java.awt.event.ActionEvent;
 import java.awt.Window.Type;
 import java.awt.Color;
 import javax.swing.JTextArea;
+import java.awt.Button;
 
 public class GameView extends JFrame{
 
@@ -117,6 +118,27 @@ public class GameView extends JFrame{
 		
 		JButton btnExit = new JButton("Exit");
 		menuPanel.add(btnExit);
+		
+		JPanel buttonsPanel = new JPanel();
+		getContentPane().add(buttonsPanel, BorderLayout.SOUTH);
+		buttonsPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		
+		JButton buttonUp = new JButton("UP");
+		buttonUp.addActionListener(event -> controller.onMoveUp() );
+		buttonsPanel.add(buttonUp);
+		
+		JButton buttonDown = new JButton("DOWN");
+		buttonDown.addActionListener(event -> controller.onMoveDown() );
+		buttonsPanel.add(buttonDown);
+		
+		JButton buttonRight = new JButton("RIGHT");
+		buttonRight.addActionListener(event -> controller.onMoveRight() );
+		buttonsPanel.add(buttonRight);
+		
+		JButton buttonLeft = new JButton("LEFT");
+		buttonLeft.addActionListener(event -> controller.onMoveLeft() );
+		buttonsPanel.add(buttonLeft);
+		
 	}
 	
 	public void setLevelScoreValue(String levelScore) {

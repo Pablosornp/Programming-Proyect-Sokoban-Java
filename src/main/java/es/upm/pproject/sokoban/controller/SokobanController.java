@@ -21,9 +21,35 @@ public class SokobanController {
 			Game currentGame = model.performMovement(SokobanMovements.UP);
 			String levelScore = currentGame.getLevelScore().toString();
 			view.setLevelScoreValue(levelScore);
+			Cell[][] board = currentGame.getWarehouse();
+			view.drawWarehouse(this.warehouseToString(board));
 		}
 		
-		public String drawWarehouse(Cell[][] warehouse){
+		public void onMoveDown() {
+			Game currentGame = model.performMovement(SokobanMovements.DOWN);
+			String levelScore = currentGame.getLevelScore().toString();
+			view.setLevelScoreValue(levelScore);
+			Cell[][] board = currentGame.getWarehouse();
+			view.drawWarehouse(this.warehouseToString(board));
+		}
+		
+		public void onMoveRight() {
+			Game currentGame = model.performMovement(SokobanMovements.RIGHT);
+			String levelScore = currentGame.getLevelScore().toString();
+			view.setLevelScoreValue(levelScore);
+			Cell[][] board = currentGame.getWarehouse();
+			view.drawWarehouse(this.warehouseToString(board));
+		}
+		
+		public void onMoveLeft() {
+			Game currentGame = model.performMovement(SokobanMovements.LEFT);
+			String levelScore = currentGame.getLevelScore().toString();
+			view.setLevelScoreValue(levelScore);
+			Cell[][] board = currentGame.getWarehouse();
+			view.drawWarehouse(this.warehouseToString(board));
+		}
+		
+		public String warehouseToString(Cell[][] warehouse){
 			StringBuilder sb = new StringBuilder("\n");
 			Cell cell;
 			

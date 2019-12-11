@@ -32,6 +32,10 @@ public class Game {
 		return howManyBoxes;
 	}
 
+	public Cell[][] getWarehouse() {
+		return warehouse;
+	}
+
 	public void setHowManyBoxes(int howManyBoxes) {
 		this.howManyBoxes = howManyBoxes;
 	}
@@ -48,7 +52,7 @@ public class Game {
 		}
 		return null;
 	}
-	
+
 	public void incrementLevelScore() {
 		this.levelScore++;
 	}
@@ -88,6 +92,7 @@ public class Game {
 			nextCell.setContent("player");
 			this.playerPos.setPosX(nextPosX);
 			this.playerPos.setPosY(nextPosY);
+			incrementLevelScore();
 			return;
 		}
 		//next position is box
@@ -105,9 +110,9 @@ public class Game {
 				currentCell.setContent("");
 				this.playerPos.setPosX(nextPosX);
 				this.playerPos.setPosY(nextPosY);
+				incrementLevelScore();
 			}
 		}
-		incrementLevelScore();
 	}
 
 	public void showWarehouse(){
@@ -149,7 +154,7 @@ public class Game {
 		board [0][5] = new Cell("gap", "");
 		board [0][6] = new Cell("gap", "");
 		board [0][7] = new Cell("gap", "");
-		
+
 		board [1][0] = new Cell("wall", "");
 		board [1][1] = new Cell("gap", "");
 		board [1][2] = new Cell("gap", "");
@@ -158,7 +163,7 @@ public class Game {
 		board [1][5] = new Cell("gap", "");
 		board [1][6] = new Cell("gap", "");
 		board [1][7] = new Cell("gap", "");
-		
+
 		board [2][0] = new Cell("wall", "");
 		board [2][1] = new Cell("gap", "");
 		board [2][2] = new Cell("gap", "");
@@ -167,7 +172,7 @@ public class Game {
 		board [2][5] = new Cell("wall", "");
 		board [2][6] = new Cell("wall", "");
 		board [2][7] = new Cell("wall", "");
-		
+
 		board [3][0] = new Cell("wall", "");
 		board [3][1] = new Cell("gap", "");
 		board [3][2] = new Cell("gap", "");
@@ -185,7 +190,7 @@ public class Game {
 		board [4][5] = new Cell("gap", "box");
 		board [4][6] = new Cell("gap", "");
 		board [4][7] = new Cell("wall", "");
-		
+
 		board [5][0] = new Cell("wall", "");
 		board [5][1] = new Cell("gap", "");
 		board [5][2] = new Cell("gap", "");
@@ -194,7 +199,7 @@ public class Game {
 		board [5][5] = new Cell("gap", "");
 		board [5][6] = new Cell("gap", "");
 		board [5][7] = new Cell("wall", "");
-		
+
 		board [6][0] = new Cell("wall", "");
 		board [6][1] = new Cell("gap", "");
 		board [6][2] = new Cell("gap", "");
@@ -203,7 +208,7 @@ public class Game {
 		board [6][5] = new Cell("wall", "");
 		board [6][6] = new Cell("wall", "");
 		board [6][7] = new Cell("wall", "");
-		
+
 		board [7][0] = new Cell("wall", "");
 		board [7][1] = new Cell("wall", "");
 		board [7][2] = new Cell("wall", "");
