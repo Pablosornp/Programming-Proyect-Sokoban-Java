@@ -95,6 +95,9 @@ public class GameView extends JFrame{
 		JButton btnNewGame = new JButton("Start new game");
 		
 		JButton btnRestartLevel = new JButton("Restart level");
+		btnRestartLevel.addActionListener(event -> controller.onRestart());
+		menuPanel.add(btnRestartLevel);
+		
 		menuPanel.setLayout(new GridLayout(0, 1, 0, 0));
 		menuPanel.add(btnNewGame);
 		menuPanel.add(btnRestartLevel);
@@ -145,7 +148,13 @@ public class GameView extends JFrame{
 		textFieldLevelScore.setText(levelScore);
 	}
 	
+	public void setGameScoreValue(String gameScore) {
+		textFieldGameScore.setText(gameScore);
+	}
+	
 	public void drawWarehouse(String board) {
 		gameTextArea.setText(board);
 	}
+
+	
 }

@@ -49,6 +49,16 @@ public class SokobanController {
 			view.drawWarehouse(this.warehouseToString(board));
 		}
 		
+		public void onRestart() {
+			Game restartedLevel = model.restartLevel();
+			String levelScore = restartedLevel.getLevelScore().toString();
+			String gameScore = restartedLevel.getGameScore().toString();
+			view.setLevelScoreValue(levelScore);
+			view.setGameScoreValue(gameScore);
+			Cell[][] board = restartedLevel.getWarehouse();
+			view.drawWarehouse(this.warehouseToString(board));
+		}
+		
 		public String warehouseToString(Cell[][] warehouse){
 			StringBuilder sb = new StringBuilder("\n");
 			Cell cell;

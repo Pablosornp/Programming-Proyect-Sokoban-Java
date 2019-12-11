@@ -11,11 +11,20 @@ public class Game {
 
 	public Game(Cell[][] warehouse) {
 		this.levelScore = 0;
+		this.gameScore = 0;
 		this.warehouse = warehouse;
 		this.playerPos = getPlayerPosition();	
 		this.boxesAtGoal = 0;
 	}
 
+	public Game(Cell[][] warehouse, int gameScore) {
+		this.levelScore = 0;
+		this.gameScore = gameScore;
+		this.warehouse = warehouse;
+		this.playerPos = getPlayerPosition();	
+		this.boxesAtGoal = 0;
+	}
+	
 	public Integer getGameScore() {
 		return gameScore;
 	}

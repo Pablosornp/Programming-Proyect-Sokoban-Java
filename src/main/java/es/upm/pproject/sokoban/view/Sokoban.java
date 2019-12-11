@@ -11,6 +11,7 @@ public class Sokoban {
 			SokobanController controller = new SokobanController(null,model);
 			GameView view = new GameView(controller);
 			controller.setView(view);
+			controller.onRestart();
 		});
 	}
 }

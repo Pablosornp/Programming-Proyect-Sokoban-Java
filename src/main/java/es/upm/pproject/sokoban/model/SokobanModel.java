@@ -14,7 +14,15 @@ public class SokobanModel implements GameModel {
 		this.current.move(movement);
 		return this.current;
 	}
-	
+
+	public Game restartLevel() {
+		int restartedGameScore = current.getGameScore() - current.getLevelScore();	
+		if(restartedGameScore < 0)
+			restartedGameScore = 0;
+		this.current = new Game(createBoard(),restartedGameScore);
+		return this.current;
+	}
+
 	private Cell[][] createBoard() {
 		Cell [][] board = new Cell [8][8];
 		board [0][0] = new Cell("wall", "");
@@ -25,7 +33,7 @@ public class SokobanModel implements GameModel {
 		board [0][5] = new Cell("gap", "");
 		board [0][6] = new Cell("gap", "");
 		board [0][7] = new Cell("gap", "");
-		
+
 		board [1][0] = new Cell("wall", "");
 		board [1][1] = new Cell("gap", "");
 		board [1][2] = new Cell("gap", "");
@@ -34,7 +42,7 @@ public class SokobanModel implements GameModel {
 		board [1][5] = new Cell("gap", "");
 		board [1][6] = new Cell("gap", "");
 		board [1][7] = new Cell("gap", "");
-		
+
 		board [2][0] = new Cell("wall", "");
 		board [2][1] = new Cell("gap", "");
 		board [2][2] = new Cell("gap", "");
@@ -43,7 +51,7 @@ public class SokobanModel implements GameModel {
 		board [2][5] = new Cell("wall", "");
 		board [2][6] = new Cell("wall", "");
 		board [2][7] = new Cell("wall", "");
-		
+
 		board [3][0] = new Cell("wall", "");
 		board [3][1] = new Cell("gap", "");
 		board [3][2] = new Cell("gap", "");
@@ -61,7 +69,7 @@ public class SokobanModel implements GameModel {
 		board [4][5] = new Cell("gap", "box");
 		board [4][6] = new Cell("gap", "");
 		board [4][7] = new Cell("wall", "");
-		
+
 		board [5][0] = new Cell("wall", "");
 		board [5][1] = new Cell("gap", "");
 		board [5][2] = new Cell("gap", "");
@@ -70,7 +78,7 @@ public class SokobanModel implements GameModel {
 		board [5][5] = new Cell("gap", "");
 		board [5][6] = new Cell("gap", "");
 		board [5][7] = new Cell("wall", "");
-		
+
 		board [6][0] = new Cell("wall", "");
 		board [6][1] = new Cell("gap", "");
 		board [6][2] = new Cell("gap", "");
@@ -79,7 +87,7 @@ public class SokobanModel implements GameModel {
 		board [6][5] = new Cell("wall", "");
 		board [6][6] = new Cell("wall", "");
 		board [6][7] = new Cell("wall", "");
-		
+
 		board [7][0] = new Cell("wall", "");
 		board [7][1] = new Cell("wall", "");
 		board [7][2] = new Cell("wall", "");
@@ -88,7 +96,7 @@ public class SokobanModel implements GameModel {
 		board [7][5] = new Cell("gap", "");
 		board [7][6] = new Cell("gap", "");
 		board [7][7] = new Cell("gap", "");
-		
+
 		return board;
 	}
 }
