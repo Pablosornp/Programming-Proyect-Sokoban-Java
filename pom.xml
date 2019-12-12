@@ -15,8 +15,8 @@
 		<java.version>1.8</java.version>
 		<junit.jupiter.version>5.2.0</junit.jupiter.version>
 		<junit.platform.version>1.2.0</junit.platform.version>
-		<sonar.login>130375</sonar.login>
-		<sonar.password>53668873</sonar.password>
+		<sonar.login>150046</sonar.login>
+		<sonar.password>71954613</sonar.password>
 		<sonar.host.url>http://costa.ls.fi.upm.es:9000/sonar</sonar.host.url>
 		<sonar.projectName>sokoban-${sonar.login}</sonar.projectName>
 		<sonar.projectKey>${project.groupId}:${project.artifactId}:${sonar.projectName}</sonar.projectKey>

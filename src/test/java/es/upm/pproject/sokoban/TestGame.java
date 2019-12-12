@@ -5,10 +5,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import es.upm.pproject.sokoban.controller.SokobanMovements;
 import es.upm.pproject.sokoban.model.Cell;
 import es.upm.pproject.sokoban.model.Game;
 import es.upm.pproject.sokoban.model.SokobanModel;
-import es.upm.pproject.sokoban.model.SokobanMovements;
 
 @DisplayName("Test message")
 public class TestGame {	

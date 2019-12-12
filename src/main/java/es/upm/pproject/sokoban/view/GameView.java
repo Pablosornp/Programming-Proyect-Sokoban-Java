@@ -3,9 +3,12 @@ package es.upm.pproject.sokoban.view;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import es.upm.pproject.sokoban.controller.SokobanController;
+import es.upm.pproject.sokoban.controller.SokobanElements;
 
 import javax.swing.JPanel;
 import java.awt.GridLayout;
@@ -15,20 +18,23 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextArea;
+import java.awt.Font;
+import java.awt.FlowLayout;
 
 public class GameView extends JFrame implements KeyListener {
 
 	private SokobanController controller;
 
+	JPanel gamePanel;
 	private JTextField textFieldGameScore;
 	private JTextField textFieldLevelScore;
-	private JTextArea gameTextArea;
 
 
 	/**
 	 * Create the application.
 	 */
 	public GameView(SokobanController controller) {
+		setResizable(false);
 		this.controller=controller;
 		initialize();
 		this.pack();
@@ -41,15 +47,9 @@ public class GameView extends JFrame implements KeyListener {
 	 */
 	private void initialize() {
 
-		JPanel gamePanel = new JPanel();
-		gamePanel.setBorder(null);
+		this.gamePanel = new JPanel();
+		FlowLayout flowLayout = (FlowLayout) gamePanel.getLayout();
 		this.getContentPane().add(gamePanel, BorderLayout.CENTER);
-		gamePanel.setLayout(null);
-
-		gameTextArea = new JTextArea();
-		gameTextArea.setBounds(0, 0, 107, 138);
-		gameTextArea.setEditable(false);
-		gamePanel.add(gameTextArea);
 
 		JPanel scorePanel = new JPanel();
 		this.getContentPane().add(scorePanel, BorderLayout.NORTH);
@@ -109,6 +109,7 @@ public class GameView extends JFrame implements KeyListener {
 		menuPanel.add(btnSaveGame);
 
 		JButton btnExit = new JButton("Exit");
+		btnExit.addActionListener(event -> controller.onExit() );
 		menuPanel.add(btnExit);
 
 		JPanel buttonsPanel = new JPanel();
@@ -140,6 +141,8 @@ public class GameView extends JFrame implements KeyListener {
 		buttonsPanel.add(buttonDown);
 		buttonsPanel.add(buttonRight);
 		
+		buttonsPanel.setVisible(false);
+		
 		addKeyListener(this);
 		setFocusable(true);
 		setFocusTraversalKeysEnabled(false);
@@ -158,10 +161,29 @@ public class GameView extends JFrame implements KeyListener {
 	public void setGameScoreValue(String gameScore) {
 		textFieldGameScore.setText(gameScore);
 	}
-
-	public void drawWarehouse(String board) {
-		gameTextArea.setText(board);
+	
+	public void drawWarehousePanel(SokobanElements[][] elements) {
+		int m = elements.length;
+		int n = elements[0].length;
+		
+		this.remove(gamePanel);
+		this.gamePanel = new JPanel();
+		Dimension dim = new Dimension(64*m, 64*m);
+		this.gamePanel.setPreferredSize(dim);
+		this.gamePanel.setLayout(new GridLayout(m,n));
+		this.getContentPane().add(gamePanel, BorderLayout.CENTER);
+		
+		ImagePanel panel;
+		for(int i=0; i<m; i++) {
+			for(int j=0; j<n; j++) {
+				panel = new ImagePanel(elements[i][j]);
+				panel.setSize(64, 64);
+				this.gamePanel.add(panel);
+			}
+		}
+		this.pack();
 	}
+
 
 	@Override
 	public void keyPressed(KeyEvent arg0) {

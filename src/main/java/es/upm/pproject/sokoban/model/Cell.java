@@ -1,52 +1,54 @@
 package es.upm.pproject.sokoban.model;
 
+import es.upm.pproject.sokoban.controller.SokobanElements;
+
 public class Cell{
 
-	private String type;
-	private String content;
+	private SokobanElements type;
+	private SokobanElements content;
 
-	public Cell(String type, String content) {
+	public Cell(SokobanElements type, SokobanElements content) {
 		this.type= type;
 		this.content= content;
 	}
 
 	public boolean isGoal() {
-		return this.type.equals("goal");
+		return this.type.equals(SokobanElements.GOAL);
 	}
 	
 	public boolean isWall() {
-		return this.type.equals("wall");
+		return this.type.equals(SokobanElements.WALL);
 	}
 	
 	public boolean isGap() {
-		return this.type.equals("gap");
+		return this.type.equals(SokobanElements.GAP);
 	}
 	
 	public boolean containsPlayer() {
-		return this.content.equals("player");
+		return this.content.equals(SokobanElements.PLAYER);
 	}
 	
 	public boolean containsBox() {
-		return this.content.equals("box");
+		return this.content.equals(SokobanElements.BOX);
 	}
 
 	public boolean containsNothing() {
-		return this.content.equals("");
+		return this.content.equals(SokobanElements.NONE);
 	}
 	
-	public String getType() {
+	public SokobanElements getType() {
 		return type;
 	}
 
-	public void setType(String type) {
+	public void setType(SokobanElements type) {
 		this.type = type;
 	}
 
-	public String getContent() {
+	public SokobanElements getContent() {
 		return content;
 	}
 
-	public void setContent(String content) {
+	public void setContent(SokobanElements content) {
 		this.content = content;
 	}
 }

@@ -1,5 +1,7 @@
 package es.upm.pproject.sokoban.model;
 
+import es.upm.pproject.sokoban.controller.SokobanElements;
+import es.upm.pproject.sokoban.controller.SokobanMovements;
 
 public class Game {
 	private Integer gameScore;
@@ -13,18 +15,19 @@ public class Game {
 		this.levelScore = 0;
 		this.gameScore = 0;
 		this.warehouse = warehouse;
-		this.playerPos = getPlayerPosition();	
+		getPlayerPositionAndNumberOfBoxes();	
 		this.boxesAtGoal = 0;
+		this.howManyBoxes = 0;
 	}
 
 	public Game(Cell[][] warehouse, int gameScore) {
 		this.levelScore = 0;
 		this.gameScore = gameScore;
 		this.warehouse = warehouse;
-		this.playerPos = getPlayerPosition();	
+		getPlayerPositionAndNumberOfBoxes();	
 		this.boxesAtGoal = 0;
 	}
-	
+
 	public Integer getGameScore() {
 		return gameScore;
 	}
@@ -49,21 +52,21 @@ public class Game {
 		this.howManyBoxes = howManyBoxes;
 	}
 
-	public Position getPlayerPosition(){
+	public void getPlayerPositionAndNumberOfBoxes(){
 		int i,j;
-
 		for(i=0;i<warehouse.length;i++) {
 			for(j=0;j<warehouse[0].length;j++) {
-				if(warehouse[i][j].containsPlayer()) {
-					return new Position(i,j);
-				}
+				if(warehouse[i][j].containsPlayer()) 
+					this.playerPos = new Position(i,j);
+				else if(warehouse[i][j].containsBox())
+					this.howManyBoxes ++;
 			}
 		}
-		return null;
 	}
 
-	public void incrementLevelScore() {
+	public void incrementScore() {
 		this.levelScore++;
+		this.gameScore++;
 	}
 
 	public void move(SokobanMovements movement) {
@@ -97,11 +100,11 @@ public class Game {
 		Cell nextCell = warehouse[nextPosX][nextPosY];
 		//next position is empty
 		if(nextCell.containsNothing() && !nextCell.isWall()) {
-			currentCell.setContent("");
-			nextCell.setContent("player");
+			currentCell.setContent(SokobanElements.NONE);
+			nextCell.setContent(SokobanElements.PLAYER);
 			this.playerPos.setPosX(nextPosX);
 			this.playerPos.setPosY(nextPosY);
-			incrementLevelScore();
+			incrementScore();
 			return;
 		}
 		//next position is box
@@ -111,15 +114,15 @@ public class Game {
 				if(nextCell.isGoal()) {
 					boxesAtGoal--;
 				}
-				nextNextCell.setContent("box");
+				nextNextCell.setContent(SokobanElements.BOX);
 				if(nextNextCell.isGoal()) {
 					boxesAtGoal++;
 				}
-				nextCell.setContent("player");
-				currentCell.setContent("");
+				nextCell.setContent(SokobanElements.PLAYER);
+				currentCell.setContent(SokobanElements.NONE);
 				this.playerPos.setPosX(nextPosX);
 				this.playerPos.setPosY(nextPosY);
-				incrementLevelScore();
+				incrementScore();
 			}
 		}
 	}
@@ -155,77 +158,77 @@ public class Game {
 
 	public static void main(String[] args) {
 		Cell [][] board = new Cell [8][8];
-		board [0][0] = new Cell("wall", "");
-		board [0][1] = new Cell("wall", "");
-		board [0][2] = new Cell("wall", "");
-		board [0][3] = new Cell("wall", "");
-		board [0][4] = new Cell("gap", "");
-		board [0][5] = new Cell("gap", "");
-		board [0][6] = new Cell("gap", "");
-		board [0][7] = new Cell("gap", "");
+		board [0][0] = new Cell(SokobanElements.WALL, SokobanElements.NONE);
+		board [0][1] = new Cell(SokobanElements.WALL, SokobanElements.NONE);
+		board [0][2] = new Cell(SokobanElements.WALL, SokobanElements.NONE);
+		board [0][3] = new Cell(SokobanElements.WALL, SokobanElements.NONE);
+		board [0][4] = new Cell(SokobanElements.GAP, SokobanElements.NONE);
+		board [0][5] = new Cell(SokobanElements.GAP, SokobanElements.NONE);
+		board [0][6] = new Cell(SokobanElements.GAP, SokobanElements.NONE);
+		board [0][7] = new Cell(SokobanElements.GAP, SokobanElements.NONE);
 
-		board [1][0] = new Cell("wall", "");
-		board [1][1] = new Cell("gap", "");
-		board [1][2] = new Cell("gap", "");
-		board [1][3] = new Cell("wall", "");
-		board [1][4] = new Cell("gap", "");
-		board [1][5] = new Cell("gap", "");
-		board [1][6] = new Cell("gap", "");
-		board [1][7] = new Cell("gap", "");
+		board [1][0] = new Cell(SokobanElements.WALL, SokobanElements.NONE);
+		board [1][1] = new Cell(SokobanElements.GAP, SokobanElements.NONE);
+		board [1][2] = new Cell(SokobanElements.GAP, SokobanElements.NONE);
+		board [1][3] = new Cell(SokobanElements.WALL, SokobanElements.NONE);
+		board [1][4] = new Cell(SokobanElements.GAP, SokobanElements.NONE);
+		board [1][5] = new Cell(SokobanElements.GAP, SokobanElements.NONE);
+		board [1][6] = new Cell(SokobanElements.GAP, SokobanElements.NONE);
+		board [1][7] = new Cell(SokobanElements.GAP, SokobanElements.NONE);
 
-		board [2][0] = new Cell("wall", "");
-		board [2][1] = new Cell("gap", "");
-		board [2][2] = new Cell("gap", "");
-		board [2][3] = new Cell("wall", "");
-		board [2][4] = new Cell("wall", "");
-		board [2][5] = new Cell("wall", "");
-		board [2][6] = new Cell("wall", "");
-		board [2][7] = new Cell("wall", "");
+		board [2][0] = new Cell(SokobanElements.WALL, SokobanElements.NONE);
+		board [2][1] = new Cell(SokobanElements.GAP, SokobanElements.NONE);
+		board [2][2] = new Cell(SokobanElements.GAP, SokobanElements.NONE);
+		board [2][3] = new Cell(SokobanElements.WALL, SokobanElements.NONE);
+		board [2][4] = new Cell(SokobanElements.WALL, SokobanElements.NONE);
+		board [2][5] = new Cell(SokobanElements.WALL, SokobanElements.NONE);
+		board [2][6] = new Cell(SokobanElements.WALL, SokobanElements.NONE);
+		board [2][7] = new Cell(SokobanElements.WALL, SokobanElements.NONE);
 
-		board [3][0] = new Cell("wall", "");
-		board [3][1] = new Cell("gap", "");
-		board [3][2] = new Cell("gap", "");
-		board [3][3] = new Cell("gap", "");
-		board [3][4] = new Cell("gap", "");
-		board [3][5] = new Cell("gap", "");
-		board [3][6] = new Cell("gap", "");
-		board [3][7] = new Cell("wall", "");
+		board [3][0] = new Cell(SokobanElements.WALL, SokobanElements.NONE);
+		board [3][1] = new Cell(SokobanElements.GAP, SokobanElements.NONE);
+		board [3][2] = new Cell(SokobanElements.GAP, SokobanElements.NONE);
+		board [3][3] = new Cell(SokobanElements.GAP, SokobanElements.NONE);
+		board [3][4] = new Cell(SokobanElements.GAP, SokobanElements.NONE);
+		board [3][5] = new Cell(SokobanElements.GAP, SokobanElements.NONE);
+		board [3][6] = new Cell(SokobanElements.GAP, SokobanElements.NONE);
+		board [3][7] = new Cell(SokobanElements.WALL, SokobanElements.NONE);
 
-		board [4][0] = new Cell("wall", "");
-		board [4][1] = new Cell("wall", "");
-		board [4][2] = new Cell("gap", "player");
-		board [4][3] = new Cell("goal", "");
-		board [4][4] = new Cell("wall", "");
-		board [4][5] = new Cell("gap", "box");
-		board [4][6] = new Cell("gap", "");
-		board [4][7] = new Cell("wall", "");
+		board [4][0] = new Cell(SokobanElements.WALL, SokobanElements.NONE);
+		board [4][1] = new Cell(SokobanElements.WALL, SokobanElements.NONE);
+		board [4][2] = new Cell(SokobanElements.GAP, SokobanElements.PLAYER);
+		board [4][3] = new Cell(SokobanElements.GOAL, SokobanElements.NONE);
+		board [4][4] = new Cell(SokobanElements.WALL, SokobanElements.NONE);
+		board [4][5] = new Cell(SokobanElements.GAP, SokobanElements.BOX);
+		board [4][6] = new Cell(SokobanElements.GAP, SokobanElements.NONE);
+		board [4][7] = new Cell(SokobanElements.WALL, SokobanElements.NONE);
 
-		board [5][0] = new Cell("wall", "");
-		board [5][1] = new Cell("gap", "");
-		board [5][2] = new Cell("gap", "");
-		board [5][3] = new Cell("gap", "");
-		board [5][4] = new Cell("wall", "");
-		board [5][5] = new Cell("gap", "");
-		board [5][6] = new Cell("gap", "");
-		board [5][7] = new Cell("wall", "");
+		board [5][0] = new Cell(SokobanElements.WALL, SokobanElements.NONE);
+		board [5][1] = new Cell(SokobanElements.GAP, SokobanElements.NONE);
+		board [5][2] = new Cell(SokobanElements.GAP, SokobanElements.NONE);
+		board [5][3] = new Cell(SokobanElements.GAP, SokobanElements.NONE);
+		board [5][4] = new Cell(SokobanElements.WALL, SokobanElements.NONE);
+		board [5][5] = new Cell(SokobanElements.GAP, SokobanElements.NONE);
+		board [5][6] = new Cell(SokobanElements.GAP, SokobanElements.NONE);
+		board [5][7] = new Cell(SokobanElements.WALL, SokobanElements.NONE);
 
-		board [6][0] = new Cell("wall", "");
-		board [6][1] = new Cell("gap", "");
-		board [6][2] = new Cell("gap", "");
-		board [6][3] = new Cell("gap", "");
-		board [6][4] = new Cell("wall", "");
-		board [6][5] = new Cell("wall", "");
-		board [6][6] = new Cell("wall", "");
-		board [6][7] = new Cell("wall", "");
+		board [6][0] = new Cell(SokobanElements.WALL, SokobanElements.NONE);
+		board [6][1] = new Cell(SokobanElements.GAP, SokobanElements.NONE);
+		board [6][2] = new Cell(SokobanElements.GAP, SokobanElements.NONE);
+		board [6][3] = new Cell(SokobanElements.GAP, SokobanElements.NONE);
+		board [6][4] = new Cell(SokobanElements.WALL, SokobanElements.NONE);
+		board [6][5] = new Cell(SokobanElements.WALL, SokobanElements.NONE);
+		board [6][6] = new Cell(SokobanElements.WALL, SokobanElements.NONE);
+		board [6][7] = new Cell(SokobanElements.WALL, SokobanElements.NONE);
 
-		board [7][0] = new Cell("wall", "");
-		board [7][1] = new Cell("wall", "");
-		board [7][2] = new Cell("wall", "");
-		board [7][3] = new Cell("wall", "");
-		board [7][4] = new Cell("wall", "");
-		board [7][5] = new Cell("gap", "");
-		board [7][6] = new Cell("gap", "");
-		board [7][7] = new Cell("gap", "");
+		board [7][0] = new Cell(SokobanElements.WALL, SokobanElements.NONE);
+		board [7][1] = new Cell(SokobanElements.WALL, SokobanElements.NONE);
+		board [7][2] = new Cell(SokobanElements.WALL, SokobanElements.NONE);
+		board [7][3] = new Cell(SokobanElements.WALL, SokobanElements.NONE);
+		board [7][4] = new Cell(SokobanElements.WALL, SokobanElements.NONE);
+		board [7][5] = new Cell(SokobanElements.GAP, SokobanElements.NONE);
+		board [7][6] = new Cell(SokobanElements.GAP, SokobanElements.NONE);
+		board [7][7] = new Cell(SokobanElements.GAP, SokobanElements.NONE);
 
 		Game game = new Game(board);
 		game.setHowManyBoxes(1);
