@@ -31,6 +31,7 @@ public class SokobanController {
 			view.setLevelScoreValue(levelScore);
 			Cell[][] board = currentGame.getWarehouse();
 			view.drawWarehouse(this.warehouseToString(board));
+			view.enableKeyboard();
 		}
 		
 		public void onMoveRight() {
@@ -39,6 +40,7 @@ public class SokobanController {
 			view.setLevelScoreValue(levelScore);
 			Cell[][] board = currentGame.getWarehouse();
 			view.drawWarehouse(this.warehouseToString(board));
+			view.enableKeyboard();
 		}
 		
 		public void onMoveLeft() {
@@ -47,6 +49,7 @@ public class SokobanController {
 			view.setLevelScoreValue(levelScore);
 			Cell[][] board = currentGame.getWarehouse();
 			view.drawWarehouse(this.warehouseToString(board));
+			view.enableKeyboard();
 		}
 		
 		public void onRestart() {
@@ -57,6 +60,7 @@ public class SokobanController {
 			view.setGameScoreValue(gameScore);
 			Cell[][] board = restartedLevel.getWarehouse();
 			view.drawWarehouse(this.warehouseToString(board));
+			view.enableKeyboard();
 		}
 		
 		public String warehouseToString(Cell[][] warehouse){

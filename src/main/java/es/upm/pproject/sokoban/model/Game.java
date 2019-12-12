@@ -107,7 +107,7 @@ public class Game {
 		//next position is box
 		if(nextCell.containsBox()) {
 			Cell nextNextCell = warehouse[nextNextPosX][nextNextPosY];			
-			if(nextNextCell.containsNothing()) {
+			if(nextNextCell.containsNothing() && !nextNextCell.isWall()) {
 				if(nextCell.isGoal()) {
 					boxesAtGoal--;
 				}
