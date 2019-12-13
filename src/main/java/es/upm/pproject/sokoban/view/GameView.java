@@ -82,6 +82,7 @@ public class GameView extends JFrame implements KeyListener {
 		this.getContentPane().add(menuPanel, BorderLayout.EAST);
 
 		JButton btnNewGame = new JButton("Start new game");
+		btnNewGame.addActionListener(event -> controller.onRestart());
 
 		JButton btnRestartLevel = new JButton("Restart level");
 		btnRestartLevel.addActionListener(event -> controller.onRestart());

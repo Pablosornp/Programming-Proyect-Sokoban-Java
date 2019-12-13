@@ -16,8 +16,9 @@ public class ImagePanel extends JPanel{
 	private BufferedImage image;
 
 	public ImagePanel(SokobanElements element) {
-		try {  
-			String path = "C:\\Users\\PABLO\\eclipse-workspace\\sokoban\\images\\";
+		try {
+			String userWindows = System.getenv("USERNAME");
+			String path = "C:\\Users\\"+userWindows+"\\eclipse-workspace\\sokoban\\images\\";
 			switch(element) {
 			case WALL:
 				path = path + "blackWall.png";
