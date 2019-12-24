@@ -6,10 +6,11 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 
 import javax.swing.JTextField;
+import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
 import es.upm.pproject.sokoban.controller.SokobanController;
 import es.upm.pproject.sokoban.controller.SokobanElements;
-import es.upm.pproject.sokoban.controller.SokobanMovements;
+import es.upm.pproject.sokoban.controller.SokobanAction;
 
 import javax.swing.JPanel;
 import java.awt.GridLayout;
@@ -18,8 +19,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.ActionEvent;
-import javax.swing.JTextArea;
-import java.awt.Font;
 import java.awt.FlowLayout;
 
 public class GameView extends JFrame implements KeyListener {
@@ -30,6 +29,7 @@ public class GameView extends JFrame implements KeyListener {
 	private JTextField textFieldGameScore;
 	private JTextField textFieldLevelScore;
 
+	private static final int size = 32;
 
 	/**
 	 * Create the application.
@@ -115,7 +115,7 @@ public class GameView extends JFrame implements KeyListener {
 		getContentPane().add(buttonsPanel, BorderLayout.SOUTH);
 
 		JButton buttonUp = new JButton("UP");
-		buttonUp.addActionListener(event -> controller.onMove(SokobanMovements.UP) );
+		buttonUp.addActionListener(event -> controller.onMove(SokobanAction.UP) );
 
 		buttonsPanel.setLayout(new GridLayout(0, 3, 0, 0));
 
@@ -125,18 +125,18 @@ public class GameView extends JFrame implements KeyListener {
 		buttonsPanel.add(buttonUp);
 
 		JButton buttonRight = new JButton("RIGHT");
-		buttonRight.addActionListener(event -> controller.onMove(SokobanMovements.RIGHT) );
+		buttonRight.addActionListener(event -> controller.onMove(SokobanAction.RIGHT) );
 
 		JButton blank2 = new JButton("");
 		blank2.setEnabled(false);
 		buttonsPanel.add(blank2);
 
 		JButton buttonLeft = new JButton("LEFT");
-		buttonLeft.addActionListener(event -> controller.onMove(SokobanMovements.LEFT) );
+		buttonLeft.addActionListener(event -> controller.onMove(SokobanAction.LEFT) );
 		buttonsPanel.add(buttonLeft);
 
 		JButton buttonDown = new JButton("DOWN");
-		buttonDown.addActionListener(event -> controller.onMove(SokobanMovements.DOWN) );
+		buttonDown.addActionListener(event -> controller.onMove(SokobanAction.DOWN) );
 		buttonsPanel.add(buttonDown);
 		buttonsPanel.add(buttonRight);
 
@@ -167,7 +167,7 @@ public class GameView extends JFrame implements KeyListener {
 
 		this.remove(gamePanel);
 		this.gamePanel = new JPanel();
-		Dimension dim = new Dimension(64*m, 64*m);
+		Dimension dim = new Dimension(size*m, size*n);
 		this.gamePanel.setPreferredSize(dim);
 		this.gamePanel.setLayout(new GridLayout(m,n));
 		this.getContentPane().add(gamePanel, BorderLayout.CENTER);
@@ -176,7 +176,7 @@ public class GameView extends JFrame implements KeyListener {
 		for(int i=0; i<m; i++) {
 			for(int j=0; j<n; j++) {
 				panel = new ImagePanel(elements[i][j]);
-				panel.setSize(64, 64);
+				panel.setSize(size, size);
 				this.gamePanel.add(panel);
 			}
 		}
@@ -190,17 +190,20 @@ public class GameView extends JFrame implements KeyListener {
 		int key = arg0.getKeyCode();
 
 		if (key == KeyEvent.VK_UP) {
-			this.controller.onMove(SokobanMovements.UP);
+			this.controller.onMove(SokobanAction.UP);
 		}
 		if (key == KeyEvent.VK_DOWN) {
-			this.controller.onMove(SokobanMovements.DOWN);
+			this.controller.onMove(SokobanAction.DOWN);
 		}
 		if (key == KeyEvent.VK_RIGHT) {
-			this.controller.onMove(SokobanMovements.RIGHT);
+			this.controller.onMove(SokobanAction.RIGHT);
 		}
 		if (key == KeyEvent.VK_LEFT) {
-			this.controller.onMove(SokobanMovements.LEFT);
+			this.controller.onMove(SokobanAction.LEFT);
 		}
+		
+//		KeyStroke.getKeyStroke(
+//		        KeyEvent.VK_Z, ActionEvent.CTRL_MASK)
 	}
 
 	@Override

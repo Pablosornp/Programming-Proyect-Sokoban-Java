@@ -19,7 +19,7 @@ public class SokobanController {
 		this.view = view;
 	}
 
-	public void onMove(SokobanMovements movement) {
+	public void onMove(SokobanAction movement) {
 		Game currentGame = model.performMovement(movement);
 		String levelScore = currentGame.getLevelScore().toString();
 		String gameScore = currentGame.getGameScore().toString();

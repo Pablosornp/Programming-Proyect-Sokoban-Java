@@ -5,8 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import es.upm.pproject.sokoban.controller.SokobanMovements;
-import es.upm.pproject.sokoban.model.Cell;
+import es.upm.pproject.sokoban.controller.SokobanAction;
 import es.upm.pproject.sokoban.model.Game;
 import es.upm.pproject.sokoban.model.SokobanModel;
 
@@ -14,47 +13,47 @@ import es.upm.pproject.sokoban.model.SokobanModel;
 public class TestGame {	
 	
 	@Test
-	@DisplayName("Test for testing tests")
+	@DisplayName("Test for testing movements")
 	void assertThrowsInvalidaName() {
 		SokobanModel model = new SokobanModel();
 		
 		Game game = model.getCurrent();
 		game.setHowManyBoxes(1);
 
-		game.move(SokobanMovements.UP);
-		game.move(SokobanMovements.RIGHT);
-		game.move(SokobanMovements.RIGHT);
-		game.move(SokobanMovements.RIGHT);
-		game.move(SokobanMovements.RIGHT);
-		game.move(SokobanMovements.DOWN);
-		game.move(SokobanMovements.DOWN);
-		game.move(SokobanMovements.LEFT);
-		game.move(SokobanMovements.UP);
-		game.move(SokobanMovements.RIGHT);
-		game.move(SokobanMovements.UP);
-		game.move(SokobanMovements.LEFT);
-		game.move(SokobanMovements.LEFT);
-		game.move(SokobanMovements.LEFT);
-		game.move(SokobanMovements.DOWN);
-		game.move(SokobanMovements.LEFT);
-		game.move(SokobanMovements.UP);
-		game.move(SokobanMovements.LEFT);
-		game.move(SokobanMovements.UP);
-		game.move(SokobanMovements.UP);
-		game.move(SokobanMovements.RIGHT);
-		game.move(SokobanMovements.DOWN);
-		game.move(SokobanMovements.DOWN);
-		game.move(SokobanMovements.DOWN);
-		game.move(SokobanMovements.RIGHT);
-		game.move(SokobanMovements.DOWN);
-		game.move(SokobanMovements.DOWN);
-		game.move(SokobanMovements.LEFT);
-		game.move(SokobanMovements.LEFT);
-		game.move(SokobanMovements.UP);
-		game.move(SokobanMovements.RIGHT);
-		game.move(SokobanMovements.DOWN);
-		game.move(SokobanMovements.RIGHT);
-		game.move(SokobanMovements.UP);
+		game.move(SokobanAction.UP);
+		game.move(SokobanAction.RIGHT);
+		game.move(SokobanAction.RIGHT);
+		game.move(SokobanAction.RIGHT);
+		game.move(SokobanAction.RIGHT);
+		game.move(SokobanAction.DOWN);
+		game.move(SokobanAction.DOWN);
+		game.move(SokobanAction.LEFT);
+		game.move(SokobanAction.UP);
+		game.move(SokobanAction.RIGHT);
+		game.move(SokobanAction.UP);
+		game.move(SokobanAction.LEFT);
+		game.move(SokobanAction.LEFT);
+		game.move(SokobanAction.LEFT);
+		game.move(SokobanAction.DOWN);
+		game.move(SokobanAction.LEFT);
+		game.move(SokobanAction.UP);
+		game.move(SokobanAction.LEFT);
+		game.move(SokobanAction.UP);
+		game.move(SokobanAction.UP);
+		game.move(SokobanAction.RIGHT);
+		game.move(SokobanAction.DOWN);
+		game.move(SokobanAction.DOWN);
+		game.move(SokobanAction.DOWN);
+		game.move(SokobanAction.RIGHT);
+		game.move(SokobanAction.DOWN);
+		game.move(SokobanAction.DOWN);
+		game.move(SokobanAction.LEFT);
+		game.move(SokobanAction.LEFT);
+		game.move(SokobanAction.UP);
+		game.move(SokobanAction.RIGHT);
+		game.move(SokobanAction.DOWN);
+		game.move(SokobanAction.RIGHT);
+		game.move(SokobanAction.UP);
 		assertTrue(game.getBoxesAtGoal()==1);
 	}  	
 }

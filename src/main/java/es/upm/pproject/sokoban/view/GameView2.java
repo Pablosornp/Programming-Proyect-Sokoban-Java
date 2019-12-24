@@ -12,25 +12,16 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 
 import javax.swing.JTextField;
-import java.awt.SystemColor;
 import javax.swing.SwingConstants;
 
 import es.upm.pproject.sokoban.controller.SokobanController;
 
 
-import javax.swing.JTextPane;
-import java.awt.GridBagLayout;
 import javax.swing.JPanel;
-import java.awt.GridBagConstraints;
 import java.awt.GridLayout;
-import java.awt.FlowLayout;
 import javax.swing.JButton;
-import javax.swing.BoxLayout;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.awt.Window.Type;
 
 public class GameView2 extends JFrame{
 

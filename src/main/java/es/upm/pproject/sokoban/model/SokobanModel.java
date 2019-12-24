@@ -2,29 +2,31 @@ package es.upm.pproject.sokoban.model;
 
 import java.util.Stack;
 import es.upm.pproject.sokoban.controller.SokobanElements;
-import es.upm.pproject.sokoban.controller.SokobanMovements;
+import es.upm.pproject.sokoban.controller.SokobanAction;
+import es.upm.pproject.sokoban.controller.SokobanMovement;
 
 public class SokobanModel implements GameModel {
 	private Game current;
-	private Stack<SokobanMovements> lastMovements;
+	private Stack<SokobanMovement> lastMovements;
 
 	public Game getCurrent() {
 		return current;
 	}
 	public SokobanModel() {
 		this.current = new Game(createBoard());
-		this.lastMovements = new Stack<SokobanMovements>();
+		this.lastMovements = new Stack<SokobanMovement>();
 	}
 	@Override
-	public Game performMovement(SokobanMovements movement) {
-		this.current.move(movement);
-		this.lastMovements.push(movement);
+	public Game performMovement(SokobanAction action) {
+		SokobanMovement movement = this.current.move(action);
+		if(movement.isPlayerMoved())
+			this.lastMovements.push(movement);
 		return this.current;
 	}
 	@Override
 	public Game undoMovement() {
 		if(!lastMovements.empty()) {
-			SokobanMovements movement = this.lastMovements.pop();
+			SokobanMovement movement = this.lastMovements.pop();
 			this.current.undoMove(movement);
 		}
 		return this.current;
@@ -35,6 +37,7 @@ public class SokobanModel implements GameModel {
 		if(restartedGameScore < 0)
 			restartedGameScore = 0;
 		this.current = new Game(createBoard(),restartedGameScore);
+		this.lastMovements = new Stack<SokobanMovement>();
 		return this.current;
 	}
 

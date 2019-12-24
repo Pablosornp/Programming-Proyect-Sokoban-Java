@@ -1,5 +1,5 @@
 package es.upm.pproject.sokoban.controller;
 
-public enum SokobanMovements {
+public enum SokobanAction {
 	UP,DOWN,LEFT,RIGHT
 }
