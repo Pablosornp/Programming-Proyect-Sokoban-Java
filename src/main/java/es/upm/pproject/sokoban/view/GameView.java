@@ -9,6 +9,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import es.upm.pproject.sokoban.controller.SokobanController;
 import es.upm.pproject.sokoban.controller.SokobanElements;
+import es.upm.pproject.sokoban.controller.SokobanMovements;
 
 import javax.swing.JPanel;
 import java.awt.GridLayout;
@@ -93,10 +94,7 @@ public class GameView extends JFrame implements KeyListener {
 		menuPanel.add(btnRestartLevel);
 
 		JButton btnUndo = new JButton("Undo movement");
-		btnUndo.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
+		btnUndo.addActionListener(event -> controller.onUndoMove());
 		menuPanel.add(btnUndo);
 
 		JButton btnSave = new JButton("Save Game");
@@ -117,7 +115,7 @@ public class GameView extends JFrame implements KeyListener {
 		getContentPane().add(buttonsPanel, BorderLayout.SOUTH);
 
 		JButton buttonUp = new JButton("UP");
-		buttonUp.addActionListener(event -> controller.onMoveUp() );
+		buttonUp.addActionListener(event -> controller.onMove(SokobanMovements.UP) );
 
 		buttonsPanel.setLayout(new GridLayout(0, 3, 0, 0));
 
@@ -127,29 +125,29 @@ public class GameView extends JFrame implements KeyListener {
 		buttonsPanel.add(buttonUp);
 
 		JButton buttonRight = new JButton("RIGHT");
-		buttonRight.addActionListener(event -> controller.onMoveRight() );
+		buttonRight.addActionListener(event -> controller.onMove(SokobanMovements.RIGHT) );
 
 		JButton blank2 = new JButton("");
 		blank2.setEnabled(false);
 		buttonsPanel.add(blank2);
 
 		JButton buttonLeft = new JButton("LEFT");
-		buttonLeft.addActionListener(event -> controller.onMoveLeft() );
+		buttonLeft.addActionListener(event -> controller.onMove(SokobanMovements.LEFT) );
 		buttonsPanel.add(buttonLeft);
 
 		JButton buttonDown = new JButton("DOWN");
-		buttonDown.addActionListener(event -> controller.onMoveDown() );
+		buttonDown.addActionListener(event -> controller.onMove(SokobanMovements.DOWN) );
 		buttonsPanel.add(buttonDown);
 		buttonsPanel.add(buttonRight);
-		
+
 		buttonsPanel.setVisible(false);
-		
+
 		addKeyListener(this);
 		setFocusable(true);
 		setFocusTraversalKeysEnabled(false);
 
 	}
-	
+
 	public void enableKeyboard() {
 		this.toFront();
 		this.requestFocus();
@@ -162,18 +160,18 @@ public class GameView extends JFrame implements KeyListener {
 	public void setGameScoreValue(String gameScore) {
 		textFieldGameScore.setText(gameScore);
 	}
-	
+
 	public void drawWarehousePanel(SokobanElements[][] elements) {
 		int m = elements.length;
 		int n = elements[0].length;
-		
+
 		this.remove(gamePanel);
 		this.gamePanel = new JPanel();
 		Dimension dim = new Dimension(64*m, 64*m);
 		this.gamePanel.setPreferredSize(dim);
 		this.gamePanel.setLayout(new GridLayout(m,n));
 		this.getContentPane().add(gamePanel, BorderLayout.CENTER);
-		
+
 		ImagePanel panel;
 		for(int i=0; i<m; i++) {
 			for(int j=0; j<n; j++) {
@@ -192,16 +190,16 @@ public class GameView extends JFrame implements KeyListener {
 		int key = arg0.getKeyCode();
 
 		if (key == KeyEvent.VK_UP) {
-			this.controller.onMoveUp();
+			this.controller.onMove(SokobanMovements.UP);
 		}
 		if (key == KeyEvent.VK_DOWN) {
-			this.controller.onMoveDown();
+			this.controller.onMove(SokobanMovements.DOWN);
 		}
 		if (key == KeyEvent.VK_RIGHT) {
-			this.controller.onMoveRight();
+			this.controller.onMove(SokobanMovements.RIGHT);
 		}
 		if (key == KeyEvent.VK_LEFT) {
-			this.controller.onMoveLeft();
+			this.controller.onMove(SokobanMovements.LEFT);
 		}
 	}
 

@@ -19,8 +19,8 @@ public class SokobanController {
 		this.view = view;
 	}
 
-	public void onMoveUp() {
-		Game currentGame = model.performMovement(SokobanMovements.UP);
+	public void onMove(SokobanMovements movement) {
+		Game currentGame = model.performMovement(movement);
 		String levelScore = currentGame.getLevelScore().toString();
 		String gameScore = currentGame.getGameScore().toString();
 		view.setLevelScoreValue(levelScore);
@@ -31,35 +31,9 @@ public class SokobanController {
 		if(haveIWon(currentGame))
 			onRestart();
 	}
-
-	public void onMoveDown() {
-		Game currentGame = model.performMovement(SokobanMovements.DOWN);
-		String levelScore = currentGame.getLevelScore().toString();
-		String gameScore = currentGame.getGameScore().toString();
-		view.setGameScoreValue(gameScore);
-		view.setLevelScoreValue(levelScore);
-		Cell[][] board = currentGame.getWarehouse();
-		view.drawWarehousePanel(this.warehouseCellToWarehouseElements(board));
-		view.enableKeyboard();
-		if(haveIWon(currentGame))
-			onRestart();
-	}
-
-	public void onMoveRight() {
-		Game currentGame = model.performMovement(SokobanMovements.RIGHT);
-		String levelScore = currentGame.getLevelScore().toString();
-		String gameScore = currentGame.getGameScore().toString();
-		view.setLevelScoreValue(levelScore);
-		view.setGameScoreValue(gameScore);
-		Cell[][] board = currentGame.getWarehouse();
-		view.drawWarehousePanel(this.warehouseCellToWarehouseElements(board));
-		view.enableKeyboard();
-		if(haveIWon(currentGame))
-			onRestart();
-	}
-
-	public void onMoveLeft() {
-		Game currentGame = model.performMovement(SokobanMovements.LEFT);
+	
+	public void onUndoMove() {
+		Game currentGame = model.undoMovement();
 		String levelScore = currentGame.getLevelScore().toString();
 		String gameScore = currentGame.getGameScore().toString();
 		view.setLevelScoreValue(levelScore);
