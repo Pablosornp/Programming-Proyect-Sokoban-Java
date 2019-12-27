@@ -19,48 +19,58 @@ public class SokobanController {
 		this.view = view;
 	}
 
-	public void onMove(SokobanAction movement) {
-		Game currentGame = model.performMovement(movement);
-		String levelScore = currentGame.getLevelScore().toString();
-		String gameScore = currentGame.getGameScore().toString();
-		view.setLevelScoreValue(levelScore);
-		view.setGameScoreValue(gameScore);
-		Cell[][] board = currentGame.getWarehouse();
-		view.drawWarehousePanel(this.warehouseCellToWarehouseElements(board));
-		view.enableKeyboard();
-		if(haveIWon(currentGame))
-			onRestart();
-	}
-	
-	public void onUndoMove() {
-		Game currentGame = model.undoMovement();
-		String levelScore = currentGame.getLevelScore().toString();
-		String gameScore = currentGame.getGameScore().toString();
-		view.setLevelScoreValue(levelScore);
-		view.setGameScoreValue(gameScore);
-		Cell[][] board = currentGame.getWarehouse();
-		view.drawWarehousePanel(this.warehouseCellToWarehouseElements(board));
-		view.enableKeyboard();
-		if(haveIWon(currentGame))
-			onRestart();
+	public void onStart() {
+		// TODO 
+		onRestart();
 	}
 
 	public void onRestart() {
 		Game restartedLevel = model.restartLevel();
 		String levelScore = restartedLevel.getLevelScore().toString();
 		String gameScore = restartedLevel.getGameScore().toString();
-		view.setLevelScoreValue(levelScore);
-		view.setGameScoreValue(gameScore);
-		Cell[][] board = restartedLevel.getWarehouse();
-		view.drawWarehousePanel(this.warehouseCellToWarehouseElements(board));
+		updateLevelInfo(levelScore, gameScore, restartedLevel);
 		view.enableKeyboard();
 	}
-	
-	public void onExit() {
-		System.exit(0);
+
+	public void onMove(SokobanAction movement) {
+		Game currentGame = model.performMovement(movement);
+		String levelScore = currentGame.getLevelScore().toString();
+		String gameScore = currentGame.getGameScore().toString();
+		updateLevelInfo(levelScore, gameScore, currentGame);
+		view.enableKeyboard();
+		if(haveIWon(currentGame))
+			onRestart();
 	}
 
-	public SokobanElements[][] warehouseCellToWarehouseElements(Cell[][] warehouse){
+	public void onUndoMove() {
+		Game currentGame = model.undoMovement();
+		String levelScore = currentGame.getLevelScore().toString();
+		String gameScore = currentGame.getGameScore().toString();
+		updateLevelInfo(levelScore, gameScore, currentGame);
+		view.enableKeyboard();
+		if(haveIWon(currentGame))
+			onRestart();
+	}
+
+	public void onSave() {
+		// TODO 
+		view.enableKeyboard();
+	}
+
+	public void onLoad() {		
+		// TODO 
+		view.enableKeyboard();
+	}
+
+	public void onExit() {
+		int input = JOptionPane.showConfirmDialog(null, "Are you sure you want to leave?\n"
+				+ "You may lose your progress.", "Sokoban", JOptionPane.YES_NO_CANCEL_OPTION);
+		// 0=yes, 1=no, 2=cancel
+		if(input==0)
+			System.exit(0);
+	}
+
+	private SokobanElements[][] warehouseCellToWarehouseElements(Cell[][] warehouse){
 		Cell cell;
 		int m = warehouse.length;
 		int n = warehouse[0].length;
@@ -73,6 +83,8 @@ public class SokobanController {
 				else if(cell.isGap() || cell.isGoal()) {
 					if(cell.containsNothing()) 
 						warehouseElements[i][j]=cell.getType();
+					else if(cell.isGoal() && cell.containsBox()) 
+						warehouseElements[i][j]=SokobanElements.BOX_IN_GOAL;
 					else 
 						warehouseElements[i][j]=cell.getContent();
 				}
@@ -81,7 +93,16 @@ public class SokobanController {
 		return warehouseElements;
 	}
 
-	public String warehouseToString(Cell[][] warehouse){
+	private void updateLevelInfo(String levelScore, String gameScore, Game game) {
+		view.setLevelScoreValue(levelScore);
+		view.setGameScoreValue(gameScore);
+		Cell[][] board = game.getWarehouse();
+		String levelName = game.getLevelName();
+		view.setLevelName(levelName);
+		view.drawWarehousePanel(this.warehouseCellToWarehouseElements(board));
+	}
+
+	private String warehouseToString(Cell[][] warehouse){
 		StringBuilder sb = new StringBuilder("\n");
 		Cell cell;
 

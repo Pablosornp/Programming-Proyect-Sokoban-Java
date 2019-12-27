@@ -4,9 +4,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 
 import javax.swing.JTextField;
-import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
 import es.upm.pproject.sokoban.controller.SokobanController;
 import es.upm.pproject.sokoban.controller.SokobanElements;
@@ -15,19 +15,17 @@ import es.upm.pproject.sokoban.controller.SokobanAction;
 import javax.swing.JPanel;
 import java.awt.GridLayout;
 import javax.swing.JButton;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.event.ActionEvent;
-import java.awt.FlowLayout;
 
 public class GameView extends JFrame implements KeyListener {
 
 	private SokobanController controller;
 
-	JPanel gamePanel;
+	private JPanel gamePanel;
 	private JTextField textFieldGameScore;
 	private JTextField textFieldLevelScore;
+	private JLabel textFieldLevelName;
 
 	private static final int size = 32;
 
@@ -35,50 +33,120 @@ public class GameView extends JFrame implements KeyListener {
 	 * Create the application.
 	 */
 	public GameView(SokobanController controller) {
-		setResizable(false);
 		this.controller=controller;
+		setResizable(false);
 		initialize();
 		this.pack();
 		this.setVisible(true);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
 
+	public void enableKeyboard() {
+		this.toFront();
+		this.requestFocus();
+	}
+
+	public void setLevelScoreValue(String levelScore) {
+		textFieldLevelScore.setText(levelScore);
+	}
+
+	public void setGameScoreValue(String gameScore) {
+		textFieldGameScore.setText(gameScore);
+	}
+
+	public void setLevelName(String levelName) {
+		textFieldLevelName.setText(levelName);
+	}
+
+
+
+	public void drawWarehousePanel(SokobanElements[][] elements) {
+		int m = elements.length;
+		int n = elements[0].length;
+
+		this.remove(gamePanel);
+		this.gamePanel = new JPanel();
+		Dimension dim = new Dimension(size*m, size*n);
+		this.gamePanel.setPreferredSize(dim);
+		this.gamePanel.setLayout(new GridLayout(m,n));
+		this.getContentPane().add(gamePanel, BorderLayout.CENTER);
+
+		ImagePanel panel;
+		for(int i=0; i<m; i++) {
+			for(int j=0; j<n; j++) {
+				panel = new ImagePanel(elements[i][j]);
+				panel.setSize(size, size);
+				this.gamePanel.add(panel);
+			}
+		}
+		this.pack();
+	}
+
 	/**
-	 * Initialize the contents of the frame.
+	 * Initialize the frame components.
 	 */
 	private void initialize() {
 
+		initializeGamePanel();
+		initializeScorePanels();
+		initializeMenuPanel();
+		initializeButtonPanel();
+
+		addKeyListener(this);
+		setFocusable(true);
+		setFocusTraversalKeysEnabled(false);
+	}
+
+
+	private void initializeGamePanel() {
 		this.gamePanel = new JPanel();
-		FlowLayout flowLayout = (FlowLayout) gamePanel.getLayout();
 		this.getContentPane().add(gamePanel, BorderLayout.CENTER);
 
+	}
+
+	private void initializeScorePanels() {
+
+		//InfoPanel
+		JPanel infoPanel = new JPanel();
+		infoPanel.setLayout(new GridLayout(0, 1, 0, 0));
+		this.getContentPane().add(infoPanel, BorderLayout.NORTH);
+
+		////levelName panel
+		JPanel levelNamePanel = new JPanel();
+		textFieldLevelName = new JLabel();
+		levelNamePanel.add(textFieldLevelName);
+
+		infoPanel.add(levelNamePanel);
+
+		////ScorePanel
 		JPanel scorePanel = new JPanel();
-		this.getContentPane().add(scorePanel, BorderLayout.NORTH);
 		scorePanel.setLayout(new GridLayout(1, 0, 0, 0));
 
-		JPanel game_score = new JPanel();
-		scorePanel.add(game_score);
-
+		JPanel gameScore = new JPanel();
 		JLabel lblGameScore = new JLabel("Game score");
 		lblGameScore.setHorizontalAlignment(SwingConstants.LEFT);
-		game_score.add(lblGameScore);
-
+		gameScore.add(lblGameScore);
 		textFieldGameScore = new JTextField();
 		textFieldGameScore.setEditable(false);
-		game_score.add(textFieldGameScore);
 		textFieldGameScore.setColumns(4);
+		gameScore.add(textFieldGameScore);
+		scorePanel.add(gameScore);
 
-		JPanel level_score = new JPanel();
-		scorePanel.add(level_score);
-
-		JLabel lblNewLabel = new JLabel("Level score");
-		level_score.add(lblNewLabel);
-
+		JPanel levelScore = new JPanel();
+		JLabel lblLevelScore = new JLabel("Level score");
+		levelScore.add(lblLevelScore);
 		textFieldLevelScore = new JTextField();
 		textFieldLevelScore.setEditable(false);
-		level_score.add(textFieldLevelScore);
 		textFieldLevelScore.setColumns(4);
+		levelScore.add(textFieldLevelScore);
+		scorePanel.add(levelScore);
 
+		infoPanel.add(scorePanel);
+
+
+	}
+
+	private void initializeMenuPanel() {
 		JPanel menuPanel = new JPanel();
 		this.getContentPane().add(menuPanel, BorderLayout.EAST);
 
@@ -98,19 +166,19 @@ public class GameView extends JFrame implements KeyListener {
 		menuPanel.add(btnUndo);
 
 		JButton btnSave = new JButton("Save Game");
-		btnSave.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
+		btnSave.addActionListener(event -> controller.onSave());
 		menuPanel.add(btnSave);
 
-		JButton btnSaveGame = new JButton("Load Game");
-		menuPanel.add(btnSaveGame);
+		JButton btnLoad = new JButton("Load Game");
+		btnLoad.addActionListener(event -> controller.onLoad());
+		menuPanel.add(btnLoad);
 
 		JButton btnExit = new JButton("Exit");
 		btnExit.addActionListener(event -> controller.onExit() );
 		menuPanel.add(btnExit);
+	}
 
+	private void initializeButtonPanel() {
 		JPanel buttonsPanel = new JPanel();
 		getContentPane().add(buttonsPanel, BorderLayout.SOUTH);
 
@@ -141,48 +209,7 @@ public class GameView extends JFrame implements KeyListener {
 		buttonsPanel.add(buttonRight);
 
 		buttonsPanel.setVisible(false);
-
-		addKeyListener(this);
-		setFocusable(true);
-		setFocusTraversalKeysEnabled(false);
-
 	}
-
-	public void enableKeyboard() {
-		this.toFront();
-		this.requestFocus();
-	}
-
-	public void setLevelScoreValue(String levelScore) {
-		textFieldLevelScore.setText(levelScore);
-	}
-
-	public void setGameScoreValue(String gameScore) {
-		textFieldGameScore.setText(gameScore);
-	}
-
-	public void drawWarehousePanel(SokobanElements[][] elements) {
-		int m = elements.length;
-		int n = elements[0].length;
-
-		this.remove(gamePanel);
-		this.gamePanel = new JPanel();
-		Dimension dim = new Dimension(size*m, size*n);
-		this.gamePanel.setPreferredSize(dim);
-		this.gamePanel.setLayout(new GridLayout(m,n));
-		this.getContentPane().add(gamePanel, BorderLayout.CENTER);
-
-		ImagePanel panel;
-		for(int i=0; i<m; i++) {
-			for(int j=0; j<n; j++) {
-				panel = new ImagePanel(elements[i][j]);
-				panel.setSize(size, size);
-				this.gamePanel.add(panel);
-			}
-		}
-		this.pack();
-	}
-
 
 	@Override
 	public void keyPressed(KeyEvent arg0) {
@@ -201,9 +228,12 @@ public class GameView extends JFrame implements KeyListener {
 		if (key == KeyEvent.VK_LEFT) {
 			this.controller.onMove(SokobanAction.LEFT);
 		}
-		
-//		KeyStroke.getKeyStroke(
-//		        KeyEvent.VK_Z, ActionEvent.CTRL_MASK)
+		if (key == KeyEvent.VK_U) {
+			this.controller.onUndoMove();
+		}
+
+		//		KeyStroke.getKeyStroke(
+		//		        KeyEvent.VK_Z, ActionEvent.CTRL_MASK)
 	}
 
 	@Override

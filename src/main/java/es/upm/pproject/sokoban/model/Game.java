@@ -5,6 +5,7 @@ import es.upm.pproject.sokoban.controller.SokobanAction;
 import es.upm.pproject.sokoban.controller.SokobanMovement;
 
 public class Game {
+	private String levelName;
 	private Integer gameScore;
 	private Integer levelScore;
 	private Cell[][] warehouse;
@@ -12,7 +13,8 @@ public class Game {
 	private int howManyBoxes;
 	private int boxesAtGoal;
 
-	public Game(Cell[][] warehouse) {
+	public Game(String levelName, Cell[][] warehouse) {
+		this.levelName = levelName;
 		this.levelScore = 0;
 		this.gameScore = 0;
 		this.warehouse = warehouse;
@@ -21,12 +23,16 @@ public class Game {
 		this.howManyBoxes = 0;
 	}
 
-	public Game(Cell[][] warehouse, int gameScore) {
+	public void restartLevel(Cell[][] warehouse, int gameScore) {
 		this.levelScore = 0;
 		this.gameScore = gameScore;
 		this.warehouse = warehouse;
 		getPlayerPositionAndNumberOfBoxes();	
 		this.boxesAtGoal = 0;
+	}
+	
+	public String getLevelName() {
+		return levelName;
 	}
 
 	public Integer getGameScore() {
@@ -53,7 +59,8 @@ public class Game {
 		this.howManyBoxes = howManyBoxes;
 	}
 
-	public void getPlayerPositionAndNumberOfBoxes(){
+	private void getPlayerPositionAndNumberOfBoxes(){
+		this.howManyBoxes=0;
 		int i,j;
 		for(i=0;i<warehouse.length;i++) {
 			for(j=0;j<warehouse[0].length;j++) {
@@ -135,7 +142,6 @@ public class Game {
 				incrementScore();
 			}
 		}
-
 		return new SokobanMovement(action,playerMoved,boxMoved);
 	}
 
@@ -297,7 +303,7 @@ public class Game {
 		board [7][6] = new Cell(SokobanElements.GAP, SokobanElements.NONE);
 		board [7][7] = new Cell(SokobanElements.GAP, SokobanElements.NONE);
 
-		Game game = new Game(board);
+		Game game = new Game("Initial Level",board);
 		game.setHowManyBoxes(1);
 
 		game.showWarehouse();

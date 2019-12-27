@@ -13,9 +13,16 @@ public class SokobanModel implements GameModel {
 		return current;
 	}
 	public SokobanModel() {
-		this.current = new Game(createBoard());
-		this.lastMovements = new Stack<SokobanMovement>();
+		this.current = new Game("Initial Level", createBoard());
+		this.lastMovements = new Stack<>();
 	}
+
+	@Override
+	public Game startNewGame(){
+		// TODO Auto-generated method stub
+		return restartLevel();
+	}
+
 	@Override
 	public Game performMovement(SokobanAction action) {
 		SokobanMovement movement = this.current.move(action);
@@ -34,12 +41,22 @@ public class SokobanModel implements GameModel {
 	@Override
 	public Game restartLevel() {
 		int restartedGameScore = current.getGameScore() - current.getLevelScore();	
-		if(restartedGameScore < 0)
-			restartedGameScore = 0;
-		this.current = new Game(createBoard(),restartedGameScore);
-		this.lastMovements = new Stack<SokobanMovement>();
+		this.current.restartLevel(createBoard(), restartedGameScore);
+		this.lastMovements = new Stack<>();
 		return this.current;
 	}
+
+	@Override
+	public boolean saveGame() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	@Override
+	public Game loadGame(String pathFile) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 	private Cell[][] createBoard() {
 		Cell [][] board = new Cell [8][8];
@@ -91,7 +108,7 @@ public class SokobanModel implements GameModel {
 		board [5][0] = new Cell(SokobanElements.WALL, SokobanElements.NONE);
 		board [5][1] = new Cell(SokobanElements.GAP, SokobanElements.NONE);
 		board [5][2] = new Cell(SokobanElements.GAP, SokobanElements.NONE);
-		board [5][3] = new Cell(SokobanElements.GAP, SokobanElements.NONE);
+		board [5][3] = new Cell(SokobanElements.GAP, SokobanElements.BOX);
 		board [5][4] = new Cell(SokobanElements.WALL, SokobanElements.NONE);
 		board [5][5] = new Cell(SokobanElements.GAP, SokobanElements.NONE);
 		board [5][6] = new Cell(SokobanElements.GAP, SokobanElements.NONE);
@@ -100,7 +117,7 @@ public class SokobanModel implements GameModel {
 		board [6][0] = new Cell(SokobanElements.WALL, SokobanElements.NONE);
 		board [6][1] = new Cell(SokobanElements.GAP, SokobanElements.NONE);
 		board [6][2] = new Cell(SokobanElements.GAP, SokobanElements.NONE);
-		board [6][3] = new Cell(SokobanElements.GAP, SokobanElements.NONE);
+		board [6][3] = new Cell(SokobanElements.GOAL, SokobanElements.NONE);
 		board [6][4] = new Cell(SokobanElements.WALL, SokobanElements.NONE);
 		board [6][5] = new Cell(SokobanElements.WALL, SokobanElements.NONE);
 		board [6][6] = new Cell(SokobanElements.WALL, SokobanElements.NONE);
@@ -117,4 +134,5 @@ public class SokobanModel implements GameModel {
 
 		return board;
 	}
+
 }

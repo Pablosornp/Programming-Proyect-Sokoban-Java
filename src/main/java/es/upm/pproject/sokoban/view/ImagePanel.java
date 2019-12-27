@@ -4,6 +4,8 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
+
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
@@ -13,6 +15,7 @@ public class ImagePanel extends JPanel{
 
 	private static final long serialVersionUID = 1L;
 	private BufferedImage image;
+	
 
 	public ImagePanel(SokobanElements element) {
 		try {
@@ -27,6 +30,9 @@ public class ImagePanel extends JPanel{
 				break;
 			case BOX:
 				path = path + "box.png";
+				break;
+			case BOX_IN_GOAL:
+				path = path + "boxInGoal.png";
 				break;
 			case GOAL:
 				path = path + "goal.png";
