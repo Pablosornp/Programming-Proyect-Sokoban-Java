@@ -81,7 +81,7 @@ public class GameView extends JFrame implements KeyListener {
 
 		this.remove(gamePanel);
 		this.gamePanel = new JPanel();
-		Dimension dim = new Dimension(size*m, size*n);
+		Dimension dim = new Dimension(size*n, size*m);
 		this.gamePanel.setPreferredSize(dim);
 		this.gamePanel.setLayout(new GridLayout(m,n));
 		this.getContentPane().add(gamePanel, BorderLayout.CENTER);
@@ -90,7 +90,6 @@ public class GameView extends JFrame implements KeyListener {
 		for(int i=0; i<m; i++) {
 			for(int j=0; j<n; j++) {
 				panel = new ImagePanel(elements[i][j], this.imagesPath);
-				panel.setSize(size, size);
 				this.gamePanel.add(panel);
 			}
 		}
@@ -169,7 +168,7 @@ public class GameView extends JFrame implements KeyListener {
 		this.getContentPane().add(menuPanel, BorderLayout.EAST);
 
 		JButton btnNewGame = new JButton("Start new game");
-		btnNewGame.addActionListener(event -> controller.onRestart());
+		btnNewGame.addActionListener(event -> controller.onStart());
 
 		JButton btnRestartLevel = new JButton("Restart level");
 		btnRestartLevel.addActionListener(event -> controller.onRestart());

@@ -8,11 +8,13 @@ import es.upm.pproject.sokoban.controller.SokobanAction;
 import es.upm.pproject.sokoban.controller.SokobanMovement;
 
 public class SokobanModel implements GameModel {
+	private int gameScore;
 	private int currentLevelNumber;
 	private Game current;
 	private Stack<SokobanMovement> lastMovements;
+	
 	private LevelLoader ld;
-	private int gameScore;
+	
 
 	public SokobanModel() {
 		this.currentLevelNumber = 0;
@@ -26,6 +28,7 @@ public class SokobanModel implements GameModel {
 
 	@Override
 	public Game startNewGame(){
+		this.currentLevelNumber = 0;
 		return loadNextLevel();
 	}
 
@@ -59,6 +62,7 @@ public class SokobanModel implements GameModel {
 			System.out.println("I/O problem");
 			System.exit(0);
 		}
+		this.lastMovements = new Stack<>();
 		this.current = game;
 		return game;
 	}

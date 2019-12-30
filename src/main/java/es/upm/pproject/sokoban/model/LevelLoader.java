@@ -46,7 +46,8 @@ public class LevelLoader {
 				row++;
 			}
 		}
-		return new Game(levelName, warehouse);
+		Game game = new Game(levelName, warehouse);
+		return game;
 	}
 
 	private Cell charToElem(char character) {

@@ -25,8 +25,9 @@ public class SokobanController {
 	}
 
 	public void onStart() {
-		// TODO 
-		onRestart();
+		Game newGame = model.startNewGame();
+		updateLevelInfo(newGame);
+		view.enableKeyboard();
 	}
 
 	public void onRestart() {

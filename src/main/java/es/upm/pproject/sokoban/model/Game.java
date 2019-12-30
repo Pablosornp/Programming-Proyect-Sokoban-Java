@@ -19,9 +19,9 @@ public class Game {
 		this.levelScore = 0;
 		this.gameScore = 0;
 		this.warehouse = warehouse;
-		updatePlayerPositionAndNumberOfBoxes();	
 		this.boxesAtGoal = 0;
-		this.howManyBoxes = 0;
+		updatePlayerPositionAndNumberOfBoxes();	
+		
 	}
 
 	public void restartLevel(Cell[][] warehouse, int gameScore) {
