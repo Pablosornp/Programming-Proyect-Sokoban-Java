@@ -5,6 +5,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
@@ -17,10 +19,8 @@ public class ImagePanel extends JPanel{
 	private BufferedImage image;
 	
 
-	public ImagePanel(SokobanElements element) {
+	public ImagePanel(SokobanElements element, String path) {
 		try {
-			String userWindows = System.getenv("USERNAME");
-			String path = "C:\\Users\\"+userWindows+"\\eclipse-workspace\\sokoban\\images\\";
 			switch(element) {
 			case WALL:
 				path = path + "blackWall.png";

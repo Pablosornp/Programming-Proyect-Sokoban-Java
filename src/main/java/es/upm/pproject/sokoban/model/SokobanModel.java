@@ -6,15 +6,24 @@ import es.upm.pproject.sokoban.controller.SokobanAction;
 import es.upm.pproject.sokoban.controller.SokobanMovement;
 
 public class SokobanModel implements GameModel {
+	private int currentLevelNumber;
 	private Game current;
 	private Stack<SokobanMovement> lastMovements;
 
+	
+	public SokobanModel() {
+		this.currentLevelNumber = 1;
+		this.lastMovements = new Stack<>();
+		try {
+			this.loadNextLevel(currentLevelNumber);
+		} catch (Exception e) {
+			System.out.println("Level could not be found. Loading basic level.");
+			this.current = new Game("Initial Level", createDefaultBoard());
+		}	
+	}
+	
 	public Game getCurrent() {
 		return current;
-	}
-	public SokobanModel() {
-		this.current = new Game("Initial Level", createBoard());
-		this.lastMovements = new Stack<>();
 	}
 
 	@Override
@@ -38,10 +47,21 @@ public class SokobanModel implements GameModel {
 		}
 		return this.current;
 	}
+	
+	@Override
+	public Game loadNextLevel(int levelNumber) throws Exception{
+		// TODO Auto-generated method stub
+		Game game = null;
+		if (game == null) {
+			throw new Exception();
+		}
+		return null;
+	}
+	
 	@Override
 	public Game restartLevel() {
 		int restartedGameScore = current.getGameScore() - current.getLevelScore();	
-		this.current.restartLevel(createBoard(), restartedGameScore);
+		this.current.restartLevel(createDefaultBoard(), restartedGameScore);
 		this.lastMovements = new Stack<>();
 		return this.current;
 	}
@@ -52,13 +72,12 @@ public class SokobanModel implements GameModel {
 		return false;
 	}
 	@Override
-	public Game loadGame(String pathFile) {
+	public Game loadGame() {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-
-	private Cell[][] createBoard() {
+	
+	private Cell[][] createDefaultBoard() {
 		Cell [][] board = new Cell [8][8];
 		board [0][0] = new Cell(SokobanElements.WALL, SokobanElements.NONE);
 		board [0][1] = new Cell(SokobanElements.WALL, SokobanElements.NONE);

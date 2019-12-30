@@ -17,6 +17,9 @@ import java.awt.GridLayout;
 import javax.swing.JButton;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.awt.Color;
 
 public class GameView extends JFrame implements KeyListener {
 
@@ -28,11 +31,15 @@ public class GameView extends JFrame implements KeyListener {
 	private JLabel textFieldLevelName;
 
 	private static final int size = 32;
+	private String imagesPath;
 
 	/**
 	 * Create the application.
 	 */
 	public GameView(SokobanController controller) {
+		this.setTitle("Sokoban");
+		Path currentDir = Paths.get("./images/");
+		this.imagesPath = currentDir.toAbsolutePath().toString()+"\\";
 		this.controller=controller;
 		setResizable(false);
 		initialize();
@@ -57,7 +64,15 @@ public class GameView extends JFrame implements KeyListener {
 	public void setLevelName(String levelName) {
 		textFieldLevelName.setText(levelName);
 	}
-
+	
+	private void drawWelcomeScreen(){
+		JLabel welcomeLabel = new JLabel("WELCOME TO SOKOBAN");
+		welcomeLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		JLabel pressStartLabel = new JLabel("PRESS START NEW GAME");
+		pressStartLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		gamePanel.add(welcomeLabel);
+		gamePanel.add(pressStartLabel);
+	}
 
 
 	public void drawWarehousePanel(SokobanElements[][] elements) {
@@ -74,7 +89,7 @@ public class GameView extends JFrame implements KeyListener {
 		ImagePanel panel;
 		for(int i=0; i<m; i++) {
 			for(int j=0; j<n; j++) {
-				panel = new ImagePanel(elements[i][j]);
+				panel = new ImagePanel(elements[i][j], this.imagesPath);
 				panel.setSize(size, size);
 				this.gamePanel.add(panel);
 			}
@@ -88,7 +103,7 @@ public class GameView extends JFrame implements KeyListener {
 	private void initialize() {
 
 		initializeGamePanel();
-		initializeScorePanels();
+		initializeInfoPanel();
 		initializeMenuPanel();
 		initializeButtonPanel();
 
@@ -100,11 +115,14 @@ public class GameView extends JFrame implements KeyListener {
 
 	private void initializeGamePanel() {
 		this.gamePanel = new JPanel();
+		gamePanel.setBackground(Color.LIGHT_GRAY);
+		gamePanel.setLayout(new GridLayout(0, 1, 0, 0));
+		drawWelcomeScreen();		
 		this.getContentPane().add(gamePanel, BorderLayout.CENTER);
 
 	}
 
-	private void initializeScorePanels() {
+	private void initializeInfoPanel() {
 
 		//InfoPanel
 		JPanel infoPanel = new JPanel();

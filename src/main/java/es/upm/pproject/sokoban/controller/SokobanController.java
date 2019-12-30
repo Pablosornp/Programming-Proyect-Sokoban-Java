@@ -18,6 +18,11 @@ public class SokobanController {
 	public void setView(GameView view) {
 		this.view = view;
 	}
+	
+	public void showWelcomeScreen(){
+		// TODO Auto-generated method stub
+		onRestart();
+	}
 
 	public void onStart() {
 		// TODO 
@@ -26,30 +31,25 @@ public class SokobanController {
 
 	public void onRestart() {
 		Game restartedLevel = model.restartLevel();
-		String levelScore = restartedLevel.getLevelScore().toString();
-		String gameScore = restartedLevel.getGameScore().toString();
-		updateLevelInfo(levelScore, gameScore, restartedLevel);
+		updateLevelInfo(restartedLevel);
 		view.enableKeyboard();
 	}
 
 	public void onMove(SokobanAction movement) {
 		Game currentGame = model.performMovement(movement);
-		String levelScore = currentGame.getLevelScore().toString();
-		String gameScore = currentGame.getGameScore().toString();
-		updateLevelInfo(levelScore, gameScore, currentGame);
-		view.enableKeyboard();
+		updateLevelInfo(currentGame);
 		if(haveIWon(currentGame))
 			onRestart();
+		view.enableKeyboard();
 	}
 
 	public void onUndoMove() {
 		Game currentGame = model.undoMovement();
-		String levelScore = currentGame.getLevelScore().toString();
-		String gameScore = currentGame.getGameScore().toString();
-		updateLevelInfo(levelScore, gameScore, currentGame);
-		view.enableKeyboard();
+		updateLevelInfo(currentGame);
 		if(haveIWon(currentGame))
 			onRestart();
+		view.enableKeyboard();
+
 	}
 
 	public void onSave() {
@@ -93,7 +93,9 @@ public class SokobanController {
 		return warehouseElements;
 	}
 
-	private void updateLevelInfo(String levelScore, String gameScore, Game game) {
+	private void updateLevelInfo(Game game) {
+		String levelScore = game.getLevelScore().toString();
+		String gameScore = game.getGameScore().toString();
 		view.setLevelScoreValue(levelScore);
 		view.setGameScoreValue(gameScore);
 		Cell[][] board = game.getWarehouse();
@@ -140,4 +142,6 @@ public class SokobanController {
 		}
 		else return false;
 	}
+
+	
 }

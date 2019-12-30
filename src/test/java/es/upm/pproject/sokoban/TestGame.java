@@ -14,7 +14,7 @@ public class TestGame {
 	
 	@Test
 	@DisplayName("Test for testing movements")
-	void assertThrowsInvalidaName() {
+	void wholeLevelTest() {
 		SokobanModel model = new SokobanModel();
 		
 		Game game = model.getCurrent();
