@@ -1,5 +1,7 @@
 package es.upm.pproject.sokoban.model;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Stack;
 import es.upm.pproject.sokoban.controller.SokobanElements;
 import es.upm.pproject.sokoban.controller.SokobanAction;
@@ -9,27 +11,22 @@ public class SokobanModel implements GameModel {
 	private int currentLevelNumber;
 	private Game current;
 	private Stack<SokobanMovement> lastMovements;
+	private LevelLoader ld;
+	private int gameScore;
 
-	
 	public SokobanModel() {
-		this.currentLevelNumber = 1;
+		this.currentLevelNumber = 0;
 		this.lastMovements = new Stack<>();
-		try {
-			this.loadNextLevel(currentLevelNumber);
-		} catch (Exception e) {
-			System.out.println("Level could not be found. Loading basic level.");
-			this.current = new Game("Initial Level", createDefaultBoard());
-		}	
+		this.ld = new LevelLoader(); 
 	}
-	
+
 	public Game getCurrent() {
 		return current;
 	}
 
 	@Override
 	public Game startNewGame(){
-		// TODO Auto-generated method stub
-		return restartLevel();
+		return loadNextLevel();
 	}
 
 	@Override
@@ -47,17 +44,25 @@ public class SokobanModel implements GameModel {
 		}
 		return this.current;
 	}
-	
+
 	@Override
-	public Game loadNextLevel(int levelNumber) throws Exception{
-		// TODO Auto-generated method stub
+	public Game loadNextLevel() {
+		this.currentLevelNumber++;
 		Game game = null;
-		if (game == null) {
-			throw new Exception();
+		try {
+			game = ld.convertMap(this.currentLevelNumber);
+		} 
+		catch (FileNotFoundException e) {
+			System.out.println("Congrats bro");
+		} 
+		catch (IOException e) {
+			System.out.println("I/O problem");
+			System.exit(0);
 		}
-		return null;
+		this.current = game;
+		return game;
 	}
-	
+
 	@Override
 	public Game restartLevel() {
 		int restartedGameScore = current.getGameScore() - current.getLevelScore();	
@@ -76,7 +81,7 @@ public class SokobanModel implements GameModel {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
 	private Cell[][] createDefaultBoard() {
 		Cell [][] board = new Cell [8][8];
 		board [0][0] = new Cell(SokobanElements.WALL, SokobanElements.NONE);

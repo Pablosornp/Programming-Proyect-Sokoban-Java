@@ -18,7 +18,7 @@ public class SokobanController {
 	public void setView(GameView view) {
 		this.view = view;
 	}
-	
+
 	public void showWelcomeScreen(){
 		// TODO Auto-generated method stub
 		onRestart();
@@ -38,16 +38,17 @@ public class SokobanController {
 	public void onMove(SokobanAction movement) {
 		Game currentGame = model.performMovement(movement);
 		updateLevelInfo(currentGame);
-		if(haveIWon(currentGame))
-			onRestart();
+		if(haveIWon(currentGame)) {
+			currentGame = model.loadNextLevel();
+			updateLevelInfo(currentGame);
+		}
 		view.enableKeyboard();
 	}
+
 
 	public void onUndoMove() {
 		Game currentGame = model.undoMovement();
 		updateLevelInfo(currentGame);
-		if(haveIWon(currentGame))
-			onRestart();
 		view.enableKeyboard();
 
 	}
@@ -143,5 +144,5 @@ public class SokobanController {
 		else return false;
 	}
 
-	
+
 }

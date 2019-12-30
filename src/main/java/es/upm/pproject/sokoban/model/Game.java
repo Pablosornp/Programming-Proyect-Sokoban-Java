@@ -19,7 +19,7 @@ public class Game {
 		this.levelScore = 0;
 		this.gameScore = 0;
 		this.warehouse = warehouse;
-		getPlayerPositionAndNumberOfBoxes();	
+		updatePlayerPositionAndNumberOfBoxes();	
 		this.boxesAtGoal = 0;
 		this.howManyBoxes = 0;
 	}
@@ -28,7 +28,7 @@ public class Game {
 		this.levelScore = 0;
 		this.gameScore = gameScore;
 		this.warehouse = warehouse;
-		getPlayerPositionAndNumberOfBoxes();	
+		updatePlayerPositionAndNumberOfBoxes();	
 		this.boxesAtGoal = 0;
 	}
 	
@@ -69,7 +69,7 @@ public class Game {
 		this.howManyBoxes = howManyBoxes;
 	}
 
-	private void getPlayerPositionAndNumberOfBoxes(){
+	public void updatePlayerPositionAndNumberOfBoxes(){
 		this.howManyBoxes=0;
 		int i,j;
 		for(i=0;i<warehouse.length;i++) {

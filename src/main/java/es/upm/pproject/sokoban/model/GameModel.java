@@ -8,7 +8,7 @@ public interface GameModel {
 	public Game performMovement(SokobanAction movement);
 	public Game undoMovement();
 	public Game restartLevel();
-	public Game loadNextLevel(int levelNumber) throws Exception;
+	public Game loadNextLevel();
 	public boolean saveGame();
 	public Game loadGame();
 	
