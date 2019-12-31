@@ -71,6 +71,7 @@ public class SokobanModel implements GameModel {
 			System.exit(0);
 		}
 		this.lastMovements = new Stack<>();
+		
 		this.current = game;
 		if (game != null)
 			this.current.setGameScore(this.gameScore);

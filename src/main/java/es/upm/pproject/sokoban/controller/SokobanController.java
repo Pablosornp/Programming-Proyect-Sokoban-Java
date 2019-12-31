@@ -28,6 +28,7 @@ public class SokobanController {
 		Game newGame = model.startNewGame();
 		updateLevelInfo(newGame);
 		view.enableKeyboard();
+		view.showMenuPanel();
 	}
 
 	public void onRestart() {
@@ -39,9 +40,9 @@ public class SokobanController {
 	public void onMove(SokobanAction movement) {
 		Game currentGame = model.performMovement(movement);
 		updateLevelInfo(currentGame);
-		if(haveIWonLevel(currentGame)) {
+		if(levelCompleted(currentGame)) {
 			currentGame = model.loadNextLevel();
-			if (haveIWonGame(currentGame)) {
+			if (gameCompleted(currentGame)) {
 				view.drawWelcomeScreen();
 			} else
 				updateLevelInfo(currentGame);
@@ -141,15 +142,15 @@ public class SokobanController {
 		return sb.toString();
 	}
 
-	private boolean haveIWonLevel(Game game) {
+	private boolean levelCompleted(Game game) {
 		if(game.getBoxesAtGoal()==game.getHowManyBoxes()) {
-			JOptionPane.showMessageDialog(this.view,"LEVEL "+game.getLevelNumber()+" PASSED!\n\nGAME SCORE: "+game.getGameScore());
+			JOptionPane.showMessageDialog(this.view,"LEVEL "+game.getLevelNumber()+" COMPLETED!\n\nGame Score: "+game.getGameScore(),"Sokoban",1);
 			return true;
 		}
 		else return false;
 	}
 
-	private boolean haveIWonGame(Game game) {
+	private boolean gameCompleted(Game game) {
 		if(game == null) {
 			JOptionPane.showMessageDialog(this.view,"YOU WON!\n\nGAME SCORE: "+ model.getGameScore());
 			return true;

@@ -44,8 +44,8 @@ public class LevelLoader {
 				row++;
 			}
 		}
-		Game game = new Game(levelNumber, levelName, warehouse);
-		return game;
+		lnr.close();
+		return new Game(levelNumber, levelName, warehouse);
 	}
 
 	private Cell charToElem(char character) {
@@ -69,7 +69,7 @@ public class LevelLoader {
 		}
 		return element;
 	}
-	
+
 	public static void main(String[] args) {
 		LevelLoader ld = new LevelLoader();
 		try {
@@ -82,6 +82,6 @@ public class LevelLoader {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 	}
 }

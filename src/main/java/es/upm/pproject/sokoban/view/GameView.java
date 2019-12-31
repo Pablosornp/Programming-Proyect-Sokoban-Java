@@ -26,6 +26,7 @@ public class GameView extends JFrame implements KeyListener {
 	private SokobanController controller;
 
 	private JPanel gamePanel;
+	private JPanel menuPanel;
 	private JTextField textFieldGameScore;
 	private JTextField textFieldLevelScore;
 	private JLabel textFieldLevelName;
@@ -43,7 +44,6 @@ public class GameView extends JFrame implements KeyListener {
 		this.controller=controller;
 		setResizable(false);
 		initialize();
-		this.pack();
 		this.setVisible(true);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
@@ -64,27 +64,33 @@ public class GameView extends JFrame implements KeyListener {
 	public void setLevelName(String levelName) {
 		textFieldLevelName.setText(levelName);
 	}
-	
+
 	public void drawWelcomeScreen(){
-		this.remove(gamePanel);
+		if(gamePanel!=null)
+			this.remove(gamePanel);
 		initializeGamePanel();
 		JLabel welcomeLabel = new JLabel("WELCOME TO SOKOBAN");
+		Dimension dim = new Dimension(size*8, size*4);
+		this.gamePanel.setPreferredSize(dim);
 		welcomeLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		JLabel pressStartLabel = new JLabel("PRESS START NEW GAME");
-		pressStartLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		JButton btnPressStart = new JButton("START NEW GAME");
+		btnPressStart.addActionListener(event -> controller.onStart());
+		btnPressStart.setHorizontalAlignment(SwingConstants.CENTER);
 		this.textFieldGameScore.setText("");
 		this.textFieldLevelName.setText("");
 		this.textFieldLevelScore.setText("");
 		gamePanel.add(welcomeLabel);
-		gamePanel.add(pressStartLabel);
+		gamePanel.add(btnPressStart);
+		menuPanel.setVisible(false);
+		this.pack();
 	}
 
 
 	public void drawWarehousePanel(SokobanElements[][] elements) {
 		int m = elements.length;
 		int n = elements[0].length;
-
-		this.remove(gamePanel);
+		if(gamePanel!=null)
+			this.remove(gamePanel);
 		this.gamePanel = new JPanel();
 		Dimension dim = new Dimension(size*n, size*m);
 		this.gamePanel.setPreferredSize(dim);
@@ -101,20 +107,24 @@ public class GameView extends JFrame implements KeyListener {
 		this.pack();
 	}
 
+	public void showMenuPanel() {
+		this.menuPanel.setVisible(true);
+		this.pack();
+	}
+
 	/**
 	 * Initialize the frame components.
 	 */
 	private void initialize() {
 
-		initializeInfoPanel();
-		initializeGamePanel();
-		drawWelcomeScreen();
 		initializeMenuPanel();
+		initializeInfoPanel();
+		drawWelcomeScreen();	
 		initializeButtonPanel();
-
 		addKeyListener(this);
 		setFocusable(true);
 		setFocusTraversalKeysEnabled(false);
+		this.pack();
 	}
 
 
@@ -168,7 +178,7 @@ public class GameView extends JFrame implements KeyListener {
 	}
 
 	private void initializeMenuPanel() {
-		JPanel menuPanel = new JPanel();
+		this.menuPanel = new JPanel();
 		this.getContentPane().add(menuPanel, BorderLayout.EAST);
 
 		JButton btnNewGame = new JButton("Start new game");
