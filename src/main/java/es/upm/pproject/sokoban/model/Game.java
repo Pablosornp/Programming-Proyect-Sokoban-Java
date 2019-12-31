@@ -14,6 +14,15 @@ public class Game {
 	private int howManyBoxes;
 	private int boxesAtGoal;
 
+	public Game(String levelName) {
+		this.levelName = levelName;
+		this.levelScore = 0;
+		this.gameScore = 0;
+		this.warehouse = createDefaultBoard();
+		this.boxesAtGoal = 0;
+		updatePlayerPositionAndNumberOfBoxes();		
+	}
+	
 	public Game(int levelNumber, String levelName, Cell[][] warehouse) {
 		this.levelNumber = levelNumber;
 		this.levelName = levelName;
@@ -21,8 +30,7 @@ public class Game {
 		this.gameScore = 0;
 		this.warehouse = warehouse;
 		this.boxesAtGoal = 0;
-		updatePlayerPositionAndNumberOfBoxes();	
-		
+		updatePlayerPositionAndNumberOfBoxes();		
 	}
 
 	public void restartLevel(Cell[][] warehouse, int gameScore) {
@@ -243,8 +251,8 @@ public class Game {
 		}
 		System.out.println();
 	}
-
-	public static void main(String[] args) {
+	
+	private Cell[][] createDefaultBoard() {
 		Cell [][] board = new Cell [8][8];
 		board [0][0] = new Cell(SokobanElements.WALL, SokobanElements.NONE);
 		board [0][1] = new Cell(SokobanElements.WALL, SokobanElements.NONE);
@@ -294,7 +302,7 @@ public class Game {
 		board [5][0] = new Cell(SokobanElements.WALL, SokobanElements.NONE);
 		board [5][1] = new Cell(SokobanElements.GAP, SokobanElements.NONE);
 		board [5][2] = new Cell(SokobanElements.GAP, SokobanElements.NONE);
-		board [5][3] = new Cell(SokobanElements.GAP, SokobanElements.NONE);
+		board [5][3] = new Cell(SokobanElements.GAP, SokobanElements.BOX);
 		board [5][4] = new Cell(SokobanElements.WALL, SokobanElements.NONE);
 		board [5][5] = new Cell(SokobanElements.GAP, SokobanElements.NONE);
 		board [5][6] = new Cell(SokobanElements.GAP, SokobanElements.NONE);
@@ -303,7 +311,7 @@ public class Game {
 		board [6][0] = new Cell(SokobanElements.WALL, SokobanElements.NONE);
 		board [6][1] = new Cell(SokobanElements.GAP, SokobanElements.NONE);
 		board [6][2] = new Cell(SokobanElements.GAP, SokobanElements.NONE);
-		board [6][3] = new Cell(SokobanElements.GAP, SokobanElements.NONE);
+		board [6][3] = new Cell(SokobanElements.GOAL, SokobanElements.NONE);
 		board [6][4] = new Cell(SokobanElements.WALL, SokobanElements.NONE);
 		board [6][5] = new Cell(SokobanElements.WALL, SokobanElements.NONE);
 		board [6][6] = new Cell(SokobanElements.WALL, SokobanElements.NONE);
@@ -318,46 +326,6 @@ public class Game {
 		board [7][6] = new Cell(SokobanElements.GAP, SokobanElements.NONE);
 		board [7][7] = new Cell(SokobanElements.GAP, SokobanElements.NONE);
 
-		Game game = new Game(1,"Initial Level",board);
-		game.setHowManyBoxes(1);
-
-		game.showWarehouse();
-		game.move(SokobanAction.UP);
-		game.move(SokobanAction.RIGHT);
-		game.move(SokobanAction.RIGHT);
-		game.move(SokobanAction.RIGHT);
-		game.move(SokobanAction.RIGHT);
-		game.move(SokobanAction.DOWN);
-		game.move(SokobanAction.DOWN);
-		game.move(SokobanAction.LEFT);
-		game.move(SokobanAction.UP);
-		game.move(SokobanAction.RIGHT);
-		game.move(SokobanAction.UP);
-		game.move(SokobanAction.LEFT);
-		game.move(SokobanAction.LEFT);
-		game.move(SokobanAction.LEFT);
-		game.move(SokobanAction.DOWN);
-		game.move(SokobanAction.LEFT);
-		game.move(SokobanAction.UP);
-		game.move(SokobanAction.LEFT);
-		game.move(SokobanAction.UP);
-		game.move(SokobanAction.UP);
-		game.move(SokobanAction.RIGHT);
-		game.move(SokobanAction.DOWN);
-		game.move(SokobanAction.DOWN);
-		game.move(SokobanAction.DOWN);
-		game.move(SokobanAction.RIGHT);
-		game.move(SokobanAction.DOWN);
-		game.move(SokobanAction.DOWN);
-		game.move(SokobanAction.LEFT);
-		game.move(SokobanAction.LEFT);
-		game.move(SokobanAction.UP);
-		game.move(SokobanAction.RIGHT);
-		game.move(SokobanAction.DOWN);
-		game.move(SokobanAction.RIGHT);
-		game.move(SokobanAction.UP);
-		game.showWarehouse();
-		System.out.println(game.boxesAtGoal);
-
+		return board;
 	}
 }

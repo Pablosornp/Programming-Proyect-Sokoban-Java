@@ -15,9 +15,8 @@ public class TestGame {
 	@Test
 	@DisplayName("Test for testing movements")
 	void wholeLevelTest() {
-		SokobanModel model = new SokobanModel();
 		
-		Game game = model.getCurrent();
+		Game game = new Game("Test");
 		game.setHowManyBoxes(1);
 
 		game.move(SokobanAction.UP);
@@ -54,7 +53,6 @@ public class TestGame {
 		game.move(SokobanAction.DOWN);
 		game.move(SokobanAction.RIGHT);
 		game.move(SokobanAction.UP);
-//		assertTrue(game.getBoxesAtGoal()==1);
-		assertTrue(true);
+		assertTrue(game.getBoxesAtGoal()==1);
 	}  	
 }

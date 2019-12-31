@@ -5,7 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 
 @DisplayName("Tests for basic movements in a basic board")
-public class TestBasicBoard {
+public class TestModel {
 	
 
 }
