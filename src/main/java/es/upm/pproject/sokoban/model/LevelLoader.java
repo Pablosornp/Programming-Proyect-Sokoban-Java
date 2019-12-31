@@ -1,6 +1,5 @@
 package es.upm.pproject.sokoban.model;
 
-import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -41,12 +40,11 @@ public class LevelLoader {
 			else {
 				for(int j=0;j<line.length();j++){
 					warehouse[row][j] = charToElem(line.charAt(j));
-					// SPACEEEES AND SCORE
 				}
 				row++;
 			}
 		}
-		Game game = new Game(levelName, warehouse);
+		Game game = new Game(levelNumber, levelName, warehouse);
 		return game;
 	}
 

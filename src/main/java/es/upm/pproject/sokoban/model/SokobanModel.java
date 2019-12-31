@@ -12,9 +12,9 @@ public class SokobanModel implements GameModel {
 	private int currentLevelNumber;
 	private Game current;
 	private Stack<SokobanMovement> lastMovements;
-	
+
 	private LevelLoader ld;
-	
+
 
 	public SokobanModel() {
 		this.currentLevelNumber = 0;
@@ -28,6 +28,7 @@ public class SokobanModel implements GameModel {
 
 	@Override
 	public Game startNewGame(){
+		this.gameScore = 0;
 		this.currentLevelNumber = 0;
 		return loadNextLevel();
 	}
@@ -35,8 +36,10 @@ public class SokobanModel implements GameModel {
 	@Override
 	public Game performMovement(SokobanAction action) {
 		SokobanMovement movement = this.current.move(action);
-		if(movement.isPlayerMoved())
+		if(movement.isPlayerMoved()) {
 			this.lastMovements.push(movement);
+			this.gameScore++;
+		}
 		return this.current;
 	}
 	@Override
@@ -44,8 +47,13 @@ public class SokobanModel implements GameModel {
 		if(!lastMovements.empty()) {
 			SokobanMovement movement = this.lastMovements.pop();
 			this.current.undoMove(movement);
+			this.gameScore--;
 		}
 		return this.current;
+	}
+
+	public int getGameScore() {
+		return this.gameScore;
 	}
 
 	@Override
@@ -64,14 +72,28 @@ public class SokobanModel implements GameModel {
 		}
 		this.lastMovements = new Stack<>();
 		this.current = game;
+		if (game != null)
+			this.current.setGameScore(this.gameScore);
 		return game;
 	}
 
 	@Override
 	public Game restartLevel() {
-		int restartedGameScore = current.getGameScore() - current.getLevelScore();	
-		this.current.restartLevel(createDefaultBoard(), restartedGameScore);
+		Game restartedGame = null;
+		int restartedGameScore = current.getGameScore() - current.getLevelScore();
+		this.gameScore = restartedGameScore;
+		try {
+			restartedGame = ld.convertMap(this.currentLevelNumber);
+			restartedGame.setGameScore(restartedGameScore);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		this.lastMovements = new Stack<>();
+		this.current = restartedGame;
 		return this.current;
 	}
 

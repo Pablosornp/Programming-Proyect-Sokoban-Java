@@ -14,7 +14,8 @@ public class Game {
 	private int howManyBoxes;
 	private int boxesAtGoal;
 
-	public Game(String levelName, Cell[][] warehouse) {
+	public Game(int levelNumber, String levelName, Cell[][] warehouse) {
+		this.levelNumber = levelNumber;
 		this.levelName = levelName;
 		this.levelScore = 0;
 		this.gameScore = 0;
@@ -47,6 +48,10 @@ public class Game {
 
 	public Integer getGameScore() {
 		return gameScore;
+	}
+	
+	public void setGameScore(Integer gameScore) {
+		this.gameScore = gameScore;
 	}
 
 	public Integer getLevelScore() {
@@ -313,7 +318,7 @@ public class Game {
 		board [7][6] = new Cell(SokobanElements.GAP, SokobanElements.NONE);
 		board [7][7] = new Cell(SokobanElements.GAP, SokobanElements.NONE);
 
-		Game game = new Game("Initial Level",board);
+		Game game = new Game(1,"Initial Level",board);
 		game.setHowManyBoxes(1);
 
 		game.showWarehouse();

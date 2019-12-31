@@ -39,9 +39,12 @@ public class SokobanController {
 	public void onMove(SokobanAction movement) {
 		Game currentGame = model.performMovement(movement);
 		updateLevelInfo(currentGame);
-		if(haveIWon(currentGame)) {
+		if(haveIWonLevel(currentGame)) {
 			currentGame = model.loadNextLevel();
-			updateLevelInfo(currentGame);
+			if (haveIWonGame(currentGame)) {
+				view.drawWelcomeScreen();
+			} else
+				updateLevelInfo(currentGame);
 		}
 		view.enableKeyboard();
 	}
@@ -66,7 +69,7 @@ public class SokobanController {
 
 	public void onExit() {
 		int input = JOptionPane.showConfirmDialog(null, "Are you sure you want to leave?\n"
-				+ "You may lose your progress.", "Sokoban", JOptionPane.YES_NO_CANCEL_OPTION);
+				+ "You may lose your progress.", "Sokoban", JOptionPane.YES_NO_OPTION);
 		// 0=yes, 1=no, 2=cancel
 		if(input==0)
 			System.exit(0);
@@ -102,7 +105,8 @@ public class SokobanController {
 		view.setGameScoreValue(gameScore);
 		Cell[][] board = game.getWarehouse();
 		String levelName = game.getLevelName();
-		view.setLevelName(levelName);
+		int levelNumber = game.getLevelNumber();
+		view.setLevelName("Level "+levelNumber+": "+levelName);
 		view.drawWarehousePanel(this.warehouseCellToWarehouseElements(board));
 	}
 
@@ -137,9 +141,17 @@ public class SokobanController {
 		return sb.toString();
 	}
 
-	private boolean haveIWon(Game game) {
+	private boolean haveIWonLevel(Game game) {
 		if(game.getBoxesAtGoal()==game.getHowManyBoxes()) {
-			JOptionPane.showMessageDialog(this.view,"YOU WON!\n\nGAME SCORE: "+game.getGameScore());
+			JOptionPane.showMessageDialog(this.view,"LEVEL "+game.getLevelNumber()+" PASSED!\n\nGAME SCORE: "+game.getGameScore());
+			return true;
+		}
+		else return false;
+	}
+
+	private boolean haveIWonGame(Game game) {
+		if(game == null) {
+			JOptionPane.showMessageDialog(this.view,"YOU WON!\n\nGAME SCORE: "+ model.getGameScore());
 			return true;
 		}
 		else return false;

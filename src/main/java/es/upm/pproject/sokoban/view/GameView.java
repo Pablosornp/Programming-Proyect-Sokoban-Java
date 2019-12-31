@@ -65,11 +65,16 @@ public class GameView extends JFrame implements KeyListener {
 		textFieldLevelName.setText(levelName);
 	}
 	
-	private void drawWelcomeScreen(){
+	public void drawWelcomeScreen(){
+		this.remove(gamePanel);
+		initializeGamePanel();
 		JLabel welcomeLabel = new JLabel("WELCOME TO SOKOBAN");
 		welcomeLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		JLabel pressStartLabel = new JLabel("PRESS START NEW GAME");
 		pressStartLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		this.textFieldGameScore.setText("");
+		this.textFieldLevelName.setText("");
+		this.textFieldLevelScore.setText("");
 		gamePanel.add(welcomeLabel);
 		gamePanel.add(pressStartLabel);
 	}
@@ -101,8 +106,9 @@ public class GameView extends JFrame implements KeyListener {
 	 */
 	private void initialize() {
 
-		initializeGamePanel();
 		initializeInfoPanel();
+		initializeGamePanel();
+		drawWelcomeScreen();
 		initializeMenuPanel();
 		initializeButtonPanel();
 
@@ -116,9 +122,7 @@ public class GameView extends JFrame implements KeyListener {
 		this.gamePanel = new JPanel();
 		gamePanel.setBackground(Color.LIGHT_GRAY);
 		gamePanel.setLayout(new GridLayout(0, 1, 0, 0));
-		drawWelcomeScreen();		
 		this.getContentPane().add(gamePanel, BorderLayout.CENTER);
-
 	}
 
 	private void initializeInfoPanel() {
