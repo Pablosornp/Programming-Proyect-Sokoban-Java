@@ -27,10 +27,9 @@ public class SokobanModel implements GameModel {
 	}
 
 	@Override
-	public Game startNewGame(){
+	public void startNewGame(){
 		this.gameScore = 0;
 		this.currentLevelNumber = 0;
-		return loadNextLevel();
 	}
 
 	@Override
@@ -55,27 +54,28 @@ public class SokobanModel implements GameModel {
 	public int getGameScore() {
 		return this.gameScore;
 	}
+	@Override
+	public boolean hasNextLevel() {
+		int nextLevelNumber = this.currentLevelNumber+1;
+		return ld.levelExists(nextLevelNumber);
+	}
 
 	@Override
-	public Game loadNextLevel() {
+	public Game loadNextLevel(){
+		Game game=null;
 		this.currentLevelNumber++;
-		Game game = null;
-		try {
+		if(ld.validMap(this.currentLevelNumber))
 			game = ld.convertMap(this.currentLevelNumber);
-		} 
-		catch (FileNotFoundException e) {
-			System.out.println("Congrats bro");
-		} 
-		catch (IOException e) {
-			System.out.println("I/O problem");
-			System.exit(0);
-		}
-		this.lastMovements = new Stack<>();
-		
+		this.lastMovements = new Stack<>();		
 		this.current = game;
 		if (game != null)
 			this.current.setGameScore(this.gameScore);
 		return game;
+	}
+	
+	private boolean hasValidNextLevel(){
+		int nextLevelNumber = this.currentLevelNumber+1;
+		return ld.validMap(nextLevelNumber);
 	}
 
 	@Override
@@ -83,16 +83,8 @@ public class SokobanModel implements GameModel {
 		Game restartedGame = null;
 		int restartedGameScore = current.getGameScore() - current.getLevelScore();
 		this.gameScore = restartedGameScore;
-		try {
-			restartedGame = ld.convertMap(this.currentLevelNumber);
-			restartedGame.setGameScore(restartedGameScore);
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		restartedGame = ld.convertMap(this.currentLevelNumber);
+		restartedGame.setGameScore(restartedGameScore);
 		this.lastMovements = new Stack<>();
 		this.current = restartedGame;
 		return this.current;
@@ -108,6 +100,8 @@ public class SokobanModel implements GameModel {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+
 
 
 }

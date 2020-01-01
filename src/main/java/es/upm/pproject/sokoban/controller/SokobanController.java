@@ -19,53 +19,46 @@ public class SokobanController {
 		this.view = view;
 	}
 
-	public void showWelcomeScreen(){
-		// TODO Auto-generated method stub
-		onRestart();
+	public void onStart() {
+		model.startNewGame();
+		loadLevel();
+		view.showMenuPanel();
+		view.setKeyboardEnabled(true);
+		view.focusOnKeyboard();
 	}
 
-	public void onStart() {
-		Game newGame = model.startNewGame();
-		updateLevelInfo(newGame);
-		view.enableKeyboard();
-		view.showMenuPanel();
-	}
 
 	public void onRestart() {
 		Game restartedLevel = model.restartLevel();
 		updateLevelInfo(restartedLevel);
-		view.enableKeyboard();
+		view.focusOnKeyboard();
 	}
 
 	public void onMove(SokobanAction movement) {
-		Game currentGame = model.performMovement(movement);
+		Game currentGame = model.performMovement(movement);	
 		updateLevelInfo(currentGame);
 		if(levelCompleted(currentGame)) {
-			currentGame = model.loadNextLevel();
-			if (gameCompleted(currentGame)) {
-				view.drawWelcomeScreen();
-			} else
-				updateLevelInfo(currentGame);
+			loadLevel();
 		}
-		view.enableKeyboard();
+		view.focusOnKeyboard();
 	}
 
 
 	public void onUndoMove() {
 		Game currentGame = model.undoMovement();
 		updateLevelInfo(currentGame);
-		view.enableKeyboard();
+		view.focusOnKeyboard();
 
 	}
 
 	public void onSave() {
 		// TODO 
-		view.enableKeyboard();
+		view.focusOnKeyboard();
 	}
 
 	public void onLoad() {		
 		// TODO 
-		view.enableKeyboard();
+		view.focusOnKeyboard();
 	}
 
 	public void onExit() {
@@ -74,6 +67,23 @@ public class SokobanController {
 		// 0=yes, 1=no, 2=cancel
 		if(input==0)
 			System.exit(0);
+	}
+	
+	private void loadLevel() {
+		boolean hasNext;
+		Game game=null;
+		while((hasNext = model.hasNextLevel()) && (game = model.loadNextLevel()) == null) {
+			showInvalidLevelMessage();
+		}
+		//The level is valid -> The level is loaded
+		if(!hasNext){
+			showYouWonMessage();
+			view.drawWelcomeScreen();
+		}
+		//The game is completed  -> Show victory message and load Welcome screen
+		else if(game!=null) { 
+			updateLevelInfo(game);
+		}
 	}
 
 	private SokobanElements[][] warehouseCellToWarehouseElements(Cell[][] warehouse){
@@ -150,12 +160,12 @@ public class SokobanController {
 		else return false;
 	}
 
-	private boolean gameCompleted(Game game) {
-		if(game == null) {
-			JOptionPane.showMessageDialog(this.view,"YOU WON!\n\nGAME SCORE: "+ model.getGameScore());
-			return true;
-		}
-		else return false;
+	private void showYouWonMessage() {
+		JOptionPane.showMessageDialog(this.view,"YOU WON!\n\nGAME SCORE: "+ model.getGameScore());
+	}
+
+	private void showInvalidLevelMessage() {
+		JOptionPane.showMessageDialog(this.view, "The map is not valid. Loading next level.", "Sokoban", 0);
 	}
 
 

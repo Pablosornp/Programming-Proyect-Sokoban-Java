@@ -4,10 +4,11 @@ import es.upm.pproject.sokoban.controller.SokobanAction;
 
 public interface GameModel {
 
-	public Game startNewGame();
+	public void startNewGame();
 	public Game performMovement(SokobanAction movement);
 	public Game undoMovement();
 	public Game restartLevel();
+	public boolean hasNextLevel();
 	public Game loadNextLevel();
 	public boolean saveGame();
 	public Game loadGame();

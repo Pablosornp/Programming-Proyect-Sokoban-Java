@@ -23,7 +23,7 @@ public class ImagePanel extends JPanel{
 		try {
 			switch(element) {
 			case WALL:
-				path = path + "blackWall.png";
+				path = path + "wall.png";
 				break;
 			case PLAYER:
 				path = path + "player.png";
@@ -35,10 +35,10 @@ public class ImagePanel extends JPanel{
 				path = path + "boxInGoal.png";
 				break;
 			case GOAL:
-				path = path + "goal.png";
+				path = path + "goal2.png";
 				break;
 			case GAP:
-				path = path + "concreteGap.png";
+				path = path + "gap.png";
 				break;
 			default:
 				throw new IllegalArgumentException();
