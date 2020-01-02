@@ -38,6 +38,7 @@ public class GameView extends JFrame implements KeyListener {
 	private boolean keyboardEnabled;
 
 	private static final int SIZE = 32;
+	private static final int NUMBER_OF_THEMES = 5;
 	private String imagesPath;
 
 	/**
@@ -46,7 +47,7 @@ public class GameView extends JFrame implements KeyListener {
 	public GameView(SokobanController controller) {
 		this.setTitle("Sokoban");
 		Path currentDir = Paths.get("./images/");
-		this.imagesPath = currentDir.toAbsolutePath().toString()+"\\";
+		this.imagesPath = currentDir.toAbsolutePath().toString();
 		setFrameIcon();	
 		this.controller=controller;
 		setResizable(false);
@@ -57,7 +58,7 @@ public class GameView extends JFrame implements KeyListener {
 
 	private void setFrameIcon() {
 		try {
-			BufferedImage image = ImageIO.read(new File(imagesPath+"player.png"));
+			BufferedImage image = ImageIO.read(new File(imagesPath+"\\icon.png"));
 			this.setIconImage(image);
 		} catch (IOException e) {
 			System.out.println("Icon not found");
@@ -108,7 +109,7 @@ public class GameView extends JFrame implements KeyListener {
 		this.pack();
 	}
 
-	public void drawWarehousePanel(SokobanElements[][] elements) {
+	public void drawWarehousePanel(SokobanElements[][] elements, int levelNumber) {
 		if(gamePanel!=null)
 			this.remove(gamePanel);	
 		
@@ -122,12 +123,34 @@ public class GameView extends JFrame implements KeyListener {
 		ImagePanel panel;
 		for(int i=0; i<m; i++) {
 			for(int j=0; j<n; j++) {
-				panel = new ImagePanel(elements[i][j], this.imagesPath);
+				panel = new ImagePanel(elements[i][j], intToThemePath(levelNumber));
 				this.gamePanel.add(panel);
 			}
 		}
 		this.getContentPane().add(gamePanel, BorderLayout.CENTER);
 		this.pack();
+	}
+	
+	private String intToThemePath(int levelNumber) {
+		String path ;
+		switch(levelNumber % GameView.NUMBER_OF_THEMES) {
+		case 0 :
+			path = this.imagesPath+"\\volcano";
+			break;
+		case 2 :
+			path = this.imagesPath+"\\desert";
+			break;
+		case 3 :
+			path = this.imagesPath+"\\garden";
+			break;
+		case 4 :
+			path = this.imagesPath+"\\ocean";
+			break;
+		default :
+			path = this.imagesPath+"\\factory";
+			break;
+		}
+		return path;
 	}
 
 	public void panelsVisible(boolean visible) {

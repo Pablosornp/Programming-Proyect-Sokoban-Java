@@ -41,7 +41,6 @@ public class Game {
 		this.boxesAtGoal = 0;
 	}
 	
-	
 	public int getLevelNumber() {
 		return levelNumber;
 	}
@@ -224,35 +223,6 @@ public class Game {
 		}
 	}
 
-//	public void showWarehouse(){
-//		Cell cell;
-//		for(int i=0;i<warehouse.length;i++) {
-//			for(int j=0;j<warehouse[0].length;j++) {
-//				cell = warehouse[i][j];
-//				if(cell.isGap()) {
-//					if(cell.containsNothing()) 
-//						System.out.print(" ");
-//					if(cell.containsBox())
-//						System.out.print("#");
-//					if(cell.containsPlayer())
-//						System.out.print("W");						
-//				}
-//				if(cell.isGoal()) {
-//					if(cell.containsNothing()) 
-//						System.out.print("*");
-//					if(cell.containsBox())
-//						System.out.print("#");
-//					if(cell.containsPlayer())
-//						System.out.print("W");						
-//				}
-//				if(cell.isWall())
-//					System.out.print("+");	
-//			}
-//			System.out.println();
-//		}
-//		System.out.println();
-//	}
-	
 	private Cell[][] createDefaultBoard() {
 		Cell [][] board = new Cell [8][8];
 		board [0][0] = new Cell(SokobanElements.WALL, SokobanElements.NONE);

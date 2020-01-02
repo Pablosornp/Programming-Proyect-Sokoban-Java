@@ -128,38 +128,7 @@ public class SokobanController {
 		String levelName = game.getLevelName();
 		int levelNumber = game.getLevelNumber();
 		view.setLevelName("Level "+levelNumber+": "+levelName);
-		view.drawWarehousePanel(this.warehouseCellToWarehouseElements(board));
-	}
-
-	private String warehouseToString(Cell[][] warehouse){
-		StringBuilder sb = new StringBuilder("\n");
-		Cell cell;
-
-		for(int i=0;i<warehouse.length;i++) {
-			for(int j=0;j<warehouse[0].length;j++) {
-				cell = warehouse[i][j];
-				if(cell.isGap()) {
-					if(cell.containsNothing()) 
-						sb.append(" ");
-					if(cell.containsBox())
-						sb.append("#");
-					if(cell.containsPlayer())
-						sb.append("W");						
-				}
-				if(cell.isGoal()) {
-					if(cell.containsNothing()) 
-						sb.append("*");
-					if(cell.containsBox())
-						sb.append("#");
-					if(cell.containsPlayer())
-						sb.append("W");						
-				}
-				if(cell.isWall())
-					sb.append("+");	
-			}
-			sb.append("\n");
-		}
-		return sb.toString();
+		view.drawWarehousePanel(this.warehouseCellToWarehouseElements(board), game.getLevelNumber());
 	}
 
 	private boolean levelCompleted(Game game) {
@@ -194,6 +163,4 @@ public class SokobanController {
 	private String showSaveNameInputMessage() {
 		return JOptionPane.showInputDialog(this.view, "Introduce a name for your saved game.");
 	}
-
-
 }
