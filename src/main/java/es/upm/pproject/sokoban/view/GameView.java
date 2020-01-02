@@ -31,6 +31,7 @@ public class GameView extends JFrame implements KeyListener {
 
 	private JPanel gamePanel;
 	private JPanel menuPanel;
+	private JPanel infoPanel;
 	private JTextField textFieldGameScore;
 	private JTextField textFieldLevelScore;
 	private JLabel textFieldLevelName;
@@ -68,10 +69,6 @@ public class GameView extends JFrame implements KeyListener {
 		this.requestFocus();
 	}
 
-	public boolean isKeyboardEnabled() {
-		return keyboardEnabled;
-	}
-
 	public void setKeyboardEnabled(boolean keyboardEnabled) {
 		this.keyboardEnabled = keyboardEnabled;
 	}
@@ -105,7 +102,7 @@ public class GameView extends JFrame implements KeyListener {
 		this.textFieldLevelScore.setText("");
 		gamePanel.add(welcomeLabel);
 		gamePanel.add(btnPressStart);
-		menuPanel.setVisible(false);
+		panelsVisible(false);
 		
 		this.setKeyboardEnabled(false);
 		this.pack();
@@ -133,8 +130,9 @@ public class GameView extends JFrame implements KeyListener {
 		this.pack();
 	}
 
-	public void showMenuPanel() {
-		this.menuPanel.setVisible(true);
+	public void panelsVisible(boolean visible) {
+		this.menuPanel.setVisible(visible);
+		this.infoPanel.setVisible(visible);
 		this.pack();
 	}
 
@@ -164,7 +162,7 @@ public class GameView extends JFrame implements KeyListener {
 	private void initializeInfoPanel() {
 
 		//InfoPanel
-		JPanel infoPanel = new JPanel();
+		this.infoPanel = new JPanel();
 		infoPanel.setLayout(new GridLayout(0, 1, 0, 0));
 		this.getContentPane().add(infoPanel, BorderLayout.NORTH);
 

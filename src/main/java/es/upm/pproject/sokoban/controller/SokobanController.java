@@ -10,6 +10,8 @@ public class SokobanController {
 	private GameView view; 
 	private SokobanModel model;
 
+	private static final String SOKOBAN = "Sokoban";
+
 	public SokobanController(GameView view, SokobanModel model) {
 		this.view = view;
 		this.model = model;
@@ -21,12 +23,12 @@ public class SokobanController {
 
 	public void onStart() {
 		model.startNewGame();
-		loadLevel();
-		view.showMenuPanel();
+		view.panelsVisible(true);
 		view.setKeyboardEnabled(true);
+		if(!loadLevel()) 
+			gameCompleted();	
 		view.focusOnKeyboard();
 	}
-
 
 	public void onRestart() {
 		Game restartedLevel = model.restartLevel();
@@ -37,8 +39,8 @@ public class SokobanController {
 	public void onMove(SokobanAction movement) {
 		Game currentGame = model.performMovement(movement);	
 		updateLevelInfo(currentGame);
-		if(levelCompleted(currentGame)) {
-			loadLevel();
+		if(levelCompleted(currentGame) && !loadLevel()) {
+				gameCompleted();
 		}
 		view.focusOnKeyboard();
 	}
@@ -52,7 +54,12 @@ public class SokobanController {
 	}
 
 	public void onSave() {
-		// TODO 
+		String saveName = showSaveNameInputMessage();
+		boolean succesfulSave = model.saveGame(saveName);
+		if(succesfulSave) 
+			showSuccessfulSaveMessage();
+		else
+			showFailedSaveMessage();
 		view.focusOnKeyboard();
 	}
 
@@ -63,27 +70,30 @@ public class SokobanController {
 
 	public void onExit() {
 		int input = JOptionPane.showConfirmDialog(null, "Are you sure you want to leave?\n"
-				+ "You may lose your progress.", "Sokoban", JOptionPane.YES_NO_OPTION);
+				+ "You may lose your progress.", SOKOBAN, JOptionPane.YES_NO_OPTION);
 		// 0=yes, 1=no, 2=cancel
 		if(input==0)
 			System.exit(0);
 	}
-	
-	private void loadLevel() {
+
+	private boolean loadLevel() {
+		boolean levelLoaded;
 		boolean hasNext;
 		Game game=null;
 		while((hasNext = model.hasNextLevel()) && (game = model.loadNextLevel()) == null) {
 			showInvalidLevelMessage();
 		}
-		//The level is valid -> The level is loaded
-		if(!hasNext){
-			showYouWonMessage();
-			view.drawWelcomeScreen();
-		}
+
 		//The game is completed  -> Show victory message and load Welcome screen
-		else if(game!=null) { 
-			updateLevelInfo(game);
+		if(!hasNext){
+			levelLoaded=false;
 		}
+		//The level is valid -> The level is loaded
+		else { 
+			updateLevelInfo(game);
+			levelLoaded=true;
+		}
+		return levelLoaded;
 	}
 
 	private SokobanElements[][] warehouseCellToWarehouseElements(Cell[][] warehouse){
@@ -154,10 +164,15 @@ public class SokobanController {
 
 	private boolean levelCompleted(Game game) {
 		if(game.getBoxesAtGoal()==game.getHowManyBoxes()) {
-			JOptionPane.showMessageDialog(this.view,"LEVEL "+game.getLevelNumber()+" COMPLETED!\n\nGame Score: "+game.getGameScore(),"Sokoban",1);
+			JOptionPane.showMessageDialog(this.view,"LEVEL "+game.getLevelNumber()+" COMPLETED!\n\nGame Score: "+game.getGameScore(),SOKOBAN,1);
 			return true;
 		}
 		else return false;
+	}
+
+	private void gameCompleted() {
+		showYouWonMessage();
+		view.drawWelcomeScreen();
 	}
 
 	private void showYouWonMessage() {
@@ -165,7 +180,19 @@ public class SokobanController {
 	}
 
 	private void showInvalidLevelMessage() {
-		JOptionPane.showMessageDialog(this.view, "The map is not valid. Loading next level.", "Sokoban", 0);
+		JOptionPane.showMessageDialog(this.view, "The map is not valid. Loading next level.", SOKOBAN, 0);
+	}
+	
+	private void showSuccessfulSaveMessage() {
+		JOptionPane.showMessageDialog(this.view, "Game saved successfully.", SOKOBAN, 1);
+	}
+	
+	private void showFailedSaveMessage() {
+		JOptionPane.showMessageDialog(this.view, "There was a problem trying to save the game.", SOKOBAN, 0);
+	}
+	
+	private String showSaveNameInputMessage() {
+		return JOptionPane.showInputDialog(this.view, "Introduce a name for your saved game.");
 	}
 
 

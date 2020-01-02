@@ -4,7 +4,7 @@ import es.upm.pproject.sokoban.controller.SokobanElements;
 import es.upm.pproject.sokoban.controller.SokobanAction;
 import es.upm.pproject.sokoban.controller.SokobanMovement;
 
-public class Game {
+public class Game2 {
 	private int levelNumber;
 	private String levelName;
 	private Integer gameScore;
@@ -14,7 +14,7 @@ public class Game {
 	private int howManyBoxes;
 	private int boxesAtGoal;
 
-	public Game(String levelName) {
+	public Game2(String levelName) {
 		this.levelName = levelName;
 		this.levelScore = 0;
 		this.gameScore = 0;
@@ -23,7 +23,7 @@ public class Game {
 		updatePlayerPositionAndNumberOfBoxes();		
 	}
 	
-	public Game(int levelNumber, String levelName, Cell[][] warehouse) {
+	public Game2(int levelNumber, String levelName, Cell[][] warehouse) {
 		this.levelNumber = levelNumber;
 		this.levelName = levelName;
 		this.levelScore = 0;

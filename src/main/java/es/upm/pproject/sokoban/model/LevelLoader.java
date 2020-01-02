@@ -1,9 +1,7 @@
 package es.upm.pproject.sokoban.model;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.IOException;
 import java.io.LineNumberReader;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -17,6 +15,8 @@ public class LevelLoader {
 	private int boxCounter;
 	private int goalCounter;
 	private int playerCounter;
+	
+	private static final String LEVEL = "level_";
 
 	public LevelLoader() {
 		initializeCounters();
@@ -57,7 +57,7 @@ public class LevelLoader {
 
 	public Game convertMap (int levelNumber)  {
 		try {
-			String levelPath = levelsFolderPath + "level_" + levelNumber + ".txt"; 
+			String levelPath = levelsFolderPath + LEVEL + levelNumber + ".txt"; 
 			LineNumberReader lnr = new LineNumberReader(new FileReader(levelPath));
 			String levelName = null; 
 			String line;
@@ -92,7 +92,7 @@ public class LevelLoader {
 	}
 
 	public boolean levelExists(int levelNumber) {
-		String levelPath = levelsFolderPath + "level_" + levelNumber + ".txt"; 
+		String levelPath = levelsFolderPath + LEVEL + levelNumber + ".txt"; 
 		File file = new File(levelPath);
 		boolean exists = file.exists();
 		boolean isFile = file.isFile();
@@ -102,11 +102,11 @@ public class LevelLoader {
 	public boolean validMap(int levelNumber) {
 		initializeCounters();
 		try {
-			String levelPath = levelsFolderPath + "level_" + levelNumber + ".txt"; 
+			String levelPath = levelsFolderPath + LEVEL + levelNumber + ".txt"; 
 			LineNumberReader lnr = new LineNumberReader(new FileReader(levelPath));
 			String line;
 			while ((line = lnr.readLine()) != null) {
-				if(lnr.getLineNumber() >2){
+				if(lnr.getLineNumber()>2){
 					for(int j=0;j<line.length();j++){
 						checkElem(line.charAt(j));
 					}
@@ -116,7 +116,6 @@ public class LevelLoader {
 		}
 		catch (Exception e) {
 			e.printStackTrace();
-			//System.exit(0);
 		}
 		return this.boxCounter>0 && this.boxCounter==this.goalCounter && this.playerCounter==1;
 	}

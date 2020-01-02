@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Test;
 
 import es.upm.pproject.sokoban.controller.SokobanAction;
 import es.upm.pproject.sokoban.model.Game;
-import es.upm.pproject.sokoban.model.SokobanModel;
 
 @DisplayName("Test message")
 public class TestGame {	

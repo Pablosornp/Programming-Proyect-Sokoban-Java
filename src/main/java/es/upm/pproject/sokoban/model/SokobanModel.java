@@ -1,9 +1,6 @@
 package es.upm.pproject.sokoban.model;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.Stack;
-import es.upm.pproject.sokoban.controller.SokobanElements;
 import es.upm.pproject.sokoban.controller.SokobanAction;
 import es.upm.pproject.sokoban.controller.SokobanMovement;
 
@@ -14,12 +11,14 @@ public class SokobanModel implements GameModel {
 	private Stack<SokobanMovement> lastMovements;
 
 	private LevelLoader ld;
+	private GameLoaderSaver gls;
 
 
 	public SokobanModel() {
 		this.currentLevelNumber = 0;
 		this.lastMovements = new Stack<>();
 		this.ld = new LevelLoader(); 
+		this.gls = new GameLoaderSaver();
 	}
 
 	public Game getCurrent() {
@@ -73,10 +72,6 @@ public class SokobanModel implements GameModel {
 		return game;
 	}
 	
-	private boolean hasValidNextLevel(){
-		int nextLevelNumber = this.currentLevelNumber+1;
-		return ld.validMap(nextLevelNumber);
-	}
 
 	@Override
 	public Game restartLevel() {
@@ -91,9 +86,8 @@ public class SokobanModel implements GameModel {
 	}
 
 	@Override
-	public boolean saveGame() {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean saveGame(String name) {
+		return gls.saveGame(this.current, this.lastMovements, name);
 	}
 	@Override
 	public Game loadGame() {

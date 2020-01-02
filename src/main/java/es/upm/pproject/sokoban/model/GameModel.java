@@ -10,7 +10,7 @@ public interface GameModel {
 	public Game restartLevel();
 	public boolean hasNextLevel();
 	public Game loadNextLevel();
-	public boolean saveGame();
+	public boolean saveGame(String name);
 	public Game loadGame();
 	
 }
