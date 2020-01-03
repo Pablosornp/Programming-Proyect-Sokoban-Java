@@ -61,7 +61,7 @@ public class LevelLoader {
 			LineNumberReader lnr = new LineNumberReader(new FileReader(levelPath));
 			String levelName = null; 
 			String line;
-			Cell[][] warehouse = new Cell [0][0];
+			Cell[][] board = new Cell [0][0];
 			Integer m;
 			Integer n;
 			int row = 0;
@@ -73,16 +73,17 @@ public class LevelLoader {
 					String[] mapDimension = line.split("\\s+");
 					m = new Integer(mapDimension[0]);
 					n = new Integer(mapDimension[1]);
-					warehouse = new Cell[m][n];
+					board = new Cell[m][n];
 				}
 				else {
 					for(int j=0;j<line.length();j++){
-						warehouse[row][j] = charToElem(line.charAt(j));
+						board[row][j] = charToElem(line.charAt(j));
 					}
 					row++;
 				}
 			}
 			lnr.close();
+			Warehouse warehouse = new Warehouse(board);
 			return new Game(levelNumber, levelName, warehouse);
 		}
 		catch(Exception e) {

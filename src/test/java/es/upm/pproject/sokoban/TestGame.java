@@ -16,7 +16,7 @@ public class TestGame {
 	void wholeLevelTest() {
 		
 		Game game = new Game("Test");
-		game.setHowManyBoxes(1);
+		game.getWarehouse().setHowManyBoxes(1);
 
 		game.move(SokobanAction.UP);
 		game.move(SokobanAction.RIGHT);
@@ -52,6 +52,6 @@ public class TestGame {
 		game.move(SokobanAction.DOWN);
 		game.move(SokobanAction.RIGHT);
 		game.move(SokobanAction.UP);
-		assertTrue(game.getBoxesAtGoal()==1);
+		assertTrue(game.getWarehouse().getBoxesAtGoal()==1);
 	}  	
 }

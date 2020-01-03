@@ -43,7 +43,7 @@ public class GameLoaderSaver {
 			sb.setLength(0);//Empty the StringBuilder
 
 			//Line 4: M N
-			Cell[][] warehouse = game.getWarehouse();
+			Cell[][] warehouse = game.getWarehouse().getBoard();
 			int m = warehouse.length;
 			int n = warehouse[0].length;
 			bw.write(m + " " + n + newLine);

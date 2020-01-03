@@ -124,7 +124,7 @@ public class SokobanController {
 		String gameScore = game.getGameScore().toString();
 		view.setLevelScoreValue(levelScore);
 		view.setGameScoreValue(gameScore);
-		Cell[][] board = game.getWarehouse();
+		Cell[][] board = game.getWarehouse().getBoard();
 		String levelName = game.getLevelName();
 		int levelNumber = game.getLevelNumber();
 		view.setLevelName("Level "+levelNumber+": "+levelName);
@@ -132,7 +132,7 @@ public class SokobanController {
 	}
 
 	private boolean levelCompleted(Game game) {
-		if(game.getBoxesAtGoal()==game.getHowManyBoxes()) {
+		if(game.isLevelCompleted()) {
 			JOptionPane.showMessageDialog(this.view,"LEVEL "+game.getLevelNumber()+" COMPLETED!\n\nGame Score: "+game.getGameScore(),SOKOBAN,1);
 			return true;
 		}
