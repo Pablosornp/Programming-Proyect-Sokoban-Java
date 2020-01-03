@@ -11,7 +11,6 @@ public class Cell{
 		this.type= type;
 		this.content= content;
 	}
-
 	
 	public boolean isGoal() {
 		return this.type.equals(SokobanElements.GOAL);

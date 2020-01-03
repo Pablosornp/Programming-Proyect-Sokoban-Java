@@ -2,6 +2,10 @@ package es.upm.pproject.sokoban.view;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 
@@ -27,15 +31,20 @@ import java.awt.Color;
 
 public class GameView extends JFrame implements KeyListener {
 
+	private static final long serialVersionUID = 1L;
+
 	private SokobanController controller;
 
 	private JPanel gamePanel;
 	private JPanel menuPanel;
 	private JPanel infoPanel;
+	private JMenuBar menuBar;
 	private JTextField textFieldGameScore;
 	private JTextField textFieldLevelScore;
 	private JLabel textFieldLevelName;
 	private boolean keyboardEnabled;
+	
+	private MessageManager mm;
 
 	private static final int SIZE = 32;
 	private static final int NUMBER_OF_THEMES = 5;
@@ -46,128 +55,28 @@ public class GameView extends JFrame implements KeyListener {
 	 */
 	public GameView(SokobanController controller) {
 		this.setTitle("Sokoban");
+		
 		Path currentDir = Paths.get("./images/");
 		this.imagesPath = currentDir.toAbsolutePath().toString();
-		setFrameIcon();	
 		this.controller=controller;
-		setResizable(false);
-		initialize();
+		this.mm = new MessageManager(this);
+		
+		initializeComponents();
 		this.setVisible(true);
+		setResizable(false);
+		setFrameIcon();
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
-
-	private void setFrameIcon() {
-		try {
-			BufferedImage image = ImageIO.read(new File(imagesPath+"\\icon.png"));
-			this.setIconImage(image);
-		} catch (IOException e) {
-			System.out.println("Icon not found");
-		}
-	}
-
-	public void focusOnKeyboard() {
-		this.toFront();
-		this.requestFocus();
-	}
-
-	public void setKeyboardEnabled(boolean keyboardEnabled) {
-		this.keyboardEnabled = keyboardEnabled;
-	}
-
-	public void setLevelScoreValue(String levelScore) {
-		textFieldLevelScore.setText(levelScore);
-	}
-
-	public void setGameScoreValue(String gameScore) {
-		textFieldGameScore.setText(gameScore);
-	}
-
-	public void setLevelName(String levelName) {
-		textFieldLevelName.setText(levelName);
-	}
-
-	public void drawWelcomeScreen(){
-		if(gamePanel!=null)
-			this.remove(gamePanel);
-		
-		initializeGamePanel();
-		JLabel welcomeLabel = new JLabel("WELCOME TO SOKOBAN");
-		Dimension dim = new Dimension(SIZE*8, SIZE*4);
-		this.gamePanel.setPreferredSize(dim);
-		welcomeLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		JButton btnPressStart = new JButton("START NEW GAME");
-		btnPressStart.addActionListener(event -> controller.onStart());
-		btnPressStart.setHorizontalAlignment(SwingConstants.CENTER);
-		this.textFieldGameScore.setText("");
-		this.textFieldLevelName.setText("");
-		this.textFieldLevelScore.setText("");
-		gamePanel.add(welcomeLabel);
-		gamePanel.add(btnPressStart);
-		panelsVisible(false);
-		
-		this.setKeyboardEnabled(false);
-		this.pack();
-	}
-
-	public void drawWarehousePanel(SokobanElements[][] elements, SokobanAction lastAction, int levelNumber) {
-		if(gamePanel!=null)
-			this.remove(gamePanel);	
-		
-		this.gamePanel = new JPanel();
-		int m = elements.length;
-		int n = elements[0].length;
-		Dimension dim = new Dimension(SIZE*n, SIZE*m);
-		this.gamePanel.setPreferredSize(dim);
-		this.gamePanel.setLayout(new GridLayout(m,n));
-		
-		ImagePanel panel;
-		for(int i=0; i<m; i++) {
-			for(int j=0; j<n; j++) {
-				panel = new ImagePanel(elements[i][j], lastAction, intToThemePath(levelNumber));
-				this.gamePanel.add(panel);
-			}
-		}
-		this.getContentPane().add(gamePanel, BorderLayout.CENTER);
-		this.pack();
-	}
 	
-	private String intToThemePath(int levelNumber) {
-		String path ;
-		switch(levelNumber % GameView.NUMBER_OF_THEMES) {
-		case 0 :
-			path = this.imagesPath+"\\volcano";
-			break;
-		case 2 :
-			path = this.imagesPath+"\\desert";
-			break;
-		case 3 :
-			path = this.imagesPath+"\\garden";
-			break;
-		case 4 :
-			path = this.imagesPath+"\\ocean";
-			break;
-		default :
-			path = this.imagesPath+"\\factory";
-			break;
-		}
-		return path;
-	}
-
-	public void panelsVisible(boolean visible) {
-		this.menuPanel.setVisible(visible);
-		this.infoPanel.setVisible(visible);
-		this.pack();
-	}
-
 	/**
 	 * Initialize the frame components.
 	 */
-	private void initialize() {
-
+	private void initializeComponents() {
 		initializeMenuPanel();
-		initializeInfoPanel();
-		drawWelcomeScreen();	
+		initializeInfoPanel();	
 		initializeButtonPanel();
+		initializeMenuBar();
+		drawWelcomeScreen();
 		addKeyListener(this);
 		setFocusable(true);
 		setFocusTraversalKeysEnabled(false);
@@ -289,7 +198,135 @@ public class GameView extends JFrame implements KeyListener {
 
 		buttonsPanel.setVisible(false);
 	}
+	
+	private void initializeMenuBar() {
+		this.menuBar = new JMenuBar();
+		this.setJMenuBar(menuBar);		
 
+		JMenu mnNewMenu = new JMenu("File");
+		menuBar.add(mnNewMenu);
+		
+		JMenuItem newGameMenuItem = new JMenuItem("New Game");
+		mnNewMenu.add(newGameMenuItem);
+		
+		JMenuItem loadMenuItem = new JMenuItem("Load");
+		mnNewMenu.add(loadMenuItem);
+		
+		JMenuItem saveNewMenuItem = new JMenuItem("Save");
+		mnNewMenu.add(saveNewMenuItem);
+		
+		JMenuItem exitMenuItem = new JMenuItem("Exit");
+		mnNewMenu.add(exitMenuItem);
+	}
+	
+	private void setFrameIcon() {
+		try {
+			BufferedImage image = ImageIO.read(new File(imagesPath+"\\icon.png"));
+			this.setIconImage(image);
+		} catch (IOException e) {
+			System.out.println("Icon not found");
+		}
+	}
+
+	public void focusOnKeyboard() {
+		this.toFront();
+		this.requestFocus();
+	}
+
+	public void setKeyboardEnabled(boolean keyboardEnabled) {
+		this.keyboardEnabled = keyboardEnabled;
+	}
+
+	public void setLevelScoreValue(String levelScore) {
+		textFieldLevelScore.setText(levelScore);
+	}
+
+	public void setGameScoreValue(String gameScore) {
+		textFieldGameScore.setText(gameScore);
+	}
+
+	public void setLevelName(String levelName) {
+		textFieldLevelName.setText(levelName);
+	}
+	
+	public MessageManager getMm() {
+		return mm;
+	}
+	
+	public void panelsVisible(boolean visible) {
+		this.menuPanel.setVisible(visible);
+		this.infoPanel.setVisible(visible);
+		this.menuBar.setVisible(visible);
+		this.pack();
+	}
+
+	public void drawWelcomeScreen(){
+		if(gamePanel!=null)
+			this.remove(gamePanel);
+		
+		initializeGamePanel();
+		JLabel welcomeLabel = new JLabel("WELCOME TO SOKOBAN");
+		Dimension dim = new Dimension(SIZE*8, SIZE*4);
+		this.gamePanel.setPreferredSize(dim);
+		welcomeLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		JButton btnPressStart = new JButton("START NEW GAME");
+		btnPressStart.addActionListener(event -> controller.onStart());
+		btnPressStart.setHorizontalAlignment(SwingConstants.CENTER);
+		this.textFieldGameScore.setText("");
+		this.textFieldLevelName.setText("");
+		this.textFieldLevelScore.setText("");
+		gamePanel.add(welcomeLabel);
+		gamePanel.add(btnPressStart);
+		this.setKeyboardEnabled(false);
+		panelsVisible(false);
+	}
+
+	public void drawWarehousePanel(SokobanElements[][] elements, 
+			SokobanAction lastAction, int levelNumber, int step) {
+		if(gamePanel!=null)
+			this.remove(gamePanel);	
+		
+		this.gamePanel = new JPanel();
+		int m = elements.length;
+		int n = elements[0].length;
+		Dimension dim = new Dimension(SIZE*n, SIZE*m);
+		this.gamePanel.setPreferredSize(dim);
+		this.gamePanel.setLayout(new GridLayout(m,n));
+		
+		ImagePanel panel;
+		for(int i=0; i<m; i++) {
+			for(int j=0; j<n; j++) {
+				panel = new ImagePanel(intToThemePath(levelNumber),elements[i][j], lastAction, step);
+				this.gamePanel.add(panel);
+			}
+		}
+		this.getContentPane().add(gamePanel, BorderLayout.CENTER);
+		this.pack();
+	}
+	
+	private String intToThemePath(int levelNumber) {
+		String path ;
+		switch(levelNumber % GameView.NUMBER_OF_THEMES) {
+		case 0 :
+			path = this.imagesPath+"\\volcano";
+			break;
+		case 2 :
+			path = this.imagesPath+"\\desert";
+			break;
+		case 3 :
+			path = this.imagesPath+"\\garden";
+			break;
+		case 4 :
+			path = this.imagesPath+"\\ocean";
+			break;
+		default :
+			path = this.imagesPath+"\\factory";
+			break;
+		}
+		return path;
+	}
+
+	
 	@Override
 	public void keyPressed(KeyEvent arg0) {
 		if (keyboardEnabled) {

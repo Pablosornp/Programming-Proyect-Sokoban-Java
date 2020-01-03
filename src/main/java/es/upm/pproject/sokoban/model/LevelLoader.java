@@ -10,18 +10,16 @@ import es.upm.pproject.sokoban.controller.SokobanElements;
 
 public class LevelLoader {
 
-	private String levelsFolderPath;
+	private String levelsPath;
 
 	private int boxCounter;
 	private int goalCounter;
 	private int playerCounter;
 	
-	private static final String LEVEL = "level_";
-
 	public LevelLoader() {
 		initializeCounters();
 		Path path = Paths.get("./levels/");
-		this.levelsFolderPath = path.toAbsolutePath().toString()+"\\";
+		this.levelsPath = path.toAbsolutePath().toString()+"\\level_";
 	}
 
 	public void initializeCounters() {
@@ -57,7 +55,7 @@ public class LevelLoader {
 
 	public Game convertMap (int levelNumber)  {
 		try {
-			String levelPath = levelsFolderPath + LEVEL + levelNumber + ".txt"; 
+			String levelPath = levelsPath + levelNumber + ".txt"; 
 			LineNumberReader lnr = new LineNumberReader(new FileReader(levelPath));
 			String levelName = null; 
 			String line;
@@ -93,7 +91,7 @@ public class LevelLoader {
 	}
 
 	public boolean levelExists(int levelNumber) {
-		String levelPath = levelsFolderPath + LEVEL + levelNumber + ".txt"; 
+		String levelPath = levelsPath + levelNumber + ".txt"; 
 		File file = new File(levelPath);
 		boolean exists = file.exists();
 		boolean isFile = file.isFile();
@@ -103,13 +101,13 @@ public class LevelLoader {
 	public boolean validMap(int levelNumber) {
 		initializeCounters();
 		try {
-			String levelPath = levelsFolderPath + LEVEL + levelNumber + ".txt"; 
+			String levelPath = levelsPath + levelNumber + ".txt"; 
 			LineNumberReader lnr = new LineNumberReader(new FileReader(levelPath));
 			String line;
 			while ((line = lnr.readLine()) != null) {
 				if(lnr.getLineNumber()>2){
 					for(int j=0;j<line.length();j++){
-						checkElem(line.charAt(j));
+						countElem(line.charAt(j));
 					}
 				}
 			}
@@ -121,7 +119,7 @@ public class LevelLoader {
 		return this.boxCounter>0 && this.boxCounter==this.goalCounter && this.playerCounter==1;
 	}
 
-	private void checkElem(char character) {
+	private void countElem(char character) {
 		switch(character){
 		case '#':
 			this.incrementBoxCounter();

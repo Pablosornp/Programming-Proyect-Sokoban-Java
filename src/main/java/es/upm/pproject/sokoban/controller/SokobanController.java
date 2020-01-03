@@ -1,16 +1,15 @@
 package es.upm.pproject.sokoban.controller;
 
-import javax.swing.JOptionPane;
-
-import es.upm.pproject.sokoban.model.*;
+import es.upm.pproject.sokoban.model.SokobanModel;
+import es.upm.pproject.sokoban.model.Game;
+import es.upm.pproject.sokoban.model.Cell;
 import es.upm.pproject.sokoban.view.GameView;
+import es.upm.pproject.sokoban.view.MessageManager;
 
 public class SokobanController {
 
 	private GameView view; 
 	private SokobanModel model;
-
-	private static final String SOKOBAN = "Sokoban";
 
 	public SokobanController(GameView view, SokobanModel model) {
 		this.view = view;
@@ -26,7 +25,7 @@ public class SokobanController {
 		view.panelsVisible(true);
 		view.setKeyboardEnabled(true);
 		if(!loadLevel()) 
-			gameCompleted();	
+			gameCompleted(model.getCurrent().getGameScore());	
 		view.focusOnKeyboard();
 	}
 
@@ -40,7 +39,7 @@ public class SokobanController {
 		Game currentGame = model.performMovement(action);	
 		updateLevelInfo(currentGame);
 		if(levelCompleted(currentGame) && !loadLevel()) {
-				gameCompleted();
+			gameCompleted(currentGame.getGameScore());
 		}
 		view.focusOnKeyboard();
 	}
@@ -52,12 +51,17 @@ public class SokobanController {
 	}
 
 	public void onSave() {
-		String saveName = showSaveNameInputMessage();
-		boolean succesfulSave = model.saveGame(saveName);
-		if(succesfulSave) 
-			showSuccessfulSaveMessage();
-		else
-			showFailedSaveMessage();
+		MessageManager mm = view.getMm();
+		String saveName = mm.showSaveNameInputMessage();
+		if(saveName!=null) {
+			boolean succesfulSave = model.saveGame(saveName);
+			if(succesfulSave) {
+				mm.showSuccessfulSaveMessage();
+			}
+			else {
+				mm.showFailedSaveMessage();
+			}
+		}
 		view.focusOnKeyboard();
 	}
 
@@ -67,8 +71,7 @@ public class SokobanController {
 	}
 
 	public void onExit() {
-		int input = JOptionPane.showConfirmDialog(null, "Are you sure you want to leave?\n"
-				+ "You may lose your progress.", SOKOBAN, JOptionPane.YES_NO_OPTION);
+		int input = view.getMm().showExitMessage();
 		// 0=yes, 1=no, 2=cancel
 		if(input==0)
 			System.exit(0);
@@ -79,9 +82,8 @@ public class SokobanController {
 		boolean hasNext;
 		Game game=null;
 		while((hasNext = model.hasNextLevel()) && (game = model.loadNextLevel()) == null) {
-			showInvalidLevelMessage();
+			view.getMm().showInvalidLevelMessage();
 		}
-
 		//The game is completed  -> Show victory message and load Welcome screen
 		if(!hasNext){
 			levelLoaded=false;
@@ -126,39 +128,22 @@ public class SokobanController {
 		String levelName = game.getLevelName();
 		int levelNumber = game.getLevelNumber();
 		view.setLevelName("Level "+levelNumber+": "+levelName);
-		view.drawWarehousePanel(this.warehouseCellToWarehouseElements(board), game.getWarehouse().getLastAction(), game.getLevelNumber());
+		view.drawWarehousePanel(this.warehouseCellToWarehouseElements(board),
+				game.getWarehouse().getLastAction(), game.getLevelNumber(), game.getWarehouse().getStep());
 	}
 
 	private boolean levelCompleted(Game game) {
 		if(game.isLevelCompleted()) {
-			JOptionPane.showMessageDialog(this.view,"LEVEL "+game.getLevelNumber()+" COMPLETED!\n\nGame Score: "+game.getGameScore(),SOKOBAN,1);
+			view.getMm().showLevelCompletedMessage(game.getLevelNumber(), game.getGameScore());
 			return true;
 		}
 		else return false;
 	}
 
-	private void gameCompleted() {
-		showYouWonMessage();
+	private void gameCompleted(int gameScore) {
+		view.getMm().showYouWonMessage(gameScore);
 		view.drawWelcomeScreen();
 	}
 
-	private void showYouWonMessage() {
-		JOptionPane.showMessageDialog(this.view,"YOU WON!\n\nGAME SCORE: "+ model.getGameScore());
-	}
 
-	private void showInvalidLevelMessage() {
-		JOptionPane.showMessageDialog(this.view, "The map is not valid. Loading next level.", SOKOBAN, 0);
-	}
-	
-	private void showSuccessfulSaveMessage() {
-		JOptionPane.showMessageDialog(this.view, "Game saved successfully.", SOKOBAN, 1);
-	}
-	
-	private void showFailedSaveMessage() {
-		JOptionPane.showMessageDialog(this.view, "There was a problem trying to save the game.", SOKOBAN, 0);
-	}
-	
-	private String showSaveNameInputMessage() {
-		return JOptionPane.showInputDialog(this.view, "Introduce a name for your saved game.");
-	}
 }

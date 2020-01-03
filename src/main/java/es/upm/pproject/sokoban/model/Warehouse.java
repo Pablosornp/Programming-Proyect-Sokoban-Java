@@ -11,12 +11,14 @@ public class Warehouse {
 	private int howManyBoxes;
 	private int boxesAtGoal;
 	private SokobanAction lastAction;
+	private int step;
 	
 	public Warehouse() {
 		this.boxesAtGoal = 0;
 		this.board = createDefaultBoard();		
 		updatePlayerPositionAndNumberOfBoxes();
 		this.lastAction = SokobanAction.DOWN;
+		this.step=0;
 	}
 	
 	public Warehouse(Cell[][] warehouse) {
@@ -66,6 +68,14 @@ public class Warehouse {
 	
 	public SokobanAction getLastAction() {
 		return lastAction;
+	}
+	
+	public int getStep() {
+		return this.step;
+	}
+	
+	public void nextStep(){
+		this.step=(this.step + 1)%2;
 	}
 	
 	
@@ -143,6 +153,7 @@ public class Warehouse {
 			}
 		}
 		this.lastAction = action;
+		this.nextStep();
 		return new SokobanMovement(action,playerMoved,boxMoved);
 	}
 	
@@ -198,6 +209,7 @@ public class Warehouse {
 					boxesAtGoal++;
 			}
 		}
+		this.nextStep();
 		this.lastAction = movement.getAction();
 	}
 	

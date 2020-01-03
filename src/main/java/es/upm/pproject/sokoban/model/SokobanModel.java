@@ -11,14 +11,14 @@ public class SokobanModel implements GameModel {
 	private Stack<SokobanMovement> lastMovements;
 
 	private LevelLoader ld;
-	private GameLoaderSaver gls;
+	private SavesManager gls;
 
 
 	public SokobanModel() {
 		this.currentLevelNumber = 0;
 		this.lastMovements = new Stack<>();
 		this.ld = new LevelLoader(); 
-		this.gls = new GameLoaderSaver();
+		this.gls = new SavesManager();
 	}
 
 	public Game getCurrent() {
@@ -89,6 +89,7 @@ public class SokobanModel implements GameModel {
 	public boolean saveGame(String name) {
 		return gls.saveGame(this.current, this.lastMovements, name);
 	}
+	
 	@Override
 	public Game loadGame() {
 		// TODO Auto-generated method stub

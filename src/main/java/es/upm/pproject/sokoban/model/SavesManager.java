@@ -11,19 +11,24 @@ import java.util.Stack;
 import es.upm.pproject.sokoban.controller.SokobanAction;
 import es.upm.pproject.sokoban.controller.SokobanMovement;
 
-public class GameLoaderSaver {
+public class SavesManager {
 
 	private String savesFolderPath;
 
-	public GameLoaderSaver() {
+	public SavesManager() {
 		Path path = Paths.get("./saves/");
-		this.savesFolderPath = path.toAbsolutePath().toString()+"\\";
+		this.savesFolderPath = path.toAbsolutePath().toString();
 	}
 
 	public boolean saveGame(Game game, Stack<SokobanMovement> movements, String saveName) {
 		try{
+			File directory = new File(savesFolderPath);
+			if (!directory.exists()){
+				directory.mkdir();
+			}
+
 			Writer bw = null;
-			File file = new File(savesFolderPath+saveName+".txt");
+			File file = new File(savesFolderPath+"\\"+saveName+".txt");
 			bw = new BufferedWriter(new FileWriter(file));
 			String newLine = System.getProperty("line.separator");
 
@@ -35,8 +40,9 @@ public class GameLoaderSaver {
 			//Line 3: movements
 			SokobanMovement move;
 			StringBuilder sb = new StringBuilder("");
-			while (!movements.isEmpty()) {
-				move=movements.pop();
+			Object[] movementsArray = movements.toArray();
+			for(int i=0; i<movementsArray.length; i++) {
+				move=(SokobanMovement) movementsArray[i];
 				sb.append(movementToChar(move));
 			}
 			bw.write(sb.toString() + newLine);

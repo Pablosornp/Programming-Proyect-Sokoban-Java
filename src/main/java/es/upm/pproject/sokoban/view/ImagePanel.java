@@ -19,33 +19,34 @@ public class ImagePanel extends JPanel{
 	private BufferedImage image;
 	
 
-	public ImagePanel(SokobanElements element, SokobanAction action, String path) {
+	public ImagePanel(String folderPath, SokobanElements element, SokobanAction action, int step) {
 		try {
+			String imagePath;
 			switch(element) {
 			case WALL:
-				path = path + "\\wall.png";
+				imagePath = folderPath + "\\wall.png";
 				break;
 			case PLAYER:		
-				path = path + actionToImagenName(action);
+				imagePath = folderPath + actionToImagenName(action) + (step) + ".png";
 				break;
 			case BOX:
-				path = path + "\\box.png";
+				imagePath = folderPath + "\\box.png";
 				break;
 			case BOX_IN_GOAL:
-				path = path + "\\boxInGoal.png";
+				imagePath = folderPath + "\\boxInGoal.png";
 				break;
 			case GOAL:
-				path = path + "\\goal.png";
+				imagePath = folderPath + "\\goal.png";
 				break;
 			case GAP:
-				path = path + "\\gap.png";
+				imagePath = folderPath + "\\gap.png";
 				break;
 			default:
 				throw new IllegalArgumentException();
 			}		
-			image = ImageIO.read(new File(path));
+			image = ImageIO.read(new File(imagePath));
 		} catch (IOException ex) {
-			System.out.println("Illegal Image Argument");
+			System.out.println("Image for panel not found.");
 		}
 	}
 
@@ -59,16 +60,16 @@ public class ImagePanel extends JPanel{
 		String imageName=null;
 		switch(action) {	
 		case UP:
-			imageName = "\\player_U_0.png";
+			imageName = "\\player_U_";
 			break;
 		case DOWN:		
-			imageName = "\\player_D_0.png";
+			imageName = "\\player_D_";
 			break;
 		case LEFT:
-			imageName = "\\player_L_0.png";
+			imageName = "\\player_L_";
 			break;
 		case RIGHT:
-			imageName = "\\player_R_0.png";
+			imageName = "\\player_R_";
 			break;
 		default:
 			imageName=null;

@@ -14,7 +14,6 @@ public class Game {
 		this.levelName = levelName;
 		this.levelScore = 0;
 		this.gameScore = 0;
-		//default warehouse
 		this.warehouse = new Warehouse();
 	}
 
