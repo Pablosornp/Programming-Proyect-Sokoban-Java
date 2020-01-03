@@ -40,6 +40,7 @@ public class GameView extends JFrame implements KeyListener {
 	private static final int SIZE = 32;
 	private static final int NUMBER_OF_THEMES = 5;
 	private String imagesPath;
+	private SokobanAction lastAction;
 
 	/**
 	 * Create the application.
@@ -48,6 +49,7 @@ public class GameView extends JFrame implements KeyListener {
 		this.setTitle("Sokoban");
 		Path currentDir = Paths.get("./images/");
 		this.imagesPath = currentDir.toAbsolutePath().toString();
+		lastAction = SokobanAction.DOWN;
 		setFrameIcon();	
 		this.controller=controller;
 		setResizable(false);
@@ -123,7 +125,7 @@ public class GameView extends JFrame implements KeyListener {
 		ImagePanel panel;
 		for(int i=0; i<m; i++) {
 			for(int j=0; j<n; j++) {
-				panel = new ImagePanel(elements[i][j], intToThemePath(levelNumber));
+				panel = new ImagePanel(elements[i][j], this.lastAction, intToThemePath(levelNumber));
 				this.gamePanel.add(panel);
 			}
 		}
@@ -295,15 +297,19 @@ public class GameView extends JFrame implements KeyListener {
 			int key = arg0.getKeyCode();
 
 			if (key == KeyEvent.VK_UP) {
+				this.lastAction = SokobanAction.UP;
 				this.controller.onMove(SokobanAction.UP);
 			}
 			if (key == KeyEvent.VK_DOWN) {
+				this.lastAction = SokobanAction.DOWN;
 				this.controller.onMove(SokobanAction.DOWN);
 			}
 			if (key == KeyEvent.VK_RIGHT) {
+				this.lastAction = SokobanAction.RIGHT;
 				this.controller.onMove(SokobanAction.RIGHT);
 			}
 			if (key == KeyEvent.VK_LEFT) {
+				this.lastAction = SokobanAction.LEFT;
 				this.controller.onMove(SokobanAction.LEFT);
 			}
 			if (key == KeyEvent.VK_R) {

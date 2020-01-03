@@ -8,6 +8,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
+import es.upm.pproject.sokoban.controller.SokobanAction;
 import es.upm.pproject.sokoban.controller.SokobanElements;
 
 public class ImagePanel extends JPanel{
@@ -16,14 +17,14 @@ public class ImagePanel extends JPanel{
 	private BufferedImage image;
 	
 
-	public ImagePanel(SokobanElements element, String path) {
+	public ImagePanel(SokobanElements element, SokobanAction action, String path) {
 		try {
 			switch(element) {
 			case WALL:
 				path = path + "\\wall.png";
 				break;
-			case PLAYER:
-				path = path + "\\player.png";
+			case PLAYER:		
+				path = path + actionToImagenName(action);
 				break;
 			case BOX:
 				path = path + "\\box.png";
@@ -50,6 +51,27 @@ public class ImagePanel extends JPanel{
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g.drawImage(image, 0, 0, 32, 32, this);      
+	}
+	
+	private String actionToImagenName(SokobanAction action) {
+		String imageName=null;
+		switch(action) {	
+		case UP:
+			imageName = "\\player_U.png";
+			break;
+		case DOWN:		
+			imageName = "\\player_D.png";
+			break;
+		case LEFT:
+			imageName = "\\player_L.png";
+			break;
+		case RIGHT:
+			imageName = "\\player_R.png";
+			break;
+		default:
+			imageName=null;
+		}	
+		return imageName;
 	}
 
 }
