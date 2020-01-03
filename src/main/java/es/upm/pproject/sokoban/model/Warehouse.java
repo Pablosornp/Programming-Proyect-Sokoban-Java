@@ -10,17 +10,20 @@ public class Warehouse {
 	private Position playerPos;
 	private int howManyBoxes;
 	private int boxesAtGoal;
+	private SokobanAction lastAction;
 	
 	public Warehouse() {
 		this.boxesAtGoal = 0;
 		this.board = createDefaultBoard();		
-		updatePlayerPositionAndNumberOfBoxes();	
+		updatePlayerPositionAndNumberOfBoxes();
+		this.lastAction = SokobanAction.DOWN;
 	}
 	
 	public Warehouse(Cell[][] warehouse) {
 		this.board = warehouse;
 		this.boxesAtGoal = 0;
 		updatePlayerPositionAndNumberOfBoxes();	
+		this.lastAction = SokobanAction.DOWN;
 	}
 	
 	public void restartWarehouse(Cell[][] warehouse) {
@@ -59,6 +62,10 @@ public class Warehouse {
 
 	public void setBoxesAtGoal(int boxesAtGoal) {
 		this.boxesAtGoal = boxesAtGoal;
+	}
+	
+	public SokobanAction getLastAction() {
+		return lastAction;
 	}
 	
 	
@@ -135,6 +142,7 @@ public class Warehouse {
 				playerMoved=true;				
 			}
 		}
+		this.lastAction = action;
 		return new SokobanMovement(action,playerMoved,boxMoved);
 	}
 	
@@ -190,6 +198,7 @@ public class Warehouse {
 					boxesAtGoal++;
 			}
 		}
+		this.lastAction = movement.getAction();
 	}
 	
 	private Cell[][] createDefaultBoard() {

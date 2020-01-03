@@ -87,6 +87,4 @@ public class Game {
 		Warehouse warehouse = this.warehouse;
 		return warehouse.getBoxesAtGoal()==warehouse.getHowManyBoxes();
 	}
-
-
 }

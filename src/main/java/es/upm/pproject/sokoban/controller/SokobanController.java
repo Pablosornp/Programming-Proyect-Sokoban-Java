@@ -36,8 +36,8 @@ public class SokobanController {
 		view.focusOnKeyboard();
 	}
 
-	public void onMove(SokobanAction movement) {
-		Game currentGame = model.performMovement(movement);	
+	public void onMove(SokobanAction action) {
+		Game currentGame = model.performMovement(action);	
 		updateLevelInfo(currentGame);
 		if(levelCompleted(currentGame) && !loadLevel()) {
 				gameCompleted();
@@ -45,12 +45,10 @@ public class SokobanController {
 		view.focusOnKeyboard();
 	}
 
-
 	public void onUndoMove() {
 		Game currentGame = model.undoMovement();
 		updateLevelInfo(currentGame);
 		view.focusOnKeyboard();
-
 	}
 
 	public void onSave() {
@@ -128,7 +126,7 @@ public class SokobanController {
 		String levelName = game.getLevelName();
 		int levelNumber = game.getLevelNumber();
 		view.setLevelName("Level "+levelNumber+": "+levelName);
-		view.drawWarehousePanel(this.warehouseCellToWarehouseElements(board), game.getLevelNumber());
+		view.drawWarehousePanel(this.warehouseCellToWarehouseElements(board), game.getWarehouse().getLastAction(), game.getLevelNumber());
 	}
 
 	private boolean levelCompleted(Game game) {
