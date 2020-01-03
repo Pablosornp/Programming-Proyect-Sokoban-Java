@@ -9,7 +9,9 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import es.upm.pproject.sokoban.controller.SokobanAction;
+import es.upm.pproject.sokoban.controller.SokobanController;
 import es.upm.pproject.sokoban.controller.SokobanElements;
+import es.upm.pproject.sokoban.model.SokobanModel;
 
 public class ImagePanel extends JPanel{
 
@@ -57,16 +59,16 @@ public class ImagePanel extends JPanel{
 		String imageName=null;
 		switch(action) {	
 		case UP:
-			imageName = "\\player_U.png";
+			imageName = "\\player_U_0.png";
 			break;
 		case DOWN:		
-			imageName = "\\player_D.png";
+			imageName = "\\player_D_0.png";
 			break;
 		case LEFT:
-			imageName = "\\player_L.png";
+			imageName = "\\player_L_0.png";
 			break;
 		case RIGHT:
-			imageName = "\\player_R.png";
+			imageName = "\\player_R_0.png";
 			break;
 		default:
 			imageName=null;

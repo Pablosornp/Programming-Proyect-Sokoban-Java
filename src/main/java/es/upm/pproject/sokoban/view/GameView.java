@@ -172,6 +172,7 @@ public class GameView extends JFrame implements KeyListener {
 		setFocusable(true);
 		setFocusTraversalKeysEnabled(false);
 		this.pack();
+		this.setLocationRelativeTo(null);
 	}
 
 
