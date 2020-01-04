@@ -1,6 +1,7 @@
 package es.upm.pproject.sokoban.model;
 
-import java.util.Stack;
+import java.util.ArrayDeque;
+import java.util.Deque;
 import es.upm.pproject.sokoban.controller.SokobanAction;
 import es.upm.pproject.sokoban.controller.SokobanMovement;
 
@@ -8,17 +9,19 @@ public class SokobanModel implements GameModel {
 	private int gameScore;
 	private int currentLevelNumber;
 	private Game current;
-	private Stack<SokobanMovement> lastMovements;
+	private Deque<SokobanMovement> lastMovements;
 
 	private LevelLoader ld;
-	private SavesManager gls;
+	private SaveManager sm;
+	private LoadManager lm;
 
 
 	public SokobanModel() {
 		this.currentLevelNumber = 0;
-		this.lastMovements = new Stack<>();
+		this.lastMovements = new ArrayDeque<>();
 		this.ld = new LevelLoader(); 
-		this.gls = new SavesManager();
+		this.sm = new SaveManager();
+		this.lm = new LoadManager();
 	}
 
 	public Game getCurrent() {
@@ -42,7 +45,7 @@ public class SokobanModel implements GameModel {
 	}
 	@Override
 	public Game undoMovement() {
-		if(!lastMovements.empty()) {
+		if(!lastMovements.isEmpty()) {
 			SokobanMovement movement = this.lastMovements.pop();
 			this.current.undoMove(movement);
 			this.gameScore--;
@@ -65,13 +68,13 @@ public class SokobanModel implements GameModel {
 		this.currentLevelNumber++;
 		if(ld.validMap(this.currentLevelNumber))
 			game = ld.convertMap(this.currentLevelNumber);
-		this.lastMovements = new Stack<>();		
+		this.lastMovements = new ArrayDeque<>();		
 		this.current = game;
 		if (game != null)
 			this.current.setGameScore(this.gameScore);
 		return game;
 	}
-	
+
 
 	@Override
 	public Game restartLevel() {
@@ -80,23 +83,23 @@ public class SokobanModel implements GameModel {
 		this.gameScore = restartedGameScore;
 		restartedGame = ld.convertMap(this.currentLevelNumber);
 		restartedGame.setGameScore(restartedGameScore);
-		this.lastMovements = new Stack<>();
+		this.lastMovements = new ArrayDeque<>();
 		this.current = restartedGame;
 		return this.current;
 	}
 
 	@Override
 	public boolean saveGame(String name) {
-		return gls.saveGame(this.current, this.lastMovements, name);
+		return sm.saveGame(this.current, this.lastMovements, name);
 	}
-	
+
 	@Override
-	public Game loadGame() {
-		// TODO Auto-generated method stub
-		return null;
+	public Game loadGame(String path) {
+		Game loadedGame = lm.loadGame(path);
+		this.current = loadedGame;
+		this.gameScore = loadedGame.getGameScore();
+		this.currentLevelNumber = loadedGame.getLevelNumber();
+		this.lastMovements = lm.loadLastMovements(path);
+		return loadedGame;
 	}
-
-
-
-
 }

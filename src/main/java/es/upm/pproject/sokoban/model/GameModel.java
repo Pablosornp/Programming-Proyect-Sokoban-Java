@@ -11,6 +11,6 @@ public interface GameModel {
 	public boolean hasNextLevel();
 	public Game loadNextLevel();
 	public boolean saveGame(String name);
-	public Game loadGame();
+	public Game loadGame(String path);
 	
 }

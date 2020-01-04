@@ -17,6 +17,7 @@ import es.upm.pproject.sokoban.controller.SokobanAction;
 
 import javax.swing.JPanel;
 import java.awt.GridLayout;
+import java.awt.SystemColor;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -28,8 +29,8 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.awt.SystemColor;
-import java.awt.FlowLayout;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class GameView extends JFrame implements KeyListener {
 
@@ -42,6 +43,7 @@ public class GameView extends JFrame implements KeyListener {
 	private JPanel infoPanel;
 	private JPanel undoRestartPanel;
 	private JMenuBar menuBar;
+	private JMenuBar jMenuBar;
 	private JTextField textFieldGameScore;
 	private JTextField textFieldLevelScore;
 	private JLabel textFieldLevelName;
@@ -52,6 +54,9 @@ public class GameView extends JFrame implements KeyListener {
 	private static final int SIZE = 32;
 	private static final int NUMBER_OF_THEMES = 5;
 	private String imagesPath;
+	
+	private static final Logger LOGGER = Logger.getLogger("es.upm.pproject.sokoban.view.GameView");
+
 
 	/**
 	 * Create the application.
@@ -105,8 +110,6 @@ public class GameView extends JFrame implements KeyListener {
 
 		////levelName panel
 		JPanel levelNamePanel = new JPanel();
-		FlowLayout flowLayout = (FlowLayout) levelNamePanel.getLayout();
-		flowLayout.setHgap(1);
 		textFieldLevelName = new JLabel();
 		levelNamePanel.add(textFieldLevelName);
 
@@ -207,11 +210,12 @@ public class GameView extends JFrame implements KeyListener {
 	}
 
 	private void initializeMenuBar() {
-		this.menuBar = new JMenuBar();
-		this.setJMenuBar(menuBar);		
+		this.jMenuBar = new JMenuBar();
+		this.setJMenuBar(jMenuBar);		
+
 
 		JMenu mnNewMenu = new JMenu("Menu");
-		menuBar.add(mnNewMenu);
+		jMenuBar.add(mnNewMenu);
 
 		JMenuItem newGameMenuItem = new JMenuItem("Start New Game", new ImageIcon("images/newgame.gif"));
 		newGameMenuItem.addActionListener(event -> controller.onStart());
@@ -251,7 +255,7 @@ public class GameView extends JFrame implements KeyListener {
 			BufferedImage image = ImageIO.read(new File(imagesPath+"\\icon.png"));
 			this.setIconImage(image);
 		} catch (IOException e) {
-			System.out.println("Icon not found");
+			LOGGER.log(Level.WARNING,"Icon not found");
 		}
 	}
 
@@ -285,6 +289,7 @@ public class GameView extends JFrame implements KeyListener {
 		this.menuBar.setVisible(visible);
 		this.menuPanel.setVisible(visible);
 		this.undoRestartPanel.setVisible(visible);
+		this.jMenuBar.setVisible(visible);
 		this.pack();
 	}
 
@@ -295,7 +300,7 @@ public class GameView extends JFrame implements KeyListener {
 		initializeGamePanel();
 		JLabel welcomeLabel = new JLabel("WELCOME TO SOKOBAN");
 		Dimension dim = new Dimension(SIZE*8, SIZE*4);
-		this.gamePanel.setPreferredSize(new Dimension(256, 128));
+		this.gamePanel.setPreferredSize(dim);
 		welcomeLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		JButton btnPressStart = new JButton("START NEW GAME");
 		btnPressStart.addActionListener(event -> controller.onStart());

@@ -1,5 +1,9 @@
 package es.upm.pproject.sokoban.view;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -39,5 +43,15 @@ public class MessageManager {
 	public int showExitMessage() {
 		return JOptionPane.showConfirmDialog(view, "Are you sure you want to leave?\n"
 				+ "You may lose your progress.", SOKOBAN, JOptionPane.YES_NO_OPTION);
+	}
+	public String showSaveSelectionWindow() {
+		String savePath = null;
+		Path path = Paths.get("./saves/");
+		JFileChooser fc = new JFileChooser(path.toAbsolutePath().toString());
+		int returnVal = fc.showSaveDialog(view);
+		if (returnVal == JFileChooser.APPROVE_OPTION) {
+			savePath =  fc.getSelectedFile().toString();
+		}
+		return savePath;
 	}
 }

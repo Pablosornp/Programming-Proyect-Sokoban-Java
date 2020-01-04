@@ -4,19 +4,22 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import es.upm.pproject.sokoban.controller.SokobanAction;
-import es.upm.pproject.sokoban.controller.SokobanController;
 import es.upm.pproject.sokoban.controller.SokobanElements;
-import es.upm.pproject.sokoban.model.SokobanModel;
 
 public class ImagePanel extends JPanel{
 
 	private static final long serialVersionUID = 1L;
 	private BufferedImage image;
+	
+	private static final Logger LOGGER = Logger.getLogger("es.upm.pproject.sokoban.view.ImagePanel");
+
 	
 
 	public ImagePanel(String folderPath, SokobanElements element, SokobanAction action, int step) {
@@ -46,7 +49,7 @@ public class ImagePanel extends JPanel{
 			}		
 			image = ImageIO.read(new File(imagePath));
 		} catch (IOException ex) {
-			System.out.println("Image for panel not found.");
+			LOGGER.log(Level.SEVERE,"Image for panel not found.");
 		}
 	}
 

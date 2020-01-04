@@ -5,6 +5,8 @@ import java.io.FileReader;
 import java.io.LineNumberReader;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import es.upm.pproject.sokoban.controller.SokobanElements;
 
@@ -16,6 +18,9 @@ public class LevelLoader {
 	private int goalCounter;
 	private int playerCounter;
 	
+	private static final Logger LOGGER = Logger.getLogger("es.upm.pproject.sokoban.model.LevelLoader");
+
+
 	public LevelLoader() {
 		initializeCounters();
 		Path path = Paths.get("./levels/");
@@ -54,9 +59,8 @@ public class LevelLoader {
 	}
 
 	public Game convertMap (int levelNumber)  {
-		try {
-			String levelPath = levelsPath + levelNumber + ".txt"; 
-			LineNumberReader lnr = new LineNumberReader(new FileReader(levelPath));
+		String levelPath = levelsPath + levelNumber + ".txt"; 
+		try(LineNumberReader lnr = new LineNumberReader(new FileReader(levelPath))){
 			String levelName = null; 
 			String line;
 			Cell[][] board = new Cell [0][0];
@@ -80,12 +84,11 @@ public class LevelLoader {
 					row++;
 				}
 			}
-			lnr.close();
 			Warehouse warehouse = new Warehouse(board);
 			return new Game(levelNumber, levelName, warehouse);
 		}
 		catch(Exception e) {
-			e.printStackTrace();
+			LOGGER.log(Level.SEVERE, "Error while converting map.", e);
 			return null;
 		}
 	}
@@ -100,9 +103,8 @@ public class LevelLoader {
 
 	public boolean validMap(int levelNumber) {
 		initializeCounters();
-		try {
-			String levelPath = levelsPath + levelNumber + ".txt"; 
-			LineNumberReader lnr = new LineNumberReader(new FileReader(levelPath));
+		String levelPath = levelsPath + levelNumber + ".txt"; 
+		try	(LineNumberReader lnr = new LineNumberReader(new FileReader(levelPath))){
 			String line;
 			while ((line = lnr.readLine()) != null) {
 				if(lnr.getLineNumber()>2){
@@ -111,10 +113,10 @@ public class LevelLoader {
 					}
 				}
 			}
-			lnr.close();
 		}
 		catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.log(Level.SEVERE, "Error while validating map.", e);
+			return false;
 		}
 		return this.boxCounter>0 && this.boxCounter==this.goalCounter && this.playerCounter==1;
 	}
