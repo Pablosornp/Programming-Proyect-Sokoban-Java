@@ -27,6 +27,8 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.awt.Color;
 
 public class GameView extends JFrame implements KeyListener {
@@ -38,7 +40,7 @@ public class GameView extends JFrame implements KeyListener {
 	private JPanel gamePanel;
 	private JPanel menuPanel;
 	private JPanel infoPanel;
-	private JMenuBar menuBar;
+	private JMenuBar jMenuBar;
 	private JTextField textFieldGameScore;
 	private JTextField textFieldLevelScore;
 	private JLabel textFieldLevelName;
@@ -49,6 +51,9 @@ public class GameView extends JFrame implements KeyListener {
 	private static final int SIZE = 32;
 	private static final int NUMBER_OF_THEMES = 5;
 	private String imagesPath;
+	
+	private static final Logger LOGGER = Logger.getLogger("es.upm.pproject.sokoban.view.GameView");
+
 
 	/**
 	 * Create the application.
@@ -200,11 +205,11 @@ public class GameView extends JFrame implements KeyListener {
 	}
 	
 	private void initializeMenuBar() {
-		this.menuBar = new JMenuBar();
-		this.setJMenuBar(menuBar);		
+		this.jMenuBar = new JMenuBar();
+		this.setJMenuBar(jMenuBar);		
 
 		JMenu mnNewMenu = new JMenu("File");
-		menuBar.add(mnNewMenu);
+		jMenuBar.add(mnNewMenu);
 		
 		JMenuItem newGameMenuItem = new JMenuItem("New Game");
 		mnNewMenu.add(newGameMenuItem);
@@ -224,7 +229,7 @@ public class GameView extends JFrame implements KeyListener {
 			BufferedImage image = ImageIO.read(new File(imagesPath+"\\icon.png"));
 			this.setIconImage(image);
 		} catch (IOException e) {
-			System.out.println("Icon not found");
+			LOGGER.log(Level.WARNING,"Icon not found");
 		}
 	}
 
@@ -256,7 +261,7 @@ public class GameView extends JFrame implements KeyListener {
 	public void panelsVisible(boolean visible) {
 		this.menuPanel.setVisible(visible);
 		this.infoPanel.setVisible(visible);
-		this.menuBar.setVisible(visible);
+		this.jMenuBar.setVisible(visible);
 		this.pack();
 	}
 

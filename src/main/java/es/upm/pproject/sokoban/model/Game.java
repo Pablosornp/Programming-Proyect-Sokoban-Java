@@ -10,13 +10,6 @@ public class Game {
 	private Integer levelScore;
 	private Warehouse warehouse;
 
-	public Game(String levelName) {
-		this.levelName = levelName;
-		this.levelScore = 0;
-		this.gameScore = 0;
-		this.warehouse = new Warehouse();
-	}
-
 	public Game(int levelNumber, String levelName, Warehouse warehouse) {
 		this.levelNumber = levelNumber;
 		this.levelName = levelName;
@@ -83,7 +76,6 @@ public class Game {
 	}
 	
 	public boolean isLevelCompleted() {
-		Warehouse warehouse = this.warehouse;
 		return warehouse.getBoxesAtGoal()==warehouse.getHowManyBoxes();
 	}
 }
