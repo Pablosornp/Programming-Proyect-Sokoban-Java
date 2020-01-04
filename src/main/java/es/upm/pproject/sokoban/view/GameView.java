@@ -19,6 +19,7 @@ import javax.swing.JPanel;
 import java.awt.GridLayout;
 
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -43,7 +44,7 @@ public class GameView extends JFrame implements KeyListener {
 	private JTextField textFieldLevelScore;
 	private JLabel textFieldLevelName;
 	private boolean keyboardEnabled;
-	
+
 	private MessageManager mm;
 
 	private static final int SIZE = 32;
@@ -55,19 +56,19 @@ public class GameView extends JFrame implements KeyListener {
 	 */
 	public GameView(SokobanController controller) {
 		this.setTitle("Sokoban");
-		
+
 		Path currentDir = Paths.get("./images/");
 		this.imagesPath = currentDir.toAbsolutePath().toString();
 		this.controller=controller;
 		this.mm = new MessageManager(this);
-		
+
 		initializeComponents();
 		this.setVisible(true);
 		setResizable(false);
 		setFrameIcon();
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
-	
+
 	/**
 	 * Initialize the frame components.
 	 */
@@ -198,27 +199,27 @@ public class GameView extends JFrame implements KeyListener {
 
 		buttonsPanel.setVisible(false);
 	}
-	
+
 	private void initializeMenuBar() {
 		this.menuBar = new JMenuBar();
 		this.setJMenuBar(menuBar);		
 
-		JMenu mnNewMenu = new JMenu("File");
+		JMenu mnNewMenu = new JMenu("Menu");
 		menuBar.add(mnNewMenu);
-		
-		JMenuItem newGameMenuItem = new JMenuItem("New Game");
+
+		JMenuItem newGameMenuItem = new JMenuItem("Start New Game", new ImageIcon("images/newgame.gif"));
 		mnNewMenu.add(newGameMenuItem);
-		
-		JMenuItem loadMenuItem = new JMenuItem("Load");
+
+		JMenuItem loadMenuItem = new JMenuItem("Load Game", new ImageIcon("images/load.gif"));
 		mnNewMenu.add(loadMenuItem);
-		
-		JMenuItem saveNewMenuItem = new JMenuItem("Save");
+
+		JMenuItem saveNewMenuItem = new JMenuItem("Save Game", new ImageIcon("images/save.gif"));
 		mnNewMenu.add(saveNewMenuItem);
-		
+
 		JMenuItem exitMenuItem = new JMenuItem("Exit");
 		mnNewMenu.add(exitMenuItem);
 	}
-	
+
 	private void setFrameIcon() {
 		try {
 			BufferedImage image = ImageIO.read(new File(imagesPath+"\\icon.png"));
@@ -248,11 +249,11 @@ public class GameView extends JFrame implements KeyListener {
 	public void setLevelName(String levelName) {
 		textFieldLevelName.setText(levelName);
 	}
-	
+
 	public MessageManager getMm() {
 		return mm;
 	}
-	
+
 	public void panelsVisible(boolean visible) {
 		this.menuPanel.setVisible(visible);
 		this.infoPanel.setVisible(visible);
@@ -263,7 +264,7 @@ public class GameView extends JFrame implements KeyListener {
 	public void drawWelcomeScreen(){
 		if(gamePanel!=null)
 			this.remove(gamePanel);
-		
+
 		initializeGamePanel();
 		JLabel welcomeLabel = new JLabel("WELCOME TO SOKOBAN");
 		Dimension dim = new Dimension(SIZE*8, SIZE*4);
@@ -285,14 +286,14 @@ public class GameView extends JFrame implements KeyListener {
 			SokobanAction lastAction, int levelNumber, int step) {
 		if(gamePanel!=null)
 			this.remove(gamePanel);	
-		
+
 		this.gamePanel = new JPanel();
 		int m = elements.length;
 		int n = elements[0].length;
 		Dimension dim = new Dimension(SIZE*n, SIZE*m);
 		this.gamePanel.setPreferredSize(dim);
 		this.gamePanel.setLayout(new GridLayout(m,n));
-		
+
 		ImagePanel panel;
 		for(int i=0; i<m; i++) {
 			for(int j=0; j<n; j++) {
@@ -303,7 +304,7 @@ public class GameView extends JFrame implements KeyListener {
 		this.getContentPane().add(gamePanel, BorderLayout.CENTER);
 		this.pack();
 	}
-	
+
 	private String intToThemePath(int levelNumber) {
 		String path ;
 		switch(levelNumber % GameView.NUMBER_OF_THEMES) {
@@ -326,7 +327,7 @@ public class GameView extends JFrame implements KeyListener {
 		return path;
 	}
 
-	
+
 	@Override
 	public void keyPressed(KeyEvent arg0) {
 		if (keyboardEnabled) {
@@ -357,7 +358,7 @@ public class GameView extends JFrame implements KeyListener {
 	public void keyReleased(KeyEvent arg0) {
 		//Method not needed but necessary to override.
 	}
-	
+
 	@Override
 	public void keyTyped(KeyEvent arg0) {
 		//Method not needed but necessary to override.
