@@ -28,7 +28,8 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.awt.Color;
+import java.awt.SystemColor;
+import java.awt.FlowLayout;
 
 public class GameView extends JFrame implements KeyListener {
 
@@ -39,6 +40,7 @@ public class GameView extends JFrame implements KeyListener {
 	private JPanel gamePanel;
 	private JPanel menuPanel;
 	private JPanel infoPanel;
+	private JPanel undoRestartPanel;
 	private JMenuBar menuBar;
 	private JTextField textFieldGameScore;
 	private JTextField textFieldLevelScore;
@@ -77,6 +79,7 @@ public class GameView extends JFrame implements KeyListener {
 		initializeInfoPanel();	
 		initializeButtonPanel();
 		initializeMenuBar();
+		initializeUndoRestart();
 		drawWelcomeScreen();
 		addKeyListener(this);
 		setFocusable(true);
@@ -88,7 +91,7 @@ public class GameView extends JFrame implements KeyListener {
 
 	private void initializeGamePanel() {
 		this.gamePanel = new JPanel();
-		gamePanel.setBackground(Color.LIGHT_GRAY);
+		gamePanel.setBackground(SystemColor.window);
 		gamePanel.setLayout(new GridLayout(0, 1, 0, 0));
 		this.getContentPane().add(gamePanel, BorderLayout.CENTER);
 	}
@@ -102,6 +105,8 @@ public class GameView extends JFrame implements KeyListener {
 
 		////levelName panel
 		JPanel levelNamePanel = new JPanel();
+		FlowLayout flowLayout = (FlowLayout) levelNamePanel.getLayout();
+		flowLayout.setHgap(1);
 		textFieldLevelName = new JLabel();
 		levelNamePanel.add(textFieldLevelName);
 
@@ -131,7 +136,6 @@ public class GameView extends JFrame implements KeyListener {
 		scorePanel.add(levelScore);
 
 		infoPanel.add(scorePanel);
-
 
 	}
 
@@ -163,8 +167,10 @@ public class GameView extends JFrame implements KeyListener {
 		menuPanel.add(btnLoad);
 
 		JButton btnExit = new JButton("Exit");
-		btnExit.addActionListener(event -> controller.onExit() );
+		btnExit.addActionListener(event -> controller.onExit());
 		menuPanel.add(btnExit);
+		
+		menuPanel.setVisible(false);
 	}
 
 	private void initializeButtonPanel() {
@@ -208,16 +214,36 @@ public class GameView extends JFrame implements KeyListener {
 		menuBar.add(mnNewMenu);
 
 		JMenuItem newGameMenuItem = new JMenuItem("Start New Game", new ImageIcon("images/newgame.gif"));
+		newGameMenuItem.addActionListener(event -> controller.onStart());
 		mnNewMenu.add(newGameMenuItem);
 
 		JMenuItem loadMenuItem = new JMenuItem("Load Game", new ImageIcon("images/load.gif"));
+		loadMenuItem.addActionListener(event -> controller.onLoad());
 		mnNewMenu.add(loadMenuItem);
 
-		JMenuItem saveNewMenuItem = new JMenuItem("Save Game", new ImageIcon("images/save.gif"));
-		mnNewMenu.add(saveNewMenuItem);
+		JMenuItem saveMenuItem = new JMenuItem("Save Game", new ImageIcon("images/save.gif"));
+		saveMenuItem.addActionListener(event -> controller.onSave());
+		mnNewMenu.add(saveMenuItem);
 
 		JMenuItem exitMenuItem = new JMenuItem("Exit");
+		exitMenuItem.addActionListener(event -> controller.onExit());
 		mnNewMenu.add(exitMenuItem);
+	}
+	
+	private void initializeUndoRestart() {
+		this.undoRestartPanel = new JPanel();
+		getContentPane().add(undoRestartPanel, BorderLayout.SOUTH);
+		
+		JButton btnLowerUndo = new JButton("Undo movement", new ImageIcon("images/undo.gif"));
+		btnLowerUndo.addActionListener(event -> controller.onUndoMove());
+		undoRestartPanel.setLayout(new GridLayout(0, 2, 0, 0));
+		undoRestartPanel.add(btnLowerUndo);
+		
+		JButton btnLowerRestart = new JButton("Restart level", new ImageIcon("images/restart2.gif"));
+		btnLowerRestart.addActionListener(event -> controller.onRestart());
+		undoRestartPanel.add(btnLowerRestart);
+		this.setKeyboardEnabled(false);
+		panelsVisible(false);
 	}
 
 	private void setFrameIcon() {
@@ -255,9 +281,10 @@ public class GameView extends JFrame implements KeyListener {
 	}
 
 	public void panelsVisible(boolean visible) {
-		this.menuPanel.setVisible(visible);
 		this.infoPanel.setVisible(visible);
 		this.menuBar.setVisible(visible);
+		this.menuPanel.setVisible(visible);
+		this.undoRestartPanel.setVisible(visible);
 		this.pack();
 	}
 
@@ -268,7 +295,7 @@ public class GameView extends JFrame implements KeyListener {
 		initializeGamePanel();
 		JLabel welcomeLabel = new JLabel("WELCOME TO SOKOBAN");
 		Dimension dim = new Dimension(SIZE*8, SIZE*4);
-		this.gamePanel.setPreferredSize(dim);
+		this.gamePanel.setPreferredSize(new Dimension(256, 128));
 		welcomeLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		JButton btnPressStart = new JButton("START NEW GAME");
 		btnPressStart.addActionListener(event -> controller.onStart());
@@ -278,8 +305,7 @@ public class GameView extends JFrame implements KeyListener {
 		this.textFieldLevelScore.setText("");
 		gamePanel.add(welcomeLabel);
 		gamePanel.add(btnPressStart);
-		this.setKeyboardEnabled(false);
-		panelsVisible(false);
+
 	}
 
 	public void drawWarehousePanel(SokobanElements[][] elements, 

@@ -4,14 +4,14 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 public class MessageManager {
-	
+
 	private JFrame view;
 	private static final String SOKOBAN = "Sokoban";
-
+	
 	public MessageManager(JFrame view) {
 		this.view = view;
 	}
-	
+
 	public void showLevelCompletedMessage(int levelNumber, int gameScore) {
 		JOptionPane.showMessageDialog(view,"LEVEL "+levelNumber+" COMPLETED!\n\nGame Score: "+gameScore, SOKOBAN, 1);
 	}
@@ -23,7 +23,7 @@ public class MessageManager {
 	public void showInvalidLevelMessage() {
 		JOptionPane.showMessageDialog(view, "The map is not valid. Loading next level.", SOKOBAN, 0);
 	}
-	
+
 	public String showSaveNameInputMessage() {
 		return JOptionPane.showInputDialog(view, "Introduce a name for your saved game.",SOKOBAN, 1);
 	}
