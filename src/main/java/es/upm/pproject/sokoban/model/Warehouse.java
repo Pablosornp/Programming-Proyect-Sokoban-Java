@@ -2,7 +2,6 @@ package es.upm.pproject.sokoban.model;
 
 import es.upm.pproject.sokoban.controller.SokobanAction;
 import es.upm.pproject.sokoban.controller.SokobanElements;
-import es.upm.pproject.sokoban.controller.SokobanMovement;
 
 public class Warehouse {
 	private Cell[][] board;
@@ -85,7 +84,7 @@ public class Warehouse {
 		}
 	}
 	
-	public SokobanMovement move(SokobanAction action) {
+	public Movement move(SokobanAction action) {
 		boolean boxMoved=false;
 		boolean playerMoved=false;
 		int posX = playerPos.getPosX();
@@ -146,10 +145,10 @@ public class Warehouse {
 		}
 		this.lastAction = action;
 		this.nextStep();
-		return new SokobanMovement(action,playerMoved,boxMoved);
+		return new Movement(action,playerMoved,boxMoved);
 	}
 	
-	public void undoMove(SokobanMovement movement) {
+	public void undoMove(Movement movement) {
 		SokobanAction action = movement.getAction();
 		boolean playerMoved = movement.isPlayerMoved();
 		boolean boxMoved = movement.isBoxMoved();

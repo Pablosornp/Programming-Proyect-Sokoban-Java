@@ -11,6 +11,8 @@ import java.awt.Dimension;
 
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
+
 import es.upm.pproject.sokoban.controller.SokobanController;
 import es.upm.pproject.sokoban.controller.SokobanElements;
 import es.upm.pproject.sokoban.controller.SokobanAction;
@@ -41,8 +43,7 @@ public class GameView extends JFrame implements KeyListener {
 	private JPanel gamePanel;
 	private JPanel menuPanel;
 	private JPanel infoPanel;
-	private JPanel undoRestartPanel;
-	private JMenuBar menuBar;
+	private JPanel lowerButtonPanel;
 	private JMenuBar jMenuBar;
 	private JTextField textFieldGameScore;
 	private JTextField textFieldLevelScore;
@@ -54,7 +55,7 @@ public class GameView extends JFrame implements KeyListener {
 	private static final int SIZE = 32;
 	private static final int NUMBER_OF_THEMES = 5;
 	private String imagesPath;
-	
+
 	private static final Logger LOGGER = Logger.getLogger("es.upm.pproject.sokoban.view.GameView");
 
 
@@ -70,10 +71,10 @@ public class GameView extends JFrame implements KeyListener {
 		this.mm = new MessageManager(this);
 
 		initializeComponents();
-		this.setVisible(true);
 		setResizable(false);
 		setFrameIcon();
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		this.setVisible(true);
 	}
 
 	/**
@@ -84,7 +85,7 @@ public class GameView extends JFrame implements KeyListener {
 		initializeInfoPanel();	
 		initializeButtonPanel();
 		initializeMenuBar();
-		initializeUndoRestart();
+		initializeLowerButtonPanel();
 		drawWelcomeScreen();
 		addKeyListener(this);
 		setFocusable(true);
@@ -172,8 +173,7 @@ public class GameView extends JFrame implements KeyListener {
 		JButton btnExit = new JButton("Exit");
 		btnExit.addActionListener(event -> controller.onExit());
 		menuPanel.add(btnExit);
-		
-		menuPanel.setVisible(false);
+
 	}
 
 	private void initializeButtonPanel() {
@@ -233,21 +233,19 @@ public class GameView extends JFrame implements KeyListener {
 		exitMenuItem.addActionListener(event -> controller.onExit());
 		mnNewMenu.add(exitMenuItem);
 	}
-	
-	private void initializeUndoRestart() {
-		this.undoRestartPanel = new JPanel();
-		getContentPane().add(undoRestartPanel, BorderLayout.SOUTH);
-		
-		JButton btnLowerUndo = new JButton("Undo movement", new ImageIcon("images/undo.gif"));
+
+	private void initializeLowerButtonPanel() {
+		this.lowerButtonPanel = new JPanel();
+		getContentPane().add(lowerButtonPanel, BorderLayout.SOUTH);
+
+		JButton btnLowerUndo = new JButton("Undo move", new ImageIcon("images/undo.gif"));
 		btnLowerUndo.addActionListener(event -> controller.onUndoMove());
-		undoRestartPanel.setLayout(new GridLayout(0, 2, 0, 0));
-		undoRestartPanel.add(btnLowerUndo);
-		
+		lowerButtonPanel.setLayout(new GridLayout(0, 2, 0, 0));
+		lowerButtonPanel.add(btnLowerUndo);
+
 		JButton btnLowerRestart = new JButton("Restart level", new ImageIcon("images/restart2.gif"));
 		btnLowerRestart.addActionListener(event -> controller.onRestart());
-		undoRestartPanel.add(btnLowerRestart);
-		this.setKeyboardEnabled(false);
-		panelsVisible(false);
+		lowerButtonPanel.add(btnLowerRestart);
 	}
 
 	private void setFrameIcon() {
@@ -284,16 +282,16 @@ public class GameView extends JFrame implements KeyListener {
 		return mm;
 	}
 
-	public void panelsVisible(boolean visible) {
+	public void setPanelsVisible(boolean visible) {
 		this.infoPanel.setVisible(visible);
-		this.menuBar.setVisible(visible);
-		this.menuPanel.setVisible(visible);
-		this.undoRestartPanel.setVisible(visible);
 		this.jMenuBar.setVisible(visible);
+		this.menuPanel.setVisible(false);
+		this.lowerButtonPanel.setVisible(visible);
 		this.pack();
 	}
 
 	public void drawWelcomeScreen(){
+		this.setPanelsVisible(false);
 		if(gamePanel!=null)
 			this.remove(gamePanel);
 
@@ -310,7 +308,7 @@ public class GameView extends JFrame implements KeyListener {
 		this.textFieldLevelScore.setText("");
 		gamePanel.add(welcomeLabel);
 		gamePanel.add(btnPressStart);
-
+		this.pack();
 	}
 
 	public void drawWarehousePanel(SokobanElements[][] elements, 
@@ -319,9 +317,14 @@ public class GameView extends JFrame implements KeyListener {
 			this.remove(gamePanel);	
 
 		this.gamePanel = new JPanel();
+
 		int m = elements.length;
 		int n = elements[0].length;
-		Dimension dim = new Dimension(SIZE*n, SIZE*m);
+		int border=0;
+		if(SIZE*n < 275)
+			 border = (275 - SIZE*n)/2;
+		Dimension dim = new Dimension(SIZE*n+border*2, SIZE*m+border*2);
+		this.gamePanel.setBorder(new EmptyBorder(border, border, border, border));
 		this.gamePanel.setPreferredSize(dim);
 		this.gamePanel.setLayout(new GridLayout(m,n));
 

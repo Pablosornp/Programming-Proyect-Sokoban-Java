@@ -12,6 +12,40 @@ public class Cell{
 		this.content= content;
 	}
 	
+	public Cell(char character) {
+		switch(character){
+		case '#':
+			this.type=SokobanElements.GAP;
+			this.content=SokobanElements.BOX;	
+			break;
+		case '*':
+			this.type=SokobanElements.GOAL;
+			this.content=SokobanElements.NONE;
+			break;
+		case '+':
+			this.type=SokobanElements.WALL;
+			this.content=SokobanElements.NONE;
+			break;
+		case 'W':
+			this.type=SokobanElements.GAP;
+			this.content=SokobanElements.PLAYER;			
+			break;
+		case ' ':
+			this.type=SokobanElements.GAP;
+			this.content=SokobanElements.NONE;
+			break;
+		case '@':
+			this.type=SokobanElements.GOAL;
+			this.content=SokobanElements.PLAYER;
+			break;
+		case '$':
+			this.type=SokobanElements.GOAL;
+			this.content=SokobanElements.BOX;
+			break;
+		default: 
+		}
+	}
+	
 	public boolean isGoal() {
 		return this.type.equals(SokobanElements.GOAL);
 	}
@@ -51,4 +85,28 @@ public class Cell{
 	public void setContent(SokobanElements content) {
 		this.content = content;
 	}
+	
+	public Character toChar() {
+		Character c = null;
+		if(this.isGoal()){
+			if(this.containsNothing())
+				c='*';
+			else if(this.containsPlayer())
+				c='@';
+			else if(this.containsBox())
+				c='$';	
+		}else if(this.isGap()){
+			if(this.containsNothing())
+				c=' ';
+			else if(this.containsPlayer())
+				c='W';
+			else if(this.containsBox())
+				c='#';	
+		}else {
+			c='+';	
+		}
+		return c;
+	}
+
+	
 }

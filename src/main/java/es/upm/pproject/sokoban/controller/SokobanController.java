@@ -22,7 +22,7 @@ public class SokobanController {
 
 	public void onStart() {
 		model.startNewGame();
-		view.panelsVisible(true);
+		view.setPanelsVisible(true);
 		view.setKeyboardEnabled(true);
 		if(!loadLevel()) 
 			gameCompleted(model.getCurrent().getGameScore());	

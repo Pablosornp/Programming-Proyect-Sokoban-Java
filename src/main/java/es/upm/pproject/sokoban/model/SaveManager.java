@@ -10,9 +10,6 @@ import java.util.Deque;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import es.upm.pproject.sokoban.controller.SokobanAction;
-import es.upm.pproject.sokoban.controller.SokobanMovement;
-
 public class SaveManager {
 
 	private String savesFolderPath;
@@ -24,7 +21,7 @@ public class SaveManager {
 		this.savesFolderPath = path.toAbsolutePath().toString();
 	}
 
-	public boolean saveGame(Game game, Deque<SokobanMovement> movements, String saveName) {
+	public boolean saveGame(Game game, Deque<Movement> movements, String saveName) {
 		try{
 			File directory = new File(savesFolderPath);
 			if (!directory.exists()){
@@ -36,16 +33,17 @@ public class SaveManager {
 
 				//Line 1: GameScore LevelScore
 				bw.write(game.getGameScore()+ " " + game.getLevelScore() + newLine);
+				
 				//Line 2: LevelNumber LevelName
 				bw.write(game.getLevelNumber()+ " " +  game.getLevelName() + newLine);
 
 				//Line 3: movements
-				SokobanMovement move;
+				Movement move;
 				StringBuilder sb = new StringBuilder("");
 				Object[] movementsArray = movements.toArray();
 				for(int i=movementsArray.length-1; i>=0; i--) {
-					move=(SokobanMovement) movementsArray[i];
-					sb.append(movementToChar(move));
+					move=(Movement) movementsArray[i];
+					sb.append(move.toChar());
 				}
 				bw.write(sb.toString() + newLine);
 				sb.setLength(0);//Empty the StringBuilder
@@ -61,70 +59,17 @@ public class SaveManager {
 					//Empty the StringBuilder
 					sb.setLength(0);
 					for(int j=0; j<n; j++) {
-						sb.append(elemToChar(warehouse[i][j]));
+						sb.append(warehouse[i][j].toChar());
 					}
 					bw.write(sb.toString() + newLine);
 				}
 			}
 			LOGGER.log(Level.INFO, "Game saved succesfullly.");
-
 		}catch(Exception e){
+			LOGGER.log(Level.SEVERE, "An error ocurred while saving the game.");
 			return false;
 		}
 		return true;
 	}
-
-	public Game loadGame() {
-		//TODO
-		return null;
-	}
-
-
-	private Character movementToChar(SokobanMovement move) {
-		Character c;
-		SokobanAction action = move.getAction();
-		boolean boxMoved = move.isBoxMoved();
-		switch(action) {
-		case UP:
-			c='u';
-			break;
-		case DOWN:
-			c='d';
-			break;
-		case LEFT:
-			c='l';
-			break;
-		case RIGHT:
-			c='r';
-			break;
-		default: c=null;
-		}
-		if(boxMoved)
-			c = Character.toUpperCase(c);
-		return c;
-	}
-
-	private Character elemToChar(Cell elem) {
-		Character c= null;
-		if(elem.isGoal()){
-			if(elem.containsNothing())
-				c='*';
-			else if(elem.containsPlayer())
-				c='@';
-			else if(elem.containsBox())
-				c='$';	
-		}else if(elem.isGap()){
-			if(elem.containsNothing())
-				c=' ';
-			else if(elem.containsPlayer())
-				c='W';
-			else if(elem.containsBox())
-				c='#';	
-		}else {
-			c='+';	
-		}
-		return c;
-	}
-
 
 }

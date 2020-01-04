@@ -3,13 +3,12 @@ package es.upm.pproject.sokoban.model;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import es.upm.pproject.sokoban.controller.SokobanAction;
-import es.upm.pproject.sokoban.controller.SokobanMovement;
 
 public class SokobanModel implements GameModel {
 	private int gameScore;
 	private int currentLevelNumber;
 	private Game current;
-	private Deque<SokobanMovement> lastMovements;
+	private Deque<Movement> lastMovements;
 
 	private LevelLoader ld;
 	private SaveManager sm;
@@ -36,7 +35,7 @@ public class SokobanModel implements GameModel {
 
 	@Override
 	public Game performMovement(SokobanAction action) {
-		SokobanMovement movement = this.current.move(action);
+		Movement movement = this.current.move(action);
 		if(movement.isPlayerMoved()) {
 			this.lastMovements.push(movement);
 			this.gameScore++;
@@ -46,7 +45,7 @@ public class SokobanModel implements GameModel {
 	@Override
 	public Game undoMovement() {
 		if(!lastMovements.isEmpty()) {
-			SokobanMovement movement = this.lastMovements.pop();
+			Movement movement = this.lastMovements.pop();
 			this.current.undoMove(movement);
 			this.gameScore--;
 		}

@@ -1,7 +1,6 @@
 package es.upm.pproject.sokoban.model;
 
 import es.upm.pproject.sokoban.controller.SokobanAction;
-import es.upm.pproject.sokoban.controller.SokobanMovement;
 
 public class Game {
 	private int levelNumber;
@@ -67,14 +66,14 @@ public class Game {
 		this.gameScore--;
 	}
 
-	public SokobanMovement move(SokobanAction action) {
-		SokobanMovement move = this.warehouse.move(action);
+	public Movement move(SokobanAction action) {
+		Movement move = this.warehouse.move(action);
 		if(move.isPlayerMoved())
 			incrementScore();
 		return move;
 	}
 
-	public void undoMove(SokobanMovement movement) {
+	public void undoMove(Movement movement) {
 		this.warehouse.undoMove(movement);
 		decrementScore();
 	}
