@@ -13,13 +13,13 @@ import java.util.logging.Logger;
 import es.upm.pproject.sokoban.controller.SokobanAction;
 import es.upm.pproject.sokoban.controller.SokobanMovement;
 
-public class SavesManager {
+public class SaveManager {
 
 	private String savesFolderPath;
 
 	private static final Logger LOGGER = Logger.getLogger("es.upm.pproject.sokoban.model.SavesManager");
 	
-	public SavesManager() {
+	public SaveManager() {
 		Path path = Paths.get("./saves/");
 		this.savesFolderPath = path.toAbsolutePath().toString();
 	}

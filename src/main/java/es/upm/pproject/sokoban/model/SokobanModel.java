@@ -12,14 +12,16 @@ public class SokobanModel implements GameModel {
 	private Deque<SokobanMovement> lastMovements;
 
 	private LevelLoader ld;
-	private SavesManager gls;
+	private SaveManager sm;
+	private LoadManager lm;
 
 
 	public SokobanModel() {
 		this.currentLevelNumber = 0;
 		this.lastMovements = new ArrayDeque<>();
 		this.ld = new LevelLoader(); 
-		this.gls = new SavesManager();
+		this.sm = new SaveManager();
+		this.lm = new LoadManager();
 	}
 
 	public Game getCurrent() {
@@ -72,7 +74,7 @@ public class SokobanModel implements GameModel {
 			this.current.setGameScore(this.gameScore);
 		return game;
 	}
-	
+
 
 	@Override
 	public Game restartLevel() {
@@ -88,16 +90,16 @@ public class SokobanModel implements GameModel {
 
 	@Override
 	public boolean saveGame(String name) {
-		return gls.saveGame(this.current, this.lastMovements, name);
+		return sm.saveGame(this.current, this.lastMovements, name);
 	}
-	
+
 	@Override
-	public Game loadGame() {
-		// TODO Auto-generated method stub
-		return null;
+	public Game loadGame(String path) {
+		Game loadedGame = lm.loadGame(path);
+		this.current = loadedGame;
+		this.gameScore = loadedGame.getGameScore();
+		this.currentLevelNumber = loadedGame.getLevelNumber();
+		this.lastMovements = lm.loadLastMovements(path);
+		return loadedGame;
 	}
-
-
-
-
 }

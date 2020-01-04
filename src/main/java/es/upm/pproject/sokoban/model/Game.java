@@ -47,6 +47,10 @@ public class Game {
 	public Integer getLevelScore() {
 		return levelScore;
 	}
+	
+	public void setLevelScore(Integer levelScore) {
+		this.levelScore = levelScore;
+	}
 
 	public Warehouse getWarehouse() {
 		return warehouse;

@@ -66,7 +66,9 @@ public class SokobanController {
 	}
 
 	public void onLoad() {		
-		// TODO 
+		String path = view.getMm().showSaveSelectionWindow();
+		Game loadedGame = model.loadGame(path);
+		updateLevelInfo(loadedGame);
 		view.focusOnKeyboard();
 	}
 
