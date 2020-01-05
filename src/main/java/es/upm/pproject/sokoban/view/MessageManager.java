@@ -50,6 +50,7 @@ public class MessageManager {
 		return JOptionPane.showConfirmDialog(view, "Are you sure you want to leave?\n"
 				+ "You may lose your progress.", SOKOBAN, JOptionPane.YES_NO_OPTION);
 	}
+	
 	public String showSaveSelectionWindow() {
 		String savePath = null;
 		String savesFolderPath = Paths.get("./saves/").toAbsolutePath().toString();

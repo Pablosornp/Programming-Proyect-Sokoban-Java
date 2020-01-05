@@ -5,26 +5,26 @@ import es.upm.pproject.sokoban.controller.SokobanElements;
 
 public class Warehouse {
 	private Cell[][] board;
-	
+
 	private Position playerPos;
 	private int howManyBoxes;
 	private int boxesAtGoal;
 	private SokobanAction lastAction;
 	private int step;
-	
+
 	public Warehouse(Cell[][] warehouse) {
 		this.board = warehouse;
 		this.boxesAtGoal = 0;
-		updatePlayerPositionAndNumberOfBoxes();	
+		updateWarehouseParameters();	
 		this.lastAction = SokobanAction.DOWN;
 	}
-	
+
 	public void restartWarehouse(Cell[][] warehouse) {
 		this.board = warehouse;
 		this.boxesAtGoal = 0;
-		updatePlayerPositionAndNumberOfBoxes();	
+		updateWarehouseParameters();	
 	}
-	
+
 	public Cell[][] getBoard() {
 		return board;
 	}
@@ -56,34 +56,37 @@ public class Warehouse {
 	public void setBoxesAtGoal(int boxesAtGoal) {
 		this.boxesAtGoal = boxesAtGoal;
 	}
-	
+
 	public SokobanAction getLastAction() {
 		return lastAction;
 	}
-	
+
 	public int getStep() {
 		return this.step;
 	}
-	
+
 	public void nextStep(){
 		this.step=(this.step + 1)%2;
 	}
-	
-	
-	private void updatePlayerPositionAndNumberOfBoxes(){
+
+
+	private void updateWarehouseParameters(){
 		this.howManyBoxes=0;
-		int i;
-		int j;
-		for(i=0;i<board.length;i++) {
-			for(j=0;j<board[0].length;j++) {
-				if(board[i][j].containsPlayer()) 
+		this.boxesAtGoal=0;
+		for(int i=0;i<board.length;i++) {
+			for(int j=0;j<board[0].length;j++) {
+				if(board[i][j].containsPlayer()) {
 					this.playerPos = new Position(i,j);
-				else if(board[i][j].containsBox())
+				}
+				else if(board[i][j].containsBox()) {
+					if(board[i][j].isGoal())
+						this.boxesAtGoal++;
 					this.howManyBoxes ++;
+				}
 			}
 		}
 	}
-	
+
 	public Movement move(SokobanAction action) {
 		boolean boxMoved=false;
 		boolean playerMoved=false;
@@ -147,7 +150,7 @@ public class Warehouse {
 		this.nextStep();
 		return new Movement(action,playerMoved,boxMoved);
 	}
-	
+
 	public void undoMove(Movement movement) {
 		SokobanAction action = movement.getAction();
 		boolean playerMoved = movement.isPlayerMoved();
@@ -200,10 +203,8 @@ public class Warehouse {
 					boxesAtGoal++;
 			}
 		}
-		this.nextStep();
 		this.lastAction = movement.getAction();
+		this.nextStep();
 	}
-	
-
 
 }
