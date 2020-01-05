@@ -27,7 +27,8 @@ public class SaveManager {
 			if (!directory.exists()){
 				directory.mkdir();
 			}
-			File file = new File(savesFolderPath+"\\"+saveName+".txt");
+			String saveFile="\\"+saveName+".sav";
+			File file = new File(savesFolderPath+saveFile);
 			try(Writer bw = new BufferedWriter(new FileWriter(file))){
 				String newLine = System.getProperty("line.separator");
 

@@ -31,9 +31,9 @@ public class LoadManager {
 				else if(lnr.getLineNumber() == 2){
 					String[] line2 = line.split("\\s+");
 					levelNumber = new Integer(line2[0]);
-					StringBuilder bld = new StringBuilder(line2[0]);
+					StringBuilder bld = new StringBuilder(levelName);
 					for(int i = 1; i<line2.length;i++) {
-						bld.append(" " + line2[i]);
+						bld.append(line2[i]+" " );
 					}
 					levelName = bld.toString();
 				}
@@ -57,7 +57,7 @@ public class LoadManager {
 			return game;
 		}
 		catch(Exception e) {
-			LOGGER.log(Level.SEVERE, "Error while loading game.", e);
+			LOGGER.log(Level.SEVERE, "Error while loading game.");
 			return null;
 		}
 	}
@@ -79,7 +79,7 @@ public class LoadManager {
 			return lastMovements;
 		}
 		catch(Exception e) {
-			LOGGER.log(Level.SEVERE, "Error while loading game.", e);
+			LOGGER.log(Level.SEVERE, "Error while loading game.");
 			return lastMovements;
 		}
 	}

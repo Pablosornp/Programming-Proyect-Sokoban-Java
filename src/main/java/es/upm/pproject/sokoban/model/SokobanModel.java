@@ -95,10 +95,12 @@ public class SokobanModel implements GameModel {
 	@Override
 	public Game loadGame(String path) {
 		Game loadedGame = lm.loadGame(path);
-		this.current = loadedGame;
-		this.gameScore = loadedGame.getGameScore();
-		this.currentLevelNumber = loadedGame.getLevelNumber();
-		this.lastMovements = lm.loadLastMovements(path);
+		if(loadedGame!=null) {
+			this.current = loadedGame;
+			this.gameScore = loadedGame.getGameScore();
+			this.currentLevelNumber = loadedGame.getLevelNumber();
+			this.lastMovements = lm.loadLastMovements(path);
+		}
 		return loadedGame;
 	}
 }

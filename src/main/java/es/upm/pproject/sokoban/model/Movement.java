@@ -20,8 +20,9 @@ public class Movement {
 			this.boxMoved = true;
 		else 
 			boxMoved = false;
-		character = Character.toLowerCase(character);
-		switch(character){
+		
+		Character lcCharacter = Character.toLowerCase(character);
+		switch(lcCharacter){
 		case 'u':
 			this.action = SokobanAction.UP;
 			break;

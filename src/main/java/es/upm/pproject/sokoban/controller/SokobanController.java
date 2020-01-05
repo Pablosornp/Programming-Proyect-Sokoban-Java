@@ -67,9 +67,17 @@ public class SokobanController {
 
 	public void onLoad() {		
 		String path = view.getMm().showSaveSelectionWindow();
-		Game loadedGame = model.loadGame(path);
-		updateLevelInfo(loadedGame);
-		view.focusOnKeyboard();
+		if(path==null) {
+			view.getMm().showFailedLoadMessage();		
+		} 
+		else if (!path.equals("cancel")){
+			Game loadedGame = model.loadGame(path);
+			if(loadedGame!=null)
+				updateLevelInfo(loadedGame);
+			else
+				view.getMm().showFailedLoadMessage();	
+			view.focusOnKeyboard();
+		}
 	}
 
 	public void onExit() {
