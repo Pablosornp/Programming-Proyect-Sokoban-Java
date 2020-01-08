@@ -49,10 +49,16 @@ public class SokobanController {
 		updateLevelInfo(currentGame);
 		view.focusOnKeyboard();
 	}
+	
+	public void onControls() {
+		MessageManager mm = view.getMm();
+		mm.showControlsAndRules();
+		view.focusOnKeyboard();
+	}
 
 	public void onSave() {
 		MessageManager mm = view.getMm();
-		String saveName = mm.showSaveNameInputMessage();
+		String saveName = (String) mm.showSaveNameInputMessage();
 		if(saveName!=null) {
 			boolean succesfulSave = model.saveGame(saveName);
 			if(succesfulSave) {

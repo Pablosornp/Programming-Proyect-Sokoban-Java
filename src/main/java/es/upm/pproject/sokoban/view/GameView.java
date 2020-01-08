@@ -228,6 +228,10 @@ public class GameView extends JFrame implements KeyListener {
 		JMenuItem saveMenuItem = new JMenuItem("Save Game", new ImageIcon("images/save.gif"));
 		saveMenuItem.addActionListener(event -> controller.onSave());
 		mnNewMenu.add(saveMenuItem);
+		
+		JMenuItem ControlsMenuItem = new JMenuItem("Controls & Rules", new ImageIcon("images/help_b.gif"));
+		ControlsMenuItem.addActionListener(event -> controller.onControls());
+		mnNewMenu.add(ControlsMenuItem);
 
 		JMenuItem exitMenuItem = new JMenuItem("Exit");
 		exitMenuItem.addActionListener(event -> controller.onExit());
@@ -300,9 +304,11 @@ public class GameView extends JFrame implements KeyListener {
 		Dimension dim = new Dimension(SIZE*8, SIZE*4);
 		this.gamePanel.setPreferredSize(dim);
 		welcomeLabel.setHorizontalAlignment(SwingConstants.CENTER);
+
 		JButton btnPressStart = new JButton("START NEW GAME");
 		btnPressStart.addActionListener(event -> controller.onStart());
 		btnPressStart.setHorizontalAlignment(SwingConstants.CENTER);
+		
 		this.textFieldGameScore.setText("");
 		this.textFieldLevelName.setText("");
 		this.textFieldLevelScore.setText("");
