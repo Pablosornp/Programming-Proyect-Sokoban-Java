@@ -7,13 +7,12 @@ import es.upm.pproject.sokoban.controller.SokobanAction;
 public class SokobanModel implements GameModel {
 	private int gameScore;
 	private int currentLevelNumber;
-	private Game current;
+	private Game currentGame;
 	private Deque<Movement> lastMovements;
 
 	private LevelLoader ld;
 	private SaveManager sm;
 	private LoadManager lm;
-
 
 	public SokobanModel() {
 		this.currentLevelNumber = 0;
@@ -24,7 +23,7 @@ public class SokobanModel implements GameModel {
 	}
 
 	public Game getCurrent() {
-		return current;
+		return currentGame;
 	}
 
 	@Override
@@ -35,21 +34,21 @@ public class SokobanModel implements GameModel {
 
 	@Override
 	public Game performMovement(SokobanAction action) {
-		Movement movement = this.current.move(action);
+		Movement movement = this.currentGame.move(action);
 		if(movement.isPlayerMoved()) {
 			this.lastMovements.push(movement);
 			this.gameScore++;
 		}
-		return this.current;
+		return this.currentGame;
 	}
 	@Override
 	public Game undoMovement() {
 		if(!lastMovements.isEmpty()) {
 			Movement movement = this.lastMovements.pop();
-			this.current.undoMove(movement);
+			this.currentGame.undoMove(movement);
 			this.gameScore--;
 		}
-		return this.current;
+		return this.currentGame;
 	}
 
 	public int getGameScore() {
@@ -68,9 +67,9 @@ public class SokobanModel implements GameModel {
 		if(ld.validMap(this.currentLevelNumber))
 			game = ld.convertMap(this.currentLevelNumber);
 		this.lastMovements = new ArrayDeque<>();		
-		this.current = game;
+		this.currentGame = game;
 		if (game != null)
-			this.current.setGameScore(this.gameScore);
+			this.currentGame.setGameScore(this.gameScore);
 		return game;
 	}
 
@@ -78,25 +77,25 @@ public class SokobanModel implements GameModel {
 	@Override
 	public Game restartLevel() {
 		Game restartedGame = null;
-		int restartedGameScore = current.getGameScore() - current.getLevelScore();
+		int restartedGameScore = currentGame.getGameScore() - currentGame.getLevelScore();
 		this.gameScore = restartedGameScore;
 		restartedGame = ld.convertMap(this.currentLevelNumber);
 		restartedGame.setGameScore(restartedGameScore);
 		this.lastMovements = new ArrayDeque<>();
-		this.current = restartedGame;
-		return this.current;
+		this.currentGame = restartedGame;
+		return this.currentGame;
 	}
 
 	@Override
 	public boolean saveGame(String name) {
-		return sm.saveGame(this.current, this.lastMovements, name);
+		return sm.saveGame(this.currentGame, this.lastMovements, name);
 	}
 
 	@Override
 	public Game loadGame(String path) {
 		Game loadedGame = lm.loadGame(path);
 		if(loadedGame!=null) {
-			this.current = loadedGame;
+			this.currentGame = loadedGame;
 			this.gameScore = loadedGame.getGameScore();
 			this.currentLevelNumber = loadedGame.getLevelNumber();
 			this.lastMovements = lm.loadLastMovements(path);

@@ -10,6 +10,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 
 import javax.swing.JTextField;
+import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
@@ -24,6 +25,8 @@ import java.awt.SystemColor;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
@@ -44,6 +47,7 @@ public class GameView extends JFrame implements KeyListener {
 	private JPanel menuPanel;
 	private JPanel infoPanel;
 	private JPanel lowerButtonPanel;
+	
 	private JMenuBar jMenuBar;
 	private JTextField textFieldGameScore;
 	private JTextField textFieldLevelScore;
@@ -83,7 +87,6 @@ public class GameView extends JFrame implements KeyListener {
 	private void initializeComponents() {
 		initializeMenuPanel();
 		initializeInfoPanel();	
-		initializeButtonPanel();
 		initializeMenuBar();
 		initializeLowerButtonPanel();
 		drawWelcomeScreen();
@@ -176,38 +179,6 @@ public class GameView extends JFrame implements KeyListener {
 
 	}
 
-	private void initializeButtonPanel() {
-		JPanel buttonsPanel = new JPanel();
-		getContentPane().add(buttonsPanel, BorderLayout.SOUTH);
-
-		JButton buttonUp = new JButton("UP");
-		buttonUp.addActionListener(event -> controller.onMove(SokobanAction.UP) );
-
-		buttonsPanel.setLayout(new GridLayout(0, 3, 0, 0));
-
-		JButton blank1 = new JButton("");
-		blank1.setEnabled(false);
-		buttonsPanel.add(blank1);
-		buttonsPanel.add(buttonUp);
-
-		JButton buttonRight = new JButton("RIGHT");
-		buttonRight.addActionListener(event -> controller.onMove(SokobanAction.RIGHT) );
-
-		JButton blank2 = new JButton("");
-		blank2.setEnabled(false);
-		buttonsPanel.add(blank2);
-
-		JButton buttonLeft = new JButton("LEFT");
-		buttonLeft.addActionListener(event -> controller.onMove(SokobanAction.LEFT) );
-		buttonsPanel.add(buttonLeft);
-
-		JButton buttonDown = new JButton("DOWN");
-		buttonDown.addActionListener(event -> controller.onMove(SokobanAction.DOWN) );
-		buttonsPanel.add(buttonDown);
-		buttonsPanel.add(buttonRight);
-
-		buttonsPanel.setVisible(false);
-	}
 
 	private void initializeMenuBar() {
 		this.jMenuBar = new JMenuBar();
@@ -222,10 +193,12 @@ public class GameView extends JFrame implements KeyListener {
 		mnNewMenu.add(newGameMenuItem);
 
 		JMenuItem loadMenuItem = new JMenuItem("Load Game", new ImageIcon("images/load.gif"));
+		loadMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L, ActionEvent.CTRL_MASK));
 		loadMenuItem.addActionListener(event -> controller.onLoad());
 		mnNewMenu.add(loadMenuItem);
 
 		JMenuItem saveMenuItem = new JMenuItem("Save Game", new ImageIcon("images/save.gif"));
+		saveMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK));
 		saveMenuItem.addActionListener(event -> controller.onSave());
 		mnNewMenu.add(saveMenuItem);
 		
