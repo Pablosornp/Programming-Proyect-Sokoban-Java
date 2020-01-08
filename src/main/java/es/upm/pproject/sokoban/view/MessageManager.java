@@ -13,6 +13,7 @@ public class MessageManager {
 
 	private JFrame view;
 	private static final String SOKOBAN = "Sokoban";
+	private ImageIcon iconFail = new ImageIcon("images/icon_fail.png");
 	
 	
 	public MessageManager(JFrame view) {
@@ -20,7 +21,13 @@ public class MessageManager {
 	}
 	
 	public void showControlsAndRules() {
-		JOptionPane.showMessageDialog(view, "<html>GOAL:<br/>The goal of the puzzle is to push all of the boxes onto the goals.<br/><br/>RULES:<br/>· Only one box can be pushed at a time.<br/>· A box cannot be pulled.<br/>· The player cannot walk through boxes or walls.<br/>· The puzzle is solved when all boxes are on the goals.<br/><br/>CONTROLS:<br/>· Arrow keys for movement<br/>· [U] for undo move<br/>· [R] for restart level</html>", SOKOBAN , 1, new ImageIcon("images/icon_help.png"));
+		String rules = "<html>GOAL:<br/>The goal of the puzzle is to push all of the boxes onto the goals.<br/><br/>RULES:<br/>· Only one box can be pushed at a time.<br/>· A box cannot be pulled.<br/>· The player cannot walk through boxes or walls.<br/>· The puzzle is solved when all boxes are on the goals.<br/><br/>CONTROLS:<br/>· Arrow keys for movement<br/>· [U] for undo move<br/>· [R] for restart level</html>";
+		JOptionPane.showMessageDialog(view, rules, SOKOBAN , 1, new ImageIcon("images/icon_help.png"));
+	}
+	
+	public void showCredits() {
+		String credits = "<html>This software was enthusiastically developed <br/>during the last months of 2019 by:<br/><br/>Pablo Heras Aranzana <small>(@pablosornp)</small><br/>Javier Pereda Solano <small>(@javprd)</small><br/>Pablo García del Moral <small>(@frankiemarley)</small><br/><br/><sub>Sokoban® is a registered trademark of Falcon Co., Ltd., Japan.<br/>Sokoban is copyright © 1982-2012 by Hiroyuki Imabayashi, Japan.<br/>Sokoban is copyright © 89, 90, 2001-12 by Falcon Co., Ltd., Japan.</sub>";
+		JOptionPane.showMessageDialog(view, credits, SOKOBAN, 1, new ImageIcon("images/icon_team.png"));
 	}
 
 	public void showLevelCompletedMessage(int levelNumber, int gameScore) {
@@ -40,15 +47,15 @@ public class MessageManager {
 	}
 
 	public void showInvalidLevelMessage() {
-		JOptionPane.showMessageDialog(view, "The map is not valid. Loading next level.", SOKOBAN, 0, new ImageIcon("images/icon_fail.png"));
+		JOptionPane.showMessageDialog(view, "The map is not valid. Loading next level.", SOKOBAN, 0, iconFail);
 	}
 
 	public void showFailedSaveMessage() {
-		JOptionPane.showMessageDialog(view, "There was a problem trying to save the game.", SOKOBAN, 0, new ImageIcon("images/icon_fail.png"));
+		JOptionPane.showMessageDialog(view, "There was a problem trying to save the game.", SOKOBAN, 0, iconFail);
 	}
 	
 	public void showFailedLoadMessage() {
-		JOptionPane.showMessageDialog(view, "There was a problem trying to load the game.", SOKOBAN, 0, new ImageIcon("images/icon_fail.png"));
+		JOptionPane.showMessageDialog(view, "There was a problem trying to load the game.", SOKOBAN, 0, iconFail);
 	}
 
 	public int showExitMessage() {

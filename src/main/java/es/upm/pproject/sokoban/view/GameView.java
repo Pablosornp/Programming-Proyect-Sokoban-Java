@@ -202,9 +202,13 @@ public class GameView extends JFrame implements KeyListener {
 		saveMenuItem.addActionListener(event -> controller.onSave());
 		mnNewMenu.add(saveMenuItem);
 		
-		JMenuItem ControlsMenuItem = new JMenuItem("Controls & Rules", new ImageIcon("images/help_b.gif"));
-		ControlsMenuItem.addActionListener(event -> controller.onControls());
-		mnNewMenu.add(ControlsMenuItem);
+		JMenuItem controlsMenuItem = new JMenuItem("Controls & Rules", new ImageIcon("images/help.gif"));
+		controlsMenuItem.addActionListener(event -> controller.onControls());
+		mnNewMenu.add(controlsMenuItem);
+		
+		JMenuItem aboutMenuItem = new JMenuItem("About", new ImageIcon("images/about.gif"));
+		aboutMenuItem.addActionListener(event -> controller.onAbout());
+		mnNewMenu.add(aboutMenuItem);
 
 		JMenuItem exitMenuItem = new JMenuItem("Exit");
 		exitMenuItem.addActionListener(event -> controller.onExit());
@@ -220,7 +224,7 @@ public class GameView extends JFrame implements KeyListener {
 		lowerButtonPanel.setLayout(new GridLayout(0, 2, 0, 0));
 		lowerButtonPanel.add(btnLowerUndo);
 
-		JButton btnLowerRestart = new JButton("Restart level", new ImageIcon("images/restart2.gif"));
+		JButton btnLowerRestart = new JButton("Restart level", new ImageIcon("images/restart.gif"));
 		btnLowerRestart.addActionListener(event -> controller.onRestart());
 		lowerButtonPanel.add(btnLowerRestart);
 	}

@@ -49,12 +49,6 @@ public class SokobanController {
 		updateLevelInfo(currentGame);
 		view.focusOnKeyboard();
 	}
-	
-	public void onControls() {
-		MessageManager mm = view.getMm();
-		mm.showControlsAndRules();
-		view.focusOnKeyboard();
-	}
 
 	public void onSave() {
 		MessageManager mm = view.getMm();
@@ -86,6 +80,17 @@ public class SokobanController {
 		}
 	}
 
+	public void onControls() {
+		MessageManager mm = view.getMm();
+		mm.showControlsAndRules();
+		view.focusOnKeyboard();
+	}
+	
+	public void onAbout() {
+		MessageManager mm = view.getMm();
+		mm.showCredits();
+		view.focusOnKeyboard();
+	}
 	public void onExit() {
 		int input = view.getMm().showExitMessage();
 		// 0=yes, 1=no, 2=cancel
