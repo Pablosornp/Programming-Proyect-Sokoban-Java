@@ -4,7 +4,7 @@ Final Project (Sokoban) is a program for playing Sokoban, a puzzle game which go
 
 ## Getting Started
 
-The project source code can be taken from the [project's GitLab URL] (http://costa.ls.fi.upm.es/gitlab/150046/mini-project.git) 
+The project source code can be taken from the [project's GitLab URL] (http://costa.ls.fi.upm.es/gitlab/150046/final-project.git) 
 Then, for instance, Sokoban.java can be run from the IDE of your choice.
 This will get you a copy of the project up and running on your local machine for development and testing purposes.
 
@@ -51,7 +51,7 @@ Also shown in the [contributors graph](http://costa.ls.fi.upm.es/gitlab/150046/f
 
 ## License
 
-The graphic material used is the result of a transformation, remix or build upon material under public domain license or [Creative Commons 3.0] (https://creativecommons.org/licenses/by-sa/3.0/), in which case the appropriate credit is given in the *Acknowledgments* section. 
+The graphic material used is the result of a transformation, remix or build upon material under public domain license or [Creative Commons 3.0] (https://creativecommons.org/licenses), in which case the appropriate credit is given in the *Acknowledgments* section. 
 
 ## Acknowledgments
 

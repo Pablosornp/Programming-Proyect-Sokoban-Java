@@ -30,8 +30,8 @@ public class MessageManager {
 		JOptionPane.showMessageDialog(view, credits, SOKOBAN, 1, new ImageIcon(view.getImagesPath()+"/icon_team.png"));
 	}
 
-	public void showLevelCompletedMessage(int levelNumber, int gameScore) {
-		JOptionPane.showMessageDialog(view,"LEVEL "+levelNumber+" COMPLETED!\n\nGame Score: "+gameScore, SOKOBAN, 1, new ImageIcon(view.getImagesPath()+"/icon_level.png"));
+	public void showLevelCompletedMessage(int levelNumber, int levelScore) {
+		JOptionPane.showMessageDialog(view,"LEVEL "+levelNumber+" COMPLETED!\n\nLevel Score: "+levelScore, SOKOBAN, 1, new ImageIcon(view.getImagesPath()+"/icon_level.png"));
 	}
 
 	public void showYouWonMessage(int gameScore) {

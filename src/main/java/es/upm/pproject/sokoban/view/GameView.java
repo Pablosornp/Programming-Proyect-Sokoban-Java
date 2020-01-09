@@ -286,7 +286,7 @@ public class GameView extends JFrame implements KeyListener {
 		this.gamePanel.setPreferredSize(dim);
 		welcomeLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
-		JButton btnPressStart = new JButton("START NEW GAME");
+		JButton btnPressStart = new JButton("Start New Game");
 		btnPressStart.addActionListener(event -> controller.onStart());
 		btnPressStart.setHorizontalAlignment(SwingConstants.CENTER);
 		
