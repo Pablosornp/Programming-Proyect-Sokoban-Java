@@ -22,7 +22,6 @@ public class SokobanController {
 
 	public void onStart() {
 		model.startNewGame();
-		view.setPanelsVisible(true);
 		view.setKeyboardEnabled(true);
 		if(!loadLevel()) 
 			gameCompleted(model.getCurrent().getGameScore());	
@@ -76,8 +75,8 @@ public class SokobanController {
 				updateLevelInfo(loadedGame);
 			else
 				view.getMm().showFailedLoadMessage();	
-			view.focusOnKeyboard();
 		}
+		view.focusOnKeyboard();
 	}
 
 	public void onControls() {
@@ -102,6 +101,7 @@ public class SokobanController {
 		boolean levelLoaded;
 		boolean hasNext;
 		Game game=null;
+		//While there is a level to load and it is not valid. -> Show error message
 		while((hasNext = model.hasNextLevel()) && (game = model.loadNextLevel()) == null) {
 			view.getMm().showInvalidLevelMessage();
 		}
@@ -155,7 +155,7 @@ public class SokobanController {
 
 	private boolean levelCompleted(Game game) {
 		if(game.isLevelCompleted()) {
-			view.getMm().showLevelCompletedMessage(game.getLevelNumber(), game.getGameScore());
+			view.getMm().showLevelCompletedMessage(game.getLevelNumber(), game.getLevelScore());
 			return true;
 		}
 		else return false;

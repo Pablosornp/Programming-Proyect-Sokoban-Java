@@ -23,7 +23,7 @@ public class LevelLoader {
 
 	public LevelLoader() {
 		initializeCounters();
-		Path path = Paths.get("./levels/");
+		Path path = Paths.get("./src/main/resources/levels/");
 		this.levelsPath = path.toAbsolutePath().toString()+"\\level_";
 	}
 

@@ -69,7 +69,7 @@ public class GameView extends JFrame implements KeyListener {
 	public GameView(SokobanController controller) {
 		this.setTitle("Sokoban");
 
-		Path currentDir = Paths.get("./images/");
+		Path currentDir = Paths.get("./src/main/resources/images/");
 		this.imagesPath = currentDir.toAbsolutePath().toString();
 		this.controller=controller;
 		this.mm = new MessageManager(this);
@@ -188,25 +188,25 @@ public class GameView extends JFrame implements KeyListener {
 		JMenu mnNewMenu = new JMenu("Menu");
 		jMenuBar.add(mnNewMenu);
 
-		JMenuItem newGameMenuItem = new JMenuItem("Start New Game", new ImageIcon("images/newgame.gif"));
+		JMenuItem newGameMenuItem = new JMenuItem("Start New Game", new ImageIcon(imagesPath+"/newgame.gif"));
 		newGameMenuItem.addActionListener(event -> controller.onStart());
 		mnNewMenu.add(newGameMenuItem);
 
-		JMenuItem loadMenuItem = new JMenuItem("Load Game", new ImageIcon("images/load.gif"));
+		JMenuItem loadMenuItem = new JMenuItem("Load Game", new ImageIcon(imagesPath+"/load.gif"));
 		loadMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L, ActionEvent.CTRL_MASK));
 		loadMenuItem.addActionListener(event -> controller.onLoad());
 		mnNewMenu.add(loadMenuItem);
 
-		JMenuItem saveMenuItem = new JMenuItem("Save Game", new ImageIcon("images/save.gif"));
+		JMenuItem saveMenuItem = new JMenuItem("Save Game", new ImageIcon(imagesPath+"/save.gif"));
 		saveMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK));
 		saveMenuItem.addActionListener(event -> controller.onSave());
 		mnNewMenu.add(saveMenuItem);
 		
-		JMenuItem controlsMenuItem = new JMenuItem("Controls & Rules", new ImageIcon("images/help.gif"));
+		JMenuItem controlsMenuItem = new JMenuItem("Controls & Rules", new ImageIcon(imagesPath+"/help.gif"));
 		controlsMenuItem.addActionListener(event -> controller.onControls());
 		mnNewMenu.add(controlsMenuItem);
 		
-		JMenuItem aboutMenuItem = new JMenuItem("About", new ImageIcon("images/about.gif"));
+		JMenuItem aboutMenuItem = new JMenuItem("About", new ImageIcon(imagesPath+"/about.gif"));
 		aboutMenuItem.addActionListener(event -> controller.onAbout());
 		mnNewMenu.add(aboutMenuItem);
 
@@ -219,19 +219,20 @@ public class GameView extends JFrame implements KeyListener {
 		this.lowerButtonPanel = new JPanel();
 		getContentPane().add(lowerButtonPanel, BorderLayout.SOUTH);
 
-		JButton btnLowerUndo = new JButton("Undo move", new ImageIcon("images/undo.gif"));
+		JButton btnLowerUndo = new JButton("Undo move", new ImageIcon(this.imagesPath+"/undo.gif"));
 		btnLowerUndo.addActionListener(event -> controller.onUndoMove());
 		lowerButtonPanel.setLayout(new GridLayout(0, 2, 0, 0));
 		lowerButtonPanel.add(btnLowerUndo);
 
-		JButton btnLowerRestart = new JButton("Restart level", new ImageIcon("images/restart.gif"));
+
+		JButton btnLowerRestart = new JButton("Restart level", new ImageIcon(this.imagesPath+"/restart.gif"));
 		btnLowerRestart.addActionListener(event -> controller.onRestart());
 		lowerButtonPanel.add(btnLowerRestart);
 	}
 
 	private void setFrameIcon() {
 		try {
-			BufferedImage image = ImageIO.read(new File(imagesPath+"\\icon.png"));
+			BufferedImage image = ImageIO.read(new File(imagesPath+"/icon.png"));
 			this.setIconImage(image);
 		} catch (IOException e) {
 			LOGGER.log(Level.WARNING,"Icon not found");
@@ -262,13 +263,16 @@ public class GameView extends JFrame implements KeyListener {
 	public MessageManager getMm() {
 		return mm;
 	}
+	
+	public String getImagesPath() {
+		return imagesPath;
+	}
 
 	public void setPanelsVisible(boolean visible) {
 		this.infoPanel.setVisible(visible);
 		this.jMenuBar.setVisible(visible);
 		this.menuPanel.setVisible(false);
 		this.lowerButtonPanel.setVisible(visible);
-		this.pack();
 	}
 
 	public void drawWelcomeScreen(){
@@ -296,6 +300,7 @@ public class GameView extends JFrame implements KeyListener {
 
 	public void drawWarehousePanel(SokobanElements[][] elements, 
 			SokobanAction lastAction, int levelNumber, int step) {
+		this.setPanelsVisible(true);
 		if(gamePanel!=null)
 			this.remove(gamePanel);	
 

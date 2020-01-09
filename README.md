@@ -51,7 +51,7 @@ Also shown in the [contributors graph](http://costa.ls.fi.upm.es/gitlab/150046/f
 
 ## License
 
-The graphic material used is the result of a transformation, remix or build upon material under public domain license or [Creative Commons 3.0] (https://creativecommons.org/licenses/by-sa/3.0/), in which case the appropieate credit is given in the *Acknowledgments* section. 
+The graphic material used is the result of a transformation, remix or build upon material under public domain license or [Creative Commons 3.0] (https://creativecommons.org/licenses/by-sa/3.0/), in which case the appropriate credit is given in the *Acknowledgments* section. 
 
 ## Acknowledgments
 

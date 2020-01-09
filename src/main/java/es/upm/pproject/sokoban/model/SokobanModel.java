@@ -85,6 +85,7 @@ public class SokobanModel implements GameModel {
 		this.currentGame = restartedGame;
 		return this.currentGame;
 	}
+	
 
 	@Override
 	public boolean saveGame(String name) {
