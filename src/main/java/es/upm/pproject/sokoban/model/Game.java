@@ -17,18 +17,8 @@ public class Game {
 		this.warehouse = warehouse;	
 	}
 
-	public void restartLevel(Cell[][] board, int gameScore) {
-		this.levelScore = 0;
-		this.gameScore = gameScore;
-		this.warehouse.restartWarehouse(board);
-	}
-
 	public int getLevelNumber() {
 		return levelNumber;
-	}
-
-	public void setLevelNumber(int levelNumber) {
-		this.levelNumber = levelNumber;
 	}
 
 	public String getLevelName() {
@@ -46,7 +36,7 @@ public class Game {
 	public Integer getLevelScore() {
 		return levelScore;
 	}
-	
+
 	public void setLevelScore(Integer levelScore) {
 		this.levelScore = levelScore;
 	}
@@ -75,9 +65,10 @@ public class Game {
 
 	public void undoMove(Movement movement) {
 		this.warehouse.undoMove(movement);
-		decrementScore();
+		if(movement.isPlayerMoved())
+			decrementScore();
 	}
-	
+
 	public boolean isLevelCompleted() {
 		return warehouse.getBoxesAtGoal()==warehouse.getHowManyBoxes();
 	}

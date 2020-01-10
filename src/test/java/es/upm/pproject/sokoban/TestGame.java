@@ -1,6 +1,12 @@
 package es.upm.pproject.sokoban;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.logging.Logger;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -11,15 +17,21 @@ import es.upm.pproject.sokoban.controller.SokobanElements;
 import es.upm.pproject.sokoban.model.Cell;
 import es.upm.pproject.sokoban.model.Game;
 import es.upm.pproject.sokoban.model.Warehouse;
+import es.upm.pproject.sokoban.model.Movement;
 
-@DisplayName("Test message")
+@DisplayName("Tests for Game methods in a default board")
 public class TestGame {	
-	
+
 	private Cell [][] defaultBoard;
+	private Game game;
+    Logger logger 
+    = Logger.getLogger( 
+        TestGame.class.getName()); 
 
 	@BeforeEach
-	public  void createDefaultBoard() {
-		defaultBoard = new Cell [8][8];
+	@DisplayName("Create Default Board and Game")
+	public  void createDefaultBoardAndGame() {
+		this.defaultBoard = new Cell [8][8];
 		defaultBoard [0][0] = new Cell(SokobanElements.WALL, SokobanElements.NONE);
 		defaultBoard [0][1] = new Cell(SokobanElements.WALL, SokobanElements.NONE);
 		defaultBoard [0][2] = new Cell(SokobanElements.WALL, SokobanElements.NONE);
@@ -91,14 +103,97 @@ public class TestGame {
 		defaultBoard [7][5] = new Cell(SokobanElements.GAP, SokobanElements.NONE);
 		defaultBoard [7][6] = new Cell(SokobanElements.GAP, SokobanElements.NONE);
 		defaultBoard [7][7] = new Cell(SokobanElements.GAP, SokobanElements.NONE);
+		
+		this.game = new Game(99, "Test Level", new Warehouse(defaultBoard));
 	}
 
 	@Test
 	@DisplayName("Test for testing movements")
 	void wholeLevelTest() {
+		game.move(SokobanAction.UP);
+		game.move(SokobanAction.RIGHT);
+		game.move(SokobanAction.RIGHT);
+		game.move(SokobanAction.RIGHT);
+		game.move(SokobanAction.RIGHT);
+		game.move(SokobanAction.DOWN);
+		game.move(SokobanAction.DOWN);
+		game.move(SokobanAction.LEFT);
+		game.move(SokobanAction.UP);
+		game.move(SokobanAction.RIGHT);
+		game.move(SokobanAction.UP);
+		game.move(SokobanAction.LEFT);
+		assertFalse(game.isLevelCompleted());
+		game.move(SokobanAction.LEFT);
+		game.move(SokobanAction.LEFT);
+		game.move(SokobanAction.DOWN);
+		game.move(SokobanAction.LEFT);
+		game.move(SokobanAction.UP);
+		game.move(SokobanAction.LEFT);
+		game.move(SokobanAction.UP);
+		game.move(SokobanAction.UP);
+		game.move(SokobanAction.RIGHT);
+		game.move(SokobanAction.DOWN);
+		game.move(SokobanAction.DOWN);
+		game.move(SokobanAction.DOWN);
+		game.move(SokobanAction.RIGHT);
+		game.move(SokobanAction.DOWN);
+		game.move(SokobanAction.DOWN);
+		game.move(SokobanAction.LEFT);
+		game.move(SokobanAction.LEFT);
+		game.move(SokobanAction.UP);
+		game.move(SokobanAction.RIGHT);
+		game.move(SokobanAction.DOWN);
+		game.move(SokobanAction.RIGHT);
+		game.move(SokobanAction.UP);
+		assertTrue(game.isLevelCompleted());
+	}
 
-		Game game = new Game(1, "Test", new Warehouse(defaultBoard));
-
+	@Test
+	@DisplayName("Test to get LevelNumber")
+	void levelNumberTest() {
+		assertSame(99,game.getLevelNumber());		
+	}
+	
+	@Test
+	@DisplayName("Test to get LevelName")
+	void getLevelNameTest() {
+		assertEquals("Test Level",game.getLevelName());
+	}
+	
+	@Test
+	@DisplayName("Test to get GameScore")
+	void getGameScoreTest() {
+		assertSame(0,game.getGameScore());
+		game.move(SokobanAction.UP);
+		game.move(SokobanAction.RIGHT);
+		game.move(SokobanAction.RIGHT);
+		game.move(SokobanAction.RIGHT);
+		game.move(SokobanAction.RIGHT);
+		game.move(SokobanAction.RIGHT); // walk into wall
+		game.move(SokobanAction.DOWN);
+		assertSame(6,game.getGameScore());
+	}
+	
+	@Test
+	@DisplayName("Test to set GameScore")
+	void setGameScoreTest() {
+		game.move(SokobanAction.UP);
+		game.move(SokobanAction.RIGHT);
+		game.move(SokobanAction.RIGHT);
+		game.move(SokobanAction.RIGHT);
+		game.move(SokobanAction.RIGHT);
+		game.move(SokobanAction.DOWN);
+		game.move(SokobanAction.DOWN);
+		game.move(SokobanAction.LEFT);
+		game.setGameScore(0);
+		game.move(SokobanAction.UP);
+		game.move(SokobanAction.RIGHT);
+		assertSame(2,game.getGameScore());		
+	}
+	
+	@Test
+	@DisplayName("Test to get LevelScore")
+	void getLevelScoreTest() {
 		game.move(SokobanAction.UP);
 		game.move(SokobanAction.RIGHT);
 		game.move(SokobanAction.RIGHT);
@@ -114,25 +209,67 @@ public class TestGame {
 		game.move(SokobanAction.LEFT);
 		game.move(SokobanAction.LEFT);
 		game.move(SokobanAction.DOWN);
-		game.move(SokobanAction.LEFT);
+		assertSame(15,game.getLevelScore());
+	}
+	
+	@Test
+	@DisplayName("Test to set LevelScore")
+	void setLevelScoreTest() {
 		game.move(SokobanAction.UP);
-		game.move(SokobanAction.LEFT);
-		game.move(SokobanAction.UP);
-		game.move(SokobanAction.UP);
+		game.move(SokobanAction.RIGHT);
+		game.move(SokobanAction.RIGHT);
+		game.move(SokobanAction.RIGHT);
+		game.setLevelScore(1);
 		game.move(SokobanAction.RIGHT);
 		game.move(SokobanAction.DOWN);
 		game.move(SokobanAction.DOWN);
-		game.move(SokobanAction.DOWN);
+		game.move(SokobanAction.LEFT);
+		assertSame(5,game.getLevelScore());	
+	}
+	
+	@Test
+	@DisplayName("Test to decrement Score")
+	void decrementScoreTest() {
+		game.move(SokobanAction.UP);
+		game.move(SokobanAction.RIGHT);
+		game.move(SokobanAction.RIGHT);
+		game.move(SokobanAction.RIGHT);
 		game.move(SokobanAction.RIGHT);
 		game.move(SokobanAction.DOWN);
 		game.move(SokobanAction.DOWN);
 		game.move(SokobanAction.LEFT);
-		game.move(SokobanAction.LEFT);
 		game.move(SokobanAction.UP);
-		game.move(SokobanAction.RIGHT);
-		game.move(SokobanAction.DOWN);
-		game.move(SokobanAction.RIGHT);
-		game.move(SokobanAction.UP);
-		assertTrue(game.getWarehouse().getBoxesAtGoal()==1);
-	}  	
+		game.decrementScore();
+		assertSame(8, game.getGameScore());
+		assertSame(8, game.getLevelScore());
+	}
+	
+	@Test
+	@DisplayName("Test to undo Move. No stack involved")
+	void undoMoveTest() {
+		Movement firstMove = game.move(SokobanAction.UP);
+		Movement secondMove = game.move(SokobanAction.RIGHT);
+		Movement thirdMove = game.move(SokobanAction.RIGHT);
+		Movement forthMove = game.move(SokobanAction.RIGHT);
+		Movement fifthMove = game.move(SokobanAction.RIGHT);
+		Movement sixthMove = game.move(SokobanAction.RIGHT);
+		Movement seventhMove = game.move(SokobanAction.DOWN);
+		Movement eighthMove = game.move(SokobanAction.LEFT);
+		Movement ninthMove = game.move(SokobanAction.DOWN);
+		Movement tenthMove = game.move(SokobanAction.LEFT);
+		Movement eleventhMove = game.move(SokobanAction.UP);
+		assertTrue(game.getLevelScore()==9);
+		game.undoMove(eleventhMove);
+		game.undoMove(tenthMove);
+		game.undoMove(ninthMove);
+		game.undoMove(eighthMove);
+		game.undoMove(seventhMove);	
+		game.undoMove(sixthMove);	
+		game.undoMove(fifthMove);	
+		game.undoMove(forthMove);	
+		game.undoMove(thirdMove);	
+		game.undoMove(secondMove);	
+		game.undoMove(firstMove);
+		assertTrue(game.getLevelScore()==0);
+	}
 }

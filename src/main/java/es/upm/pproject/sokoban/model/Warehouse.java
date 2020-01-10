@@ -19,42 +19,20 @@ public class Warehouse {
 		this.lastAction = SokobanAction.DOWN;
 	}
 
-	public void restartWarehouse(Cell[][] warehouse) {
-		this.board = warehouse;
-		this.boxesAtGoal = 0;
-		updateWarehouseParameters();	
-	}
-
 	public Cell[][] getBoard() {
 		return board;
-	}
-
-	public void setWarehouse(Cell[][] warehouse) {
-		this.board = warehouse;
 	}
 
 	public Position getPlayerPos() {
 		return playerPos;
 	}
 
-	public void setPlayerPos(Position playerPos) {
-		this.playerPos = playerPos;
-	}
-
 	public int getHowManyBoxes() {
 		return howManyBoxes;
 	}
 
-	public void setHowManyBoxes(int howManyBoxes) {
-		this.howManyBoxes = howManyBoxes;
-	}
-
 	public int getBoxesAtGoal() {
 		return boxesAtGoal;
-	}
-
-	public void setBoxesAtGoal(int boxesAtGoal) {
-		this.boxesAtGoal = boxesAtGoal;
 	}
 
 	public SokobanAction getLastAction() {
@@ -68,7 +46,6 @@ public class Warehouse {
 	public void nextStep(){
 		this.step=(this.step + 1)%2;
 	}
-
 
 	private void updateWarehouseParameters(){
 		this.howManyBoxes=0;
