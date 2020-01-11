@@ -8,8 +8,6 @@ import java.nio.file.Paths;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import es.upm.pproject.sokoban.controller.SokobanElements;
-
 public class LevelLoader {
 
 	private String levelsPath;
@@ -24,7 +22,7 @@ public class LevelLoader {
 	public LevelLoader() {
 		initializeCounters();
 		Path path = Paths.get("./src/main/resources/levels/");
-		this.levelsPath = path.toAbsolutePath().toString()+"\\level_";
+		this.levelsPath = path.toAbsolutePath().toString()+"/level_";
 	}
 
 	public void initializeCounters() {
@@ -39,6 +37,18 @@ public class LevelLoader {
 
 	public void incrementGoalCounter() {
 		this.goalCounter++;
+	}
+
+
+	public int getPlayerCounter() {
+		return playerCounter;
+	}
+	
+	public void setLevelsPath(String levelsPath) {
+		this.levelsPath = levelsPath;
+	}
+	public String getLevelsPath() {
+		return levelsPath;
 	}
 
 	public void incrementPlayerCounter() {
@@ -66,7 +76,7 @@ public class LevelLoader {
 				}
 				else {
 					for(int j=0;j<line.length();j++){
-						board[row][j] = charToElem(line.charAt(j));
+						board[row][j] = new Cell(line.charAt(j));
 					}
 					row++;
 				}
@@ -124,28 +134,5 @@ public class LevelLoader {
 		}
 	}
 
-	private Cell charToElem(char character) {
-		Cell element;
-		switch(character){
-		case '#':
-			element = new Cell(SokobanElements.GAP, SokobanElements.BOX);
-			break;
-		case '*':
-			element = new Cell(SokobanElements.GOAL, SokobanElements.NONE);
-			break;
-		case '+':
-			element = new Cell(SokobanElements.WALL, SokobanElements.NONE);
-			break;
-		case 'W':
-			element = new Cell(SokobanElements.GAP, SokobanElements.PLAYER);
-			break;
-		case ' ':
-			element = new Cell(SokobanElements.GAP, SokobanElements.NONE);
-			break;
-		default: 
-			element = null;
-		}
-		return element;
-	}
 }
 

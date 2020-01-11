@@ -65,7 +65,7 @@ public class SaveManager {
 					bw.write(sb.toString() + newLine);
 				}
 			}
-			LOGGER.log(Level.INFO, "Game saved succesfullly.");
+			LOGGER.log(Level.INFO, "Game saved successfully.");
 		}catch(Exception e){
 			LOGGER.log(Level.SEVERE, "An error ocurred while saving the game.");
 			return false;
