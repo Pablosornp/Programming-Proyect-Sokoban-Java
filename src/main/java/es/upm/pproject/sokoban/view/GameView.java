@@ -44,7 +44,6 @@ public class GameView extends JFrame implements KeyListener {
 	private SokobanController controller;
 
 	private JPanel gamePanel;
-	private JPanel menuPanel;
 	private JPanel infoPanel;
 	private JPanel lowerButtonPanel;
 	
@@ -85,7 +84,6 @@ public class GameView extends JFrame implements KeyListener {
 	 * Initialize the frame components.
 	 */
 	private void initializeComponents() {
-		initializeMenuPanel();
 		initializeInfoPanel();	
 		initializeMenuBar();
 		initializeLowerButtonPanel();
@@ -146,38 +144,6 @@ public class GameView extends JFrame implements KeyListener {
 
 	}
 
-	private void initializeMenuPanel() {
-		this.menuPanel = new JPanel();
-		this.getContentPane().add(menuPanel, BorderLayout.EAST);
-
-		JButton btnNewGame = new JButton("Start new game");
-		btnNewGame.addActionListener(event -> controller.onStart());
-
-		JButton btnRestartLevel = new JButton("Restart level");
-		btnRestartLevel.addActionListener(event -> controller.onRestart());
-		menuPanel.add(btnRestartLevel);
-
-		menuPanel.setLayout(new GridLayout(0, 1, 0, 0));
-		menuPanel.add(btnNewGame);
-		menuPanel.add(btnRestartLevel);
-
-		JButton btnUndo = new JButton("Undo movement");
-		btnUndo.addActionListener(event -> controller.onUndoMove());
-		menuPanel.add(btnUndo);
-
-		JButton btnSave = new JButton("Save Game");
-		btnSave.addActionListener(event -> controller.onSave());
-		menuPanel.add(btnSave);
-
-		JButton btnLoad = new JButton("Load Game");
-		btnLoad.addActionListener(event -> controller.onLoad());
-		menuPanel.add(btnLoad);
-
-		JButton btnExit = new JButton("Exit");
-		btnExit.addActionListener(event -> controller.onExit());
-		menuPanel.add(btnExit);
-
-	}
 
 
 	private void initializeMenuBar() {
@@ -271,7 +237,6 @@ public class GameView extends JFrame implements KeyListener {
 	public void setPanelsVisible(boolean visible) {
 		this.infoPanel.setVisible(visible);
 		this.jMenuBar.setVisible(visible);
-		this.menuPanel.setVisible(false);
 		this.lowerButtonPanel.setVisible(visible);
 	}
 

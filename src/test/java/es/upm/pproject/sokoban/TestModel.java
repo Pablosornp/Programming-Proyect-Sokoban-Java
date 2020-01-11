@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.logging.Logger;
 
@@ -258,7 +259,7 @@ public class TestModel {
 		model.performMovement(SokobanAction.UP);
 		model.performMovement(SokobanAction.LEFT);
 		//		logger.info("GameScoreAfter3moves: "+model.getGameScore());
-		String savesFolderPath = Paths.get("./saves/").toAbsolutePath().toString();
+		String savesFolderPath = Paths.get("./src/test/resources/saves/").toAbsolutePath().toString();
 		model.loadGame(savesFolderPath+"/TestSavedGame.sav");
 		//		logger.info("GameScoreAfterLoad: "+model.getGameScore());
 		model.undoMovement();
