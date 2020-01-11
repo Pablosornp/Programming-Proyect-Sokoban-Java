@@ -20,7 +20,11 @@ Maven as a build tool
 
 ## Testing
 
-You can run a suite of automated tests using Maven build tool. These tests check the necessary preconditions and correct functioning of every method described previously.
+You can run a suite of automated tests using Maven build tool.<br/> 
+Using the command-line shell of your choice, get to the project's directory and run:
+
+	mvn test
+These tests check the necessary preconditions and correct functioning of every method implemented to fulfill the requirements of the project.
 
 ## Built With
 
@@ -29,7 +33,7 @@ You can run a suite of automated tests using Maven build tool. These tests check
 * [JUnit](https://junit.org/junit5/) - For test automation
 * [SonarQube](http://costa.ls.fi.upm.es:9000/sonar) - For assignment evaluation
 * [Java Swing](https://docs.oracle.com/javase/tutorial/uiswing/) - Graphical library to develop the GUI of the application
-* [GIMP] (https://www.gimp.org/) - As Free & Open Source Image Editor
+* [GIMP](https://www.gimp.org) - As Free & Open Source Image Editor
 
 ## Versioning
 
@@ -51,10 +55,10 @@ Also shown in the [contributors graph](http://costa.ls.fi.upm.es/gitlab/150046/f
 
 ## License
 
-The graphic material used is the result of a transformation, remix or build upon material under public domain license or [Creative Commons 3.0] (https://creativecommons.org/licenses), in which case the appropriate credit is given in the *Acknowledgments* section. 
+The graphic material used is the result of a transformation, remix or build upon material under public domain license or [Creative Commons 3.0](https://creativecommons.org/licenses), in which case the appropriate credit is given in the *Acknowledgments* section. 
 
 ## Acknowledgments
 
-* [1001.com](https://opengameart.org/users/1001com) - ([CC-BY-SA 3.0] (https://creativecommons.org/licenses/by-sa/3.0/) license ) - Base graphic material for Warehouseman, boxes, floor, walls and goals \(modified\).
-* [Tuomo Untinen](https://tuomount.kapsi.fi/contact.html) - ([CC-BY 3.0] (https://creativecommons.org/licenses/by/3.0/) license ) - Base graphic material for bush fence \(modified\).
-* [Reid Yaro] (http://evolonline.org/) - ([CC-BY-SA 3.0] (https://creativecommons.org/licenses/by-sa/3.0/) license ) - Base graphic material for dock wood \(modified\).
+* [1001.com](https://opengameart.org/users/1001com) - ([CC-BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/) license ) - Base graphic material for Warehouseman, boxes, floor, walls and goals \(modified\).
+* [Tuomo Untinen](https://tuomount.kapsi.fi/contact.html) - ([CC-BY 3.0](https://creativecommons.org/licenses/by/3.0/) license ) - Base graphic material for bush fence \(modified\).
+* [Reid Yaro](http://evolonline.org/) - ([CC-BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/) license ) - Base graphic material for dock wood \(modified\).

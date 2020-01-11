@@ -1,8 +1,12 @@
 package es.upm.pproject.sokoban;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.nio.file.Paths;
+import java.util.logging.Logger;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -14,12 +18,17 @@ import es.upm.pproject.sokoban.model.Cell;
 import es.upm.pproject.sokoban.model.Game;
 import es.upm.pproject.sokoban.model.Warehouse;
 import es.upm.pproject.sokoban.model.Movement;
+import es.upm.pproject.sokoban.model.SokobanModel;
 
 @DisplayName("Tests for model methods")
 public class TestModel {
 
 	private Cell [][] basicBoard;
 	private Game basicGame;
+
+	Logger logger 
+	= Logger.getLogger( 
+			TestModel.class.getName()); 
 
 	@BeforeEach
 	@DisplayName("Create Basic Board and Game")
@@ -121,6 +130,23 @@ public class TestModel {
 		basicGame.move(SokobanAction.RIGHT);
 		assertTrue(basicGame.getWarehouse().getBoxesAtGoal()==0);
 	}
+	
+	@Test
+	@DisplayName("Test to warehouse undoMove #2. Without involving the stack yet")
+	void undoMoveTest2() {
+		Movement firstMove = basicGame.move(SokobanAction.RIGHT);
+		Movement secondMove = basicGame.move(SokobanAction.RIGHT);
+		Movement thirdMove = basicGame.move(SokobanAction.RIGHT);
+		Movement forthMove = basicGame.move(SokobanAction.RIGHT);
+		Movement fifthMove = basicGame.move(SokobanAction.RIGHT); //player-box-wall
+		assertTrue(basicGame.getLevelScore()==4);
+		basicGame.undoMove(fifthMove);	
+		basicGame.undoMove(forthMove);	
+		basicGame.undoMove(thirdMove);	
+		basicGame.undoMove(secondMove);	
+		basicGame.undoMove(firstMove);
+		assertTrue(basicGame.getLevelScore()==0);
+	}
 
 	@Test
 	@DisplayName("Test for Movement constructor lowercase")
@@ -190,21 +216,21 @@ public class TestModel {
 		assertTrue(gapNone.isGap() && gapNone.containsNothing() && goalPlayer.isGoal() && goalPlayer.containsPlayer());
 		assertTrue(goalBox.isGoal() && goalBox.containsBox());
 	}
-	
+
 	@Test
 	@DisplayName("Test Cell getType")
 	void cellGetTypeTest() {
 		Cell wallNone = new Cell('+');
 		assertEquals(SokobanElements.WALL,wallNone.getType());
 	}
-	
+
 	@Test
 	@DisplayName("Test Cell getContent")
 	void cellGetContentTest() {
 		Cell wallNone = new Cell('+');
 		assertEquals(SokobanElements.NONE,wallNone.getContent());
 	}
-	
+
 	@Test
 	@DisplayName("Test Cell setType")
 	void cellSetTypeTest() {
@@ -213,7 +239,7 @@ public class TestModel {
 		goalNone.setType(SokobanElements.GAP);
 		assertEquals(SokobanElements.GAP,goalNone.getType());
 	}
-	
+
 	@Test
 	@DisplayName("Test Cell to Char #1")
 	void cellToCharTest1() {
@@ -222,14 +248,131 @@ public class TestModel {
 		Cell wallNone = new Cell('+');
 		assertTrue(gapBox.toChar().equals('#') && goalNone.toChar().equals('*') && wallNone.toChar().equals('+'));
 	}
-	
+
 	@Test
 	@DisplayName("Test Cell to Char #2")
 	void cellToCharTest2() {
-	Cell gapPlayer = new Cell('W');
-	Cell gapNone = new Cell(' ');
-	Cell goalPlayer = new Cell('@');
-	Cell goalBox = new Cell('$');
-	assertTrue(gapPlayer.toChar().equals('W') && gapNone.toChar().equals(' ') && goalPlayer.toChar().equals('@') && goalBox.toChar().equals('$'));
+		Cell gapPlayer = new Cell('W');
+		Cell gapNone = new Cell(' ');
+		Cell goalPlayer = new Cell('@');
+		Cell goalBox = new Cell('$');
+		assertTrue(gapPlayer.toChar().equals('W') && gapNone.toChar().equals(' ') && goalPlayer.toChar().equals('@') && goalBox.toChar().equals('$'));
 	}
+
+	@Test
+	@DisplayName("Test for SokobanModel constructor")
+	void sokobanModelTest() {
+		SokobanModel model = new SokobanModel();
+		model.loadNextLevel();
+		//		logger.info(model.getCurrent().toString());
+		assertNotEquals(model.getCurrent(),model.loadNextLevel());
+	}
+
+	@Test
+	@DisplayName("Test for SokobanModel performMovement")
+	void sokobanModelPerformMovementTest() {
+		SokobanModel model = new SokobanModel();
+		model.startNewGame();
+		model.loadNextLevel();
+		//		logger.info("GameScore before any move: "+ model.getGameScore()+" \n");
+		model.performMovement(SokobanAction.RIGHT);
+		//		logger.info("GameScore after 1 move: "+ model.getGameScore()+" \n");
+		model.performMovement(SokobanAction.RIGHT);	// player walks into wall
+		//		logger.info("GameScore after 2 moves: "+ model.getGameScore()+" (wall)\n");
+		model.performMovement(SokobanAction.RIGHT);	// player walks into wall x2
+		//		logger.info("GameScore after 3 moves: "+ model.getGameScore()+" (wall)\n");
+		model.performMovement(SokobanAction.RIGHT);	// player walks into wall x3
+		//		logger.info("GameScore after 4 moves: "+ model.getGameScore()+" (wall)\n");
+		model.performMovement(SokobanAction.UP);
+		//		logger.info("GameScore after 5 moves: "+ model.getGameScore()+" \n");
+		assertEquals(2,model.getGameScore());
+	}
+
+	@Test
+	@DisplayName("Test for SokobanModel undoMovement")
+	void sokobanModelUndoMovementTest() {
+		SokobanModel model = new SokobanModel();
+		model.startNewGame();
+		model.loadNextLevel();
+		//		logger.info("GameScore before any move: "+ model.getGameScore()+" \n");
+		model.performMovement(SokobanAction.RIGHT);
+		//		logger.info("GameScore after 1 move: "+ model.getGameScore()+" \n");
+		model.performMovement(SokobanAction.RIGHT);	// player walks into wall
+		//		logger.info("GameScore after 2 moves: "+ model.getGameScore()+" \n");
+		model.performMovement(SokobanAction.UP);
+		//		logger.info("GameScore after 3 moves: "+ model.getGameScore()+" \n");
+		model.undoMovement();
+		//		logger.info("GameScore after undoMovement: "+ model.getGameScore()+" \n");
+		model.undoMovement();
+		//		logger.info("GameScore after undoMovement: "+ model.getGameScore()+" \n");
+		model.undoMovement();
+		//		logger.info("GameScore after undoMovement: "+ model.getGameScore()+" \n");
+		assertEquals(0,model.getGameScore());
+	}
+
+	@Test
+	@DisplayName("Test for SokobanModel restartLevel")
+	void sokobanModelRestartLevelTest() {
+		SokobanModel model = new SokobanModel();
+		model.startNewGame();
+		model.loadNextLevel();
+		model.performMovement(SokobanAction.RIGHT);
+		model.performMovement(SokobanAction.UP);
+		model.performMovement(SokobanAction.RIGHT);
+		model.performMovement(SokobanAction.RIGHT);
+		model.performMovement(SokobanAction.DOWN);
+		assertFalse(model.getCurrent()==null);
+		model.restartLevel();
+		//		logger.info("GameScore after restart: "+model.getGameScore());
+		assertTrue(model.getGameScore()==0);
+	}
+
+	@Test
+	@DisplayName("Test for SokobanModel hasNextLevel")
+	void sokobanModelHasNextLevelTest() {
+		SokobanModel model = new SokobanModel();
+		model.startNewGame();
+		assertTrue(model.hasNextLevel());
+	}
+
+	@Test
+	@DisplayName("Test for SaveManager saveGame")
+	void saveManagerSaveGameTest() {
+		SokobanModel model = new SokobanModel();
+		model.startNewGame();
+		model.loadNextLevel();
+		model.performMovement(SokobanAction.RIGHT);
+		model.performMovement(SokobanAction.UP);
+		model.performMovement(SokobanAction.RIGHT);
+		model.performMovement(SokobanAction.RIGHT);
+		model.performMovement(SokobanAction.DOWN);
+		assertTrue(model.saveGame("TestSavedGame"));
+	}
+
+	@Test
+	@DisplayName("Test for LoadManager loadGame")
+	void loadManagerLoadGameTest() {
+		SokobanModel model = new SokobanModel();
+		model.startNewGame();
+		model.loadNextLevel();
+		model.performMovement(SokobanAction.RIGHT);
+		model.performMovement(SokobanAction.UP);
+		model.performMovement(SokobanAction.RIGHT);
+		model.performMovement(SokobanAction.RIGHT);
+		model.performMovement(SokobanAction.DOWN);
+		//		int gameScoreBeforeSave = model.getGameScore();
+		//		logger.info("GameScoreBeforeSave: "+gameScoreBeforeSave);
+		assertTrue(model.saveGame("TestSavedGame"));
+		model.performMovement(SokobanAction.RIGHT);
+		model.performMovement(SokobanAction.UP);
+		model.performMovement(SokobanAction.LEFT);
+		//		logger.info("GameScoreAfter3moves: "+model.getGameScore());
+		String savesFolderPath = Paths.get("./saves/").toAbsolutePath().toString();
+		model.loadGame(savesFolderPath+"/TestSavedGame.sav");
+		//		logger.info("GameScoreAfterLoad: "+model.getGameScore());
+		model.undoMovement();
+		//		logger.info("GameScoreAfterUndo1move: "+model.getGameScore());
+		assertEquals(4,model.getGameScore());
+	}
+
 }

@@ -33,25 +33,12 @@ public class LevelLoader {
 		this.playerCounter=0;
 	}
 
-
-	public int getBoxCounter() {
-		return boxCounter;
-	}
-
 	public void incrementBoxCounter() {
 		this.boxCounter++;
 	}
 
-	public int getGoalCounter() {
-		return goalCounter;
-	}
-
 	public void incrementGoalCounter() {
 		this.goalCounter++;
-	}
-
-	public int getPlayerCounter() {
-		return playerCounter;
 	}
 
 	public void incrementPlayerCounter() {

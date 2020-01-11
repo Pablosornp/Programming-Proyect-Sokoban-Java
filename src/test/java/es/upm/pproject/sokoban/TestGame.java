@@ -23,9 +23,9 @@ public class TestGame {
 
 	private Cell [][] defaultBoard;
 	private Game game;
-    Logger logger 
-    = Logger.getLogger( 
-        TestGame.class.getName()); 
+	Logger logger 
+	= Logger.getLogger( 
+			TestGame.class.getName()); 
 
 	@BeforeEach
 	@DisplayName("Create Default Board and Game")
@@ -102,7 +102,7 @@ public class TestGame {
 		defaultBoard [7][5] = new Cell(SokobanElements.GAP, SokobanElements.NONE);
 		defaultBoard [7][6] = new Cell(SokobanElements.GAP, SokobanElements.NONE);
 		defaultBoard [7][7] = new Cell(SokobanElements.GAP, SokobanElements.NONE);
-		
+
 		this.game = new Game(99, "Test Level", new Warehouse(defaultBoard));
 	}
 
@@ -152,13 +152,13 @@ public class TestGame {
 	void levelNumberTest() {
 		assertSame(99,game.getLevelNumber());		
 	}
-	
+
 	@Test
 	@DisplayName("Test to get LevelName")
 	void getLevelNameTest() {
 		assertEquals("Test Level",game.getLevelName());
 	}
-	
+
 	@Test
 	@DisplayName("Test to get GameScore")
 	void getGameScoreTest() {
@@ -172,7 +172,7 @@ public class TestGame {
 		game.move(SokobanAction.DOWN);
 		assertSame(6,game.getGameScore());
 	}
-	
+
 	@Test
 	@DisplayName("Test to set GameScore")
 	void setGameScoreTest() {
@@ -189,7 +189,7 @@ public class TestGame {
 		game.move(SokobanAction.RIGHT);
 		assertSame(2,game.getGameScore());		
 	}
-	
+
 	@Test
 	@DisplayName("Test to get LevelScore")
 	void getLevelScoreTest() {
@@ -210,7 +210,7 @@ public class TestGame {
 		game.move(SokobanAction.DOWN);
 		assertSame(15,game.getLevelScore());
 	}
-	
+
 	@Test
 	@DisplayName("Test to set LevelScore")
 	void setLevelScoreTest() {
@@ -225,7 +225,7 @@ public class TestGame {
 		game.move(SokobanAction.LEFT);
 		assertSame(5,game.getLevelScore());	
 	}
-	
+
 	@Test
 	@DisplayName("Test to decrement Score")
 	void decrementScoreTest() {
@@ -242,9 +242,9 @@ public class TestGame {
 		assertSame(8, game.getGameScore());
 		assertSame(8, game.getLevelScore());
 	}
-	
+
 	@Test
-	@DisplayName("Test to undo Move. No stack involved")
+	@DisplayName("Test to undo Move. Without involving the stack")
 	void undoMoveTest() {
 		Movement firstMove = game.move(SokobanAction.UP);
 		Movement secondMove = game.move(SokobanAction.RIGHT);
@@ -271,4 +271,5 @@ public class TestGame {
 		game.undoMove(firstMove);
 		assertTrue(game.getLevelScore()==0);
 	}
+
 }
