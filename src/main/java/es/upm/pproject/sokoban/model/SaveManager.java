@@ -67,7 +67,7 @@ public class SaveManager {
 			}
 			LOGGER.log(Level.INFO, "Game saved successfully.");
 		}catch(Exception e){
-			LOGGER.log(Level.SEVERE, "An error ocurred while saving the game.");
+			LOGGER.log(Level.SEVERE, "An error ocurred while saving the game: " + e.getMessage());
 			return false;
 		}
 		return true;

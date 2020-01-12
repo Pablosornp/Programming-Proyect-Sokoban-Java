@@ -26,7 +26,7 @@ public class TestLevelLoader {
 	static void load() {
 		Path path = Paths.get("./src/test/resources/levels/");
 		loader.setLevelsPath(path.toAbsolutePath().toString()+"/level_");
-		System.out.println(loader.getLevelsPath());
+//		System.out.println(loader.getLevelsPath());
 	}
 
 
@@ -64,12 +64,13 @@ public class TestLevelLoader {
 		@Test
 		@DisplayName("Testing levelName game loaded from level_1")
 		void assertCorrectPlayerPosition() { 
-			System.out.println(loadedGame.getWarehouse().getPlayerPos().getPosX());
-			System.out.println(loadedGame.getWarehouse().getPlayerPos().getPosY());
+//			System.out.println(loadedGame.getWarehouse().getPlayerPos().getPosX());
+//			System.out.println(loadedGame.getWarehouse().getPlayerPos().getPosY());
 			boolean isPosOk = loadedGame.getWarehouse().getPlayerPos().isEqualTo(new Position(4,2));
+			boolean isPosOk2 = loadedGame.getWarehouse().getPlayerPos().isEqualTo(new Position(1,3));
+			boolean isPosOk3 = loadedGame.getWarehouse().getPlayerPos().isEqualTo(new Position(4,1));
 			assertTrue(isPosOk);
-			isPosOk = loadedGame.getWarehouse().getPlayerPos().isEqualTo(new Position(1,3));
-			assertFalse(isPosOk);
+			assertFalse(isPosOk2 && isPosOk3);
 		}
 	}
 }

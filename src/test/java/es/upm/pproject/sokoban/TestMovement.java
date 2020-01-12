@@ -1,5 +1,6 @@
 package es.upm.pproject.sokoban;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.DisplayName;
@@ -16,32 +17,82 @@ public class TestMovement {
 	void movementConstuctorLowercaseTest() {
 		Movement up = new Movement('u');
 		Movement down = new Movement('d');
+		assertTrue(up.getAction()==SokobanAction.UP);
+		assertTrue(down.getAction()==SokobanAction.DOWN);
+	}
+	
+	@Test
+	@DisplayName("Test for Movement constructor lowercase #2")
+	void movementConstuctorLowercaseTest2() {
 		Movement left = new Movement('l');
 		Movement right = new Movement('r');
+		assertTrue(left.getAction()==SokobanAction.LEFT);
+		assertTrue(right.getAction()==SokobanAction.RIGHT);
+	}
+	
+	@Test
+	@DisplayName("Test for Movement constructor lowercase #3")
+	void movementConstuctorLowercaseTest3() {
 		Movement none = new Movement('j');
-		assertTrue(up.getAction()==SokobanAction.UP && down.getAction()==SokobanAction.DOWN && left.getAction()==SokobanAction.LEFT && right.getAction()==SokobanAction.RIGHT);
 		assertTrue(none.getAction()==null);
 	}
 
 	@Test
-	@DisplayName("Test for Movement constructor uppercase")
-	void movementConstuctorUppercaseTest() {
+	@DisplayName("Test for Movement constructor uppercase Up")
+	void movementConstuctorUppercaseUpTest() {
 		Movement upBox = new Movement('U');
+		assertTrue(upBox.getAction()==SokobanAction.UP);
+		assertTrue(upBox.isBoxMoved());
+	}
+	
+	@Test
+	@DisplayName("Test for Movement constructor uppercase Down")
+	void movementConstuctorUppercaseDownTest() {
 		Movement downBox = new Movement('D');
+		assertEquals(SokobanAction.DOWN,downBox.getAction());
+		assertTrue(downBox.isBoxMoved());
+	}
+	
+	@Test
+	@DisplayName("Test for Movement constructor uppercase Left")
+	void movementConstuctorUppercaseLeftTest() {
 		Movement leftBox = new Movement('L');
+		assertEquals(SokobanAction.LEFT,leftBox.getAction());
+		assertTrue(leftBox.isBoxMoved());
+	}
+	
+	@Test
+	@DisplayName("Test for Movement constructor uppercase Right")
+	void movementConstuctorUppercaseRightTest() {
 		Movement rightBox = new Movement('R');
-		assertTrue(upBox.getAction()==SokobanAction.UP && downBox.getAction()==SokobanAction.DOWN && leftBox.getAction()==SokobanAction.LEFT && rightBox.getAction()==SokobanAction.RIGHT);
-		assertTrue(upBox.isBoxMoved()==downBox.isBoxMoved()==leftBox.isBoxMoved()==rightBox.isBoxMoved()==true);
+		assertEquals(SokobanAction.RIGHT,rightBox.getAction());
+		assertTrue(rightBox.isBoxMoved());
+	}
+	
+	@Test
+	@DisplayName("Test for Movement constructor uppercase Null")
+	void movementConstuctorUppercaseNullTest() {
+		Movement noneBox = new Movement('J');
+		assertTrue(noneBox.getAction()==null);
 	}
 
+	
 	@Test
-	@DisplayName("Test for Movement toChar lowercase")
-	void movementToCharLowercaseTest() {
+	@DisplayName("Test for Movement toChar lowercase #1")
+	void movementToCharLowercaseTest1() {
 		Movement up = new Movement('u');
 		Movement down = new Movement('d');
+		assertTrue(up.toChar().equals('u'));
+		assertTrue(down.toChar().equals('d'));
+	}
+	
+	@Test
+	@DisplayName("Test for Movement toChar lowercase #2")
+	void movementToCharLowercaseTest2() {
 		Movement left = new Movement('l');
 		Movement right = new Movement('r');
-		assertTrue(up.toChar().equals('u') && down.toChar().equals('d') && left.toChar().equals('l') && right.toChar().equals('r'));
+		assertTrue(left.toChar().equals('l'));
+		assertTrue(right.toChar().equals('r'));
 	}
 
 	@Test
@@ -49,9 +100,17 @@ public class TestMovement {
 	void movementToCharUppercaseTest() {
 		Movement upBox = new Movement('U');
 		Movement downBox = new Movement('D');
+		assertTrue(upBox.toChar().equals('U'));
+		assertTrue(downBox.toChar().equals('D'));
+	}
+	
+	@Test
+	@DisplayName("Test for Movement toChar uppercase #2")
+	void movementToCharUppercaseTest2() {
 		Movement leftBox = new Movement('L');
 		Movement rightBox = new Movement('R');
-		assertTrue(upBox.toChar().equals('U') && downBox.toChar().equals('D') && leftBox.toChar().equals('L') && rightBox.toChar().equals('R'));
+		assertTrue(leftBox.toChar().equals('L'));
+		assertTrue(rightBox.toChar().equals('R'));
 	}
 
 

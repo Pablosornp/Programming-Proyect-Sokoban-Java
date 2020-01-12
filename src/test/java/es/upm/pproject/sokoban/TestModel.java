@@ -20,6 +20,8 @@ import es.upm.pproject.sokoban.model.Game;
 import es.upm.pproject.sokoban.model.Warehouse;
 import es.upm.pproject.sokoban.model.Movement;
 import es.upm.pproject.sokoban.model.SokobanModel;
+import es.upm.pproject.sokoban.model.SaveManager;
+import es.upm.pproject.sokoban.model.LoadManager;
 
 @DisplayName("Tests for model methods")
 public class TestModel {
@@ -131,7 +133,7 @@ public class TestModel {
 		basicGame.move(SokobanAction.RIGHT);
 		assertTrue(basicGame.getWarehouse().getBoxesAtGoal()==0);
 	}
-	
+
 	@Test
 	@DisplayName("Test to warehouse undoMove #2. Without involving the stack yet")
 	void undoMoveTest2() {
@@ -149,7 +151,7 @@ public class TestModel {
 		assertTrue(basicGame.getLevelScore()==0);
 	}
 
-	
+
 
 	@Test
 	@DisplayName("Test for SokobanModel constructor")
@@ -245,6 +247,7 @@ public class TestModel {
 	@DisplayName("Test for LoadManager loadGame")
 	void loadManagerLoadGameTest() {
 		SokobanModel model = new SokobanModel();
+
 		model.startNewGame();
 		model.loadNextLevel();
 		model.performMovement(SokobanAction.RIGHT);
@@ -252,18 +255,22 @@ public class TestModel {
 		model.performMovement(SokobanAction.RIGHT);
 		model.performMovement(SokobanAction.RIGHT);
 		model.performMovement(SokobanAction.DOWN);
-		//		int gameScoreBeforeSave = model.getGameScore();
-		//		logger.info("GameScoreBeforeSave: "+gameScoreBeforeSave);
+//		int gameScoreBeforeSave = model.getGameScore();
+//		logger.info("GameScoreBeforeSave: "+gameScoreBeforeSave);
 		assertTrue(model.saveGame("TestSavedGame"));
 		model.performMovement(SokobanAction.RIGHT);
 		model.performMovement(SokobanAction.UP);
 		model.performMovement(SokobanAction.LEFT);
-		//		logger.info("GameScoreAfter3moves: "+model.getGameScore());
-		String savesFolderPath = Paths.get("./src/test/resources/saves/").toAbsolutePath().toString();
-		model.loadGame(savesFolderPath+"/TestSavedGame.sav");
-		//		logger.info("GameScoreAfterLoad: "+model.getGameScore());
+//		logger.info("GameScoreAfter3moves: "+model.getGameScore());		
+//		String savesFolderPath = Paths.get("./src/test/resources/saves/").toAbsolutePath().toString();
+		Path path = Paths.get("./saves/TestSavedGame.sav");
+		String pathToFile = path.toString();
+//		logger.info("pathToFile given to loadGame: " + pathToFile);
+//		model.loadGame("./saves/ThisFileNotExists.sav");
+		model.loadGame(pathToFile);
+//		logger.info("GameScoreAfterLoad: " + model.getGameScore());
 		model.undoMovement();
-		//		logger.info("GameScoreAfterUndo1move: "+model.getGameScore());
+//		logger.info("GameScoreAfterUndo1move: " + model.getGameScore());
 		assertEquals(4,model.getGameScore());
 	}
 

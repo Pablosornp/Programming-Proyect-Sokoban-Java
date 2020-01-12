@@ -1,5 +1,6 @@
 package es.upm.pproject.sokoban.model;
 
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.LineNumberReader;
 import java.util.ArrayDeque;
@@ -56,8 +57,12 @@ public class LoadManager {
 			game.setLevelScore(levelScore);
 			return game;
 		}
+		catch(FileNotFoundException e) {
+			LOGGER.log(Level.SEVERE, "Error while loading game. File Not found");
+			return null;
+		}
 		catch(Exception e) {
-			LOGGER.log(Level.SEVERE, "Error while loading game.");
+			LOGGER.log(Level.SEVERE, "Error while loading game. Trying to read the file :" + e.getMessage());
 			return null;
 		}
 	}
@@ -79,7 +84,7 @@ public class LoadManager {
 			return lastMovements;
 		}
 		catch(Exception e) {
-			LOGGER.log(Level.SEVERE, "Error while loading game.");
+			LOGGER.log(Level.SEVERE, "Error while loading game. In dequeing the movements");
 			return lastMovements;
 		}
 	}

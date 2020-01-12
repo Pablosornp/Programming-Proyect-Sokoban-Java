@@ -39,11 +39,6 @@ public class LevelLoader {
 		this.goalCounter++;
 	}
 
-
-	public int getPlayerCounter() {
-		return playerCounter;
-	}
-	
 	public void setLevelsPath(String levelsPath) {
 		this.levelsPath = levelsPath;
 	}

@@ -93,14 +93,14 @@ public class Cell{
 				c='*';
 			else if(this.containsPlayer())
 				c='@';
-			else if(this.containsBox())
+			if(this.containsBox())
 				c='$';	
 		}else if(this.isGap()){
 			if(this.containsNothing())
 				c=' ';
 			else if(this.containsPlayer())
 				c='W';
-			else if(this.containsBox())
+			if(this.containsBox())
 				c='#';	
 		}else {
 			c='+';	

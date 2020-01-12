@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.logging.Logger;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,12 +18,17 @@ import es.upm.pproject.sokoban.model.Cell;
 import es.upm.pproject.sokoban.model.Game;
 import es.upm.pproject.sokoban.model.Warehouse;
 import es.upm.pproject.sokoban.model.Movement;
+import es.upm.pproject.sokoban.model.Position;
 
 @DisplayName("Tests for Game methods in a default board")
 public class TestGame {	
 
 	private Cell [][] defaultBoard;
+	private Cell [][] minimalBoard;
+	private Cell [][] rectangularBoard;
 	private Game game;
+	private Game gameBoxGoal;
+	private Game gamePlayerGoal;
 	Logger logger 
 	= Logger.getLogger( 
 			TestGame.class.getName()); 
@@ -104,6 +110,93 @@ public class TestGame {
 		defaultBoard [7][7] = new Cell(SokobanElements.GAP, SokobanElements.NONE);
 
 		this.game = new Game(99, "Test Level", new Warehouse(defaultBoard));
+	}
+
+	@BeforeEach
+	@DisplayName("Create Board with Box in Goal")
+	public  void createBoardwithBoxInGoal() {
+		this.minimalBoard = new Cell [3][6];
+
+		minimalBoard [0][0] = new Cell(SokobanElements.WALL, SokobanElements.NONE);
+		minimalBoard [0][1] = new Cell(SokobanElements.WALL, SokobanElements.NONE);
+		minimalBoard [0][2] = new Cell(SokobanElements.WALL, SokobanElements.NONE);
+		minimalBoard [0][3] = new Cell(SokobanElements.WALL, SokobanElements.NONE);
+		minimalBoard [0][4] = new Cell(SokobanElements.WALL, SokobanElements.NONE);
+		minimalBoard [0][5] = new Cell(SokobanElements.WALL, SokobanElements.NONE);
+
+
+		minimalBoard [1][0] = new Cell(SokobanElements.WALL, SokobanElements.NONE);
+		minimalBoard [1][1] = new Cell(SokobanElements.GAP, SokobanElements.PLAYER);
+		minimalBoard [1][2] = new Cell(SokobanElements.GAP, SokobanElements.BOX);
+		minimalBoard [1][3] = new Cell(SokobanElements.GOAL, SokobanElements.NONE);
+		minimalBoard [1][4] = new Cell(SokobanElements.GOAL, SokobanElements.BOX);
+		minimalBoard [1][5] = new Cell(SokobanElements.WALL, SokobanElements.NONE);
+
+
+		minimalBoard [2][0] = new Cell(SokobanElements.WALL, SokobanElements.NONE);
+		minimalBoard [2][1] = new Cell(SokobanElements.WALL, SokobanElements.NONE);
+		minimalBoard [2][2] = new Cell(SokobanElements.WALL, SokobanElements.NONE);
+		minimalBoard [2][3] = new Cell(SokobanElements.WALL, SokobanElements.NONE);
+		minimalBoard [2][4] = new Cell(SokobanElements.WALL, SokobanElements.NONE);
+		minimalBoard [2][5] = new Cell(SokobanElements.WALL, SokobanElements.NONE);
+
+		this.gameBoxGoal = new Game(77, "Test Level BoxGoal", new Warehouse(minimalBoard));
+	}
+
+	@BeforeEach
+	@DisplayName("Create board with player in goal")
+	void createBoardwithPlayerInGoal() {
+		this.rectangularBoard = new Cell [4][5];
+
+		rectangularBoard [0][0] = new Cell(SokobanElements.WALL, SokobanElements.NONE);
+		rectangularBoard [0][1] = new Cell(SokobanElements.WALL, SokobanElements.NONE);
+		rectangularBoard [0][2] = new Cell(SokobanElements.WALL, SokobanElements.NONE);
+		rectangularBoard [0][3] = new Cell(SokobanElements.WALL, SokobanElements.NONE);
+		rectangularBoard [0][4] = new Cell(SokobanElements.WALL, SokobanElements.NONE);
+
+
+		rectangularBoard [1][0] = new Cell(SokobanElements.WALL, SokobanElements.NONE);
+		rectangularBoard [1][1] = new Cell(SokobanElements.GAP, SokobanElements.NONE);
+		rectangularBoard [1][2] = new Cell(SokobanElements.GAP, SokobanElements.NONE);
+		rectangularBoard [1][3] = new Cell(SokobanElements.GAP, SokobanElements.NONE);
+		rectangularBoard [1][4] = new Cell(SokobanElements.WALL, SokobanElements.NONE);
+
+
+		rectangularBoard [2][0] = new Cell(SokobanElements.WALL, SokobanElements.NONE);
+		rectangularBoard [2][1] = new Cell(SokobanElements.GAP, SokobanElements.NONE);
+		rectangularBoard [2][2] = new Cell(SokobanElements.GAP, SokobanElements.BOX);
+		rectangularBoard [2][3] = new Cell(SokobanElements.GOAL, SokobanElements.PLAYER);
+		rectangularBoard [2][4] = new Cell(SokobanElements.WALL, SokobanElements.NONE);
+
+		rectangularBoard [3][0] = new Cell(SokobanElements.WALL, SokobanElements.NONE);
+		rectangularBoard [3][1] = new Cell(SokobanElements.WALL, SokobanElements.NONE);
+		rectangularBoard [3][2] = new Cell(SokobanElements.WALL, SokobanElements.NONE);
+		rectangularBoard [3][3] = new Cell(SokobanElements.WALL, SokobanElements.NONE);
+		rectangularBoard [3][4] = new Cell(SokobanElements.WALL, SokobanElements.NONE);
+
+		this.gamePlayerGoal = new Game(66, "Test Level PlayerGoal", new Warehouse(rectangularBoard));
+	}
+
+
+	@Test
+	@DisplayName("Test for creating board with box in goal")
+	void createBoardwithBoxInGoalTest() {
+		assertTrue(gameBoxGoal.getWarehouse().getBoxesAtGoal()==1);
+	}
+
+	@Test
+	@DisplayName("Test for creating board with player in goal")
+	void createBoardwithPlayerInGoalTest() {
+		//		logger.info("Position of Player :"+gamePlayerGoal.getWarehouse().getPlayerPos().getPosX()+" "+gamePlayerGoal.getWarehouse().getPlayerPos().getPosY());
+		assertTrue(gamePlayerGoal.getWarehouse().getPlayerPos().isEqualTo(new Position(2,3)));
+	}
+
+	@Test
+	@DisplayName("Test basic move in gamePlayerGoal")
+	void basicMoveTest() {
+		gamePlayerGoal.move(SokobanAction.LEFT);
+		assertTrue(gamePlayerGoal.getWarehouse().getPlayerPos().isEqualTo(new Position(2,2)));
+		assertTrue(gamePlayerGoal.getWarehouse().getBoxesAtGoal()==0);
 	}
 
 	@Test

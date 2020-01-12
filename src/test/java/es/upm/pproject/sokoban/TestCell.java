@@ -38,6 +38,33 @@ public class TestCell {
 		assertTrue(gapNone.isGap() && gapNone.containsNothing() && goalPlayer.isGoal() && goalPlayer.containsPlayer());
 		assertTrue(goalBox.isGoal() && goalBox.containsBox());
 	}
+	
+
+	@Test
+	@DisplayName("Test #1 for Cell constructor with SokobanElements")
+	void cellConstructorWithElemTest1() {
+		Cell gapBox = new Cell(SokobanElements.GAP,SokobanElements.BOX);
+		Cell goalNone = new Cell(SokobanElements.GOAL,SokobanElements.NONE);
+		assertTrue(gapBox.containsBox() && gapBox.isGap() && goalNone.containsNothing() && goalNone.isGoal());
+	}
+
+	@Test
+	@DisplayName("Test #2 for Cell constructor with SokobanElements")
+	void cellConstructorWithElemTest2() {
+		Cell wallNone = new Cell(SokobanElements.WALL,SokobanElements.NONE);
+		Cell gapPlayer = new Cell(SokobanElements.GAP,SokobanElements.PLAYER);
+		assertTrue(wallNone.isWall() && wallNone.containsNothing() && gapPlayer.containsPlayer() && gapPlayer.isGap());
+	}
+
+	@Test
+	@DisplayName("Test #3 for Cell constructor with SokobanElements")
+	void cellConstructorWithElemTest3() {
+		Cell gapNone = new Cell(SokobanElements.GAP,SokobanElements.NONE);
+		Cell goalPlayer = new Cell(SokobanElements.GOAL,SokobanElements.PLAYER);
+		Cell goalBox = new Cell(SokobanElements.GOAL,SokobanElements.BOX);
+		assertTrue(gapNone.isGap() && gapNone.containsNothing() && goalPlayer.isGoal() && goalPlayer.containsPlayer());
+		assertTrue(goalBox.isGoal() && goalBox.containsBox());
+	}
 
 	@Test
 	@DisplayName("Test Cell getType")
@@ -63,21 +90,46 @@ public class TestCell {
 	}
 
 	@Test
-	@DisplayName("Test Cell to Char #1")
+	@DisplayName("Test Cell to Char #1 - ContainsNothing cases")
 	void cellToCharTest1() {
-		Cell gapBox = new Cell('#');
 		Cell goalNone = new Cell('*');
 		Cell wallNone = new Cell('+');
-		assertTrue(gapBox.toChar().equals('#') && goalNone.toChar().equals('*') && wallNone.toChar().equals('+'));
+		Cell gapNone = new Cell(' ');
+		assertTrue(goalNone.toChar().equals('*') && wallNone.toChar().equals('+') && gapNone.toChar().equals(' '));
+		assertTrue(goalNone.containsNothing()==wallNone.containsNothing()==gapNone.containsNothing());
 	}
 
 	@Test
-	@DisplayName("Test Cell to Char #2")
+	@DisplayName("Test Cell to Char #2 - Player Case 1")
 	void cellToCharTest2() {
 		Cell gapPlayer = new Cell('W');
-		Cell gapNone = new Cell(' ');
+		assertTrue(gapPlayer.toChar().equals('W'));
+		assertTrue(gapPlayer.isGap() && gapPlayer.containsPlayer());
+	}
+	
+	@Test
+	@DisplayName("Test Cell to Char #3 - Player case 2")
+	void cellToCharTest3() {
 		Cell goalPlayer = new Cell('@');
-		Cell goalBox = new Cell('$');
-		assertTrue(gapPlayer.toChar().equals('W') && gapNone.toChar().equals(' ') && goalPlayer.toChar().equals('@') && goalBox.toChar().equals('$'));
+		assertTrue(goalPlayer.toChar().equals('@'));
+		assertTrue(goalPlayer.isGoal() && goalPlayer.containsPlayer());
+	}
+	
+	@Test
+	@DisplayName("Test Cell to Char #4 - Box case 1")
+	void cellToCharTest4() {
+		Cell gapBox = new Cell(SokobanElements.GAP,SokobanElements.BOX);
+		Character charAtTest = gapBox.toChar();
+		assertTrue(charAtTest.equals('#'));
+		assertTrue(gapBox.isGap() && gapBox.containsBox());
+	}
+	
+	@Test
+	@DisplayName("Test Cell to Char #5 - Box case 2")
+	void cellToCharTest5() {
+		Cell goalBox = new Cell(SokobanElements.GOAL,SokobanElements.BOX);
+		Character charAtTest = goalBox.toChar();
+		assertTrue(charAtTest.equals('$'));
+		assertTrue(goalBox.isGoal() && goalBox.containsBox());
 	}
 }

@@ -55,10 +55,10 @@ Also shown in the [contributors graph](http://costa.ls.fi.upm.es/gitlab/150046/f
 
 ## License
 
-The graphic material used is the result of a transformation, remix or build upon material under public domain license or [Creative Commons 3.0](https://creativecommons.org/licenses), in which case the appropriate credit is given in the *Acknowledgments* section. 
+The graphic materials used is the result of a transformation, remix or build upon material under public domain license or [Creative Commons 3.0](https://creativecommons.org/licenses), in which case the appropriate credit is given in the *Acknowledgments* section. 
 
 ## Acknowledgments
 
-* [1001.com](https://opengameart.org/users/1001com) - ([CC-BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/) license ) - Base graphic material for Warehouseman, boxes, floor, walls and goals \(modified\).
-* [Tuomo Untinen](https://tuomount.kapsi.fi/contact.html) - ([CC-BY 3.0](https://creativecommons.org/licenses/by/3.0/) license ) - Base graphic material for bush fence \(modified\).
-* [Reid Yaro](http://evolonline.org/) - ([CC-BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/) license ) - Base graphic material for dock wood \(modified\).
+* [1001.com](https://opengameart.org/users/1001com) - ([CC-BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/) license ) - Base graphic materials for Warehouseman, boxes, floor, walls and goals \(modified\).
+* [Tuomo Untinen](https://tuomount.kapsi.fi/contact.html) - ([CC-BY 3.0](https://creativecommons.org/licenses/by/3.0/) license ) - Base graphic materials for bush fence \(modified\).
+* [Reid Yaro](http://evolonline.org/) - ([CC-BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/) license ) - Base graphic materials for dock wood \(modified\).
