@@ -27,22 +27,22 @@ public class ImagePanel extends JPanel{
 			String imagePath;
 			switch(element) {
 			case WALL:
-				imagePath = folderPath + "\\wall.png";
+				imagePath = folderPath + "\\wall.gif";
 				break;
 			case PLAYER:		
-				imagePath = folderPath + actionToImagenName(action) + (step) + ".png";
+				imagePath = folderPath + actionToImagenName(action) + (step) + ".gif";
 				break;
 			case BOX:
-				imagePath = folderPath + "\\box.png";
+				imagePath = folderPath + "\\box.gif";
 				break;
 			case BOX_IN_GOAL:
-				imagePath = folderPath + "\\boxInGoal.png";
+				imagePath = folderPath + "\\boxInGoal.gif";
 				break;
 			case GOAL:
-				imagePath = folderPath + "\\goal.png";
+				imagePath = folderPath + "\\goal.gif";
 				break;
 			case GAP:
-				imagePath = folderPath + "\\gap.png";
+				imagePath = folderPath + "\\gap.gif";
 				break;
 			default:
 				throw new IllegalArgumentException();
