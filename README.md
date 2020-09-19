@@ -2,6 +2,9 @@
 
 Final Project (Sokoban) is a program for playing Sokoban, a puzzle game which goal is to push all the boxes onto the goals. Software developed as the final project assignment of Programming Project.
 
+![Image of Sokoban](https://github.com/Pablosornp/Programming-Proyect-Sokoban-Java/blob/master/src/main/resources/images/screenshots/Captura1.png?raw=true)
+![Image of Sokoban2](https://github.com/Pablosornp/Programming-Proyect-Sokoban-Java/blob/master/src/main/resources/images/screenshots/Captura2.png?raw=true)
+
 ## Getting Started
 
 The project source code can be taken from the [project's GitLab URL] (http://costa.ls.fi.upm.es/gitlab/150046/final-project.git) 
