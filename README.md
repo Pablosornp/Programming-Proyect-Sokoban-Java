@@ -7,7 +7,7 @@ Final Project (Sokoban) is a program for playing Sokoban, a puzzle game whose go
 
 ## Getting Started
 
-The project source code can be taken from the [project's GitLab URL] (http://costa.ls.fi.upm.es/gitlab/150046/final-project.git) 
+The project source code can be taken from the [project's GitHub repo](https://github.com/Pablosornp/Programming-Proyect-Sokoban-Java).
 Then, for instance, Sokoban.java can be run from the IDE of your choice.
 This will get you a copy of the project up and running on your local machine for development and testing purposes.
 
